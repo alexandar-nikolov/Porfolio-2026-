@@ -6,7 +6,7 @@ document.addEventListener('mousemove', (e) => {
   cursorGlow.style.top  = `${e.clientY}px`;
 });
 
-/* ── Word Click Burst ─────────────────────────────────────── */
+
 const BURST_COLORS = [
   '#FF006E', 
   '#FFBE0B', 
@@ -16,7 +16,7 @@ const BURST_COLORS = [
   '#6A00FF', 
 ];
 
-const BURST_DURATION = 600; // ms
+const BURST_DURATION = 600;
 
 document.querySelectorAll('.word').forEach((word) => {
   word.addEventListener('click', () => {
@@ -67,8 +67,7 @@ setTimeout(() => {
           const clone = el.cloneNode(true);
           const cs    = window.getComputedStyle(el);
 
-          /* Fixed elements must become absolute so they position within
-             the snapshot container rather than the real viewport */
+          
           if (cs.position === 'fixed') {
             clone.style.position = 'absolute';
             clone.style.top      = cs.top;
@@ -93,50 +92,158 @@ setTimeout(() => {
     return panel;
   }
 
-  /* Realistic SVG basketball */
-  const ballSVG = `<svg class="ball-cart" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <radialGradient id="bgrad" cx="34%" cy="28%" r="72%">
-        <stop offset="0%"   stop-color="#FFCB80"/>
-        <stop offset="25%"  stop-color="#F07828"/>
-        <stop offset="60%"  stop-color="#C85010"/>
-        <stop offset="100%" stop-color="#7A2000"/>
-      </radialGradient>
-      <radialGradient id="sheen" cx="30%" cy="22%" r="42%">
-        <stop offset="0%"   stop-color="rgba(255,255,255,0.22)"/>
-        <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
-      </radialGradient>
-      <clipPath id="bc"><circle cx="50" cy="50" r="43"/></clipPath>
-    </defs>
-    <circle cx="50" cy="50" r="43" fill="url(#bgrad)"/>
-    <path d="M7 50 Q29 20 50 50 Q71 80 93 50" fill="none" stroke="#3A1200" stroke-width="2.2" stroke-linecap="round" clip-path="url(#bc)"/>
-    <path d="M7 50 Q29 80 50 50 Q71 20 93 50" fill="none" stroke="#3A1200" stroke-width="2.2" stroke-linecap="round" clip-path="url(#bc)"/>
-    <line x1="50" y1="7" x2="50" y2="93" stroke="#3A1200" stroke-width="2.2" stroke-linecap="round" clip-path="url(#bc)"/>
-    <circle cx="50" cy="50" r="43" fill="url(#sheen)"/>
-    <circle cx="50" cy="50" r="43" fill="none" stroke="#2A0E00" stroke-width="1.5"/>
-  </svg>`;
-
+ 
   const loader = document.createElement('div');
   loader.id = 'loader';
-  loader.innerHTML = ballSVG + '<div class="load-text">Loading...</div>';
+  loader.innerHTML = '<div class="load-text">ENTERING PORTFOLIO</div>';
 
   const topPanel    = makePanel(true);
   const bottomPanel = makePanel(false);
 
   document.body.append(loader, topPanel, bottomPanel);
 
-  /* Trigger the split on next paint */
+  
   requestAnimationFrame(() => requestAnimationFrame(() => {
     topPanel.classList.add('open');
     bottomPanel.classList.add('open');
   }));
 
-  /* Fade in the ball + text once the panels have finished sliding */
+  
   setTimeout(() => loader.classList.add('visible'), SLIDE_DUR + 80);
 
 
   setTimeout(() => {
-    window.location.replace('game.html');
+    window.location.replace('mainpage.html');
   }, SLIDE_DUR + 80 + BALL_TIME);
 
 }, TRANSITION_DELAY);
+//code responsible for the smooth transition between the home section of the portfolio
+document.addEventListener("DOMContentLoaded", function() {
+    const nav = document.querySelector(".nav");
+    const navlist = nav ? nav.querySelectorAll("li") : [];
+    const totalNavlist = navlist.length;
+    const allSection = document.querySelectorAll(".section");
+    const totalSection = allSection.length;
+//makes sure certain section that are hidden, become visable due to the active class
+    for(let i = 0; i < totalNavlist; i++){
+        const a = navlist[i].querySelector("a");
+        a.addEventListener("click", function(){
+            for(let i = 0; i < totalSection; i++){
+                allSection[i].classList.remove("back-section");
+            }
+            for(let j = 0; j < totalNavlist; j++){
+                if(navlist[j].querySelector("a").classList.contains("active")){
+                    allSection[j].classList.add("back-section");
+                }
+                navlist[j].querySelector("a").classList.remove("active");
+            }
+            this.classList.add("active");
+            showSection(this);
+            if(window.innerWidth < 1200){
+                asideSectionToggleBtn();
+            }
+        });
+    }
+
+    function showSection(element){
+        for(let i = 0; i < totalSection; i++){
+            allSection[i].classList.remove("active");
+        }
+        const target = element.getAttribute("href").split("#")[1];
+        document.querySelector("#" + target).classList.add("active");
+    }
+//make sure the navigation bar can open/close on smaller screen sizes
+    const navTogglerBtn = document.querySelector(".toggle");
+    const aside = document.querySelector("aside");
+    const allSections = document.querySelectorAll(".section");
+    const homeImgContainer = document.querySelector(".home-img-container");
+    const totalSections = allSections.length;
+
+    navTogglerBtn.addEventListener("click", () => {
+        asideSectionToggleBtn();
+        toggleHomeImage();
+    });
+
+    function asideSectionToggleBtn() {
+        aside.classList.toggle("open");
+        navTogglerBtn.classList.toggle("open");
+        for (let i = 0; i < totalSections; i++) {
+            allSections[i].classList.toggle("open");
+        }
+    }
+
+    function toggleHomeImage() {
+        if (homeImgContainer) {
+            homeImgContainer.classList.toggle("open");
+        }
+    }
+
+    // Add event listeners for the special buttons
+    const specialButtons = document.querySelectorAll(".btn.contact-me, .btn.contact-me2");
+    specialButtons.forEach(button => {
+        button.addEventListener("click", function(event) {
+            event.preventDefault();
+            const target = this.getAttribute("href");
+            showSection(this);
+            window.location.hash = target; // Update the URL hash
+        });
+    });
+
+    // Add event listener for the logo
+    const logo = document.querySelector(".logo a");
+    logo.addEventListener("click", function(event) {
+        event.preventDefault();
+        // Make only the home section active
+        for(let i = 0; i < totalSection; i++){
+            allSection[i].classList.remove("active");
+        }
+        document.querySelector("#home").classList.add("active");
+
+        // Remove active class from all nav links
+        for(let i = 0; i < totalNavlist; i++){
+            navlist[i].querySelector("a").classList.remove("active");
+        }
+
+        // Make the home button active
+        const homeNavLink = document.querySelector('.nav a[href="#home"]');
+        if (homeNavLink) {
+            homeNavLink.classList.add("active");
+        }
+
+        // Close the dropdown menu if it's open
+        if(window.innerWidth < 1200){
+            asideSectionToggleBtn();
+        }
+
+        // Update the URL hash to the home section
+        window.location.hash = "#home";
+    });
+
+    // Ensure correct section is shown if hash is present in URL
+    const hash = window.location.hash;
+    if (hash) {
+        const targetSection = document.querySelector(hash);
+        if (targetSection) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            targetSection.classList.add('active');
+            document.querySelectorAll('.nav a').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(hash)) {
+                    link.classList.add('active');
+                }
+            });
+        }
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    var type = new Typed('.typing', {
+        strings: ['Frontend Developer', 'ICT student', 'Web Designer'],
+        typeSpeed: 100,
+        backSpeed: 100,
+        backDelay: 100,
+        loop: true
+    });
+});
