@@ -422,6 +422,13 @@ body::before {
 }
 
 /* ── Accessibility: Reduced Motion ────────────────────────── */
+/* ══ CUSTOM SCROLLBAR ════════════════════════════════════════ */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #0a0a0a; }
+::-webkit-scrollbar-thumb { background: #FF006E; border-radius: 0; }
+::-webkit-scrollbar-thumb:hover { background: #ff3389; }
+html { scrollbar-width: thin; scrollbar-color: #FF006E #0a0a0a; }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation: none !important;

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Background -->
+  <rect width="64" height="64" fill="#0A0A0A"/>
+
+  <!-- Corner bracket top-left -->
+  <path d="M4 4 L4 14 M4 4 L14 4" stroke="#FF006E" stroke-width="2.5" stroke-linecap="square" fill="none"/>
+  <!-- Corner bracket top-right -->
+  <path d="M60 4 L60 14 M60 4 L50 4" stroke="#FF006E" stroke-width="2.5" stroke-linecap="square" fill="none"/>
+  <!-- Corner bracket bottom-left -->
+  <path d="M4 60 L4 50 M4 60 L14 60" stroke="#FF006E" stroke-width="2.5" stroke-linecap="square" fill="none"/>
+  <!-- Corner bracket bottom-right -->
+  <path d="M60 60 L60 50 M60 60 L50 60" stroke="#FF006E" stroke-width="2.5" stroke-linecap="square" fill="none"/>
+
+  <!-- "AN" monogram — bold, Black Ops One style manually drawn -->
+  <!-- A: left leg, right leg, crossbar -->
+  <path d="M10 46 L18 18 L26 46" stroke="#FFFFFF" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <line x1="13" y1="36" x2="23" y2="36" stroke="#FFFFFF" stroke-width="3.2" stroke-linecap="round"/>
+
+  <!-- N: left vertical, diagonal, right vertical -->
+  <line x1="31" y1="46" x2="31" y2="18" stroke="#FFFFFF" stroke-width="3.2" stroke-linecap="round"/>
+  <line x1="31" y1="18" x2="53" y2="46" stroke="#FFFFFF" stroke-width="3.2" stroke-linecap="round"/>
+  <line x1="53" y1="18" x2="53" y2="46" stroke="#FFFFFF" stroke-width="3.2" stroke-linecap="round"/>
+
+  <!-- Hot-pink underline accent -->
+  <line x1="10" y1="51" x2="54" y2="51" stroke="#FF006E" stroke-width="1.5"/>
+</svg>
