@@ -4,133 +4,247 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Aleksandar Nikolov — Portfolio</title>
-
-  <!-- Maximalist fonts — matching index.html -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Bebas+Neue&family=Anton&family=Permanent+Marker&family=Space+Mono:wght@700&family=Righteous&family=Russo+One&family=Josefin+Sans:wght@700&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Bebas+Neue&family=Anton&family=Permanent+Marker&family=Space+Mono:wght@700&family=Righteous&family=Russo+One&family=Josefin+Sans:wght@700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <link rel="stylesheet" href="css/mainpage.css" />
 </head>
 <body>
-  <!-- Entry Loader -->
+
+  <!-- ══ LOADING SCREEN ════════════════════════════════════════ -->
   <div id="entry-loader">
     <div class="loader-bg-layer"></div>
     <div class="loader-grid-layer"></div>
     <div class="loader-content">
-      <div class="loader-name">NIKOLOV</div>
+      <div class="loader-name" data-text="NIKOLOV">NIKOLOV</div>
       <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
       <div class="loader-status">INITIALIZING PORTFOLIO...</div>
     </div>
   </div>
 
-  <!-- Background layers — matching index.html -->
+  <!-- Fixed Background Layers -->
   <div class="bg"></div>
   <div class="grid-bg"></div>
+  <div class="glyph-layer" aria-hidden="true">
+    <div class="glyph-line gl1"></div>
+    <div class="glyph-line gl2"></div>
+    <div class="glyph-line gl3"></div>
+    <div class="glyph-line gl4"></div>
+    <div class="glyph-seg gs1"></div>
+    <div class="glyph-seg gs2"></div>
+    <div class="glyph-seg gs3"></div>
+  </div>
   <div class="scanline"></div>
   <div class="cursor-glow" id="cursorGlow"></div>
+  <!-- Nothing Phone cursor -->
+  <div class="cursor-outer" id="cursorOuter"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
 
-  <!-- Mobile nav toggle -->
-  <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
-    <span></span><span></span><span></span>
-  </button>
+  <!-- ══ TOP NAV ══════════════════════════════════════════════ -->
+  <nav class="topnav" id="topnav">
+    <div class="topnav-inner">
+      <a href="#home" class="topnav-logo">A<span>LEKS</span></a>
 
-  <!-- Sidebar -->
-  <aside class="aside" id="aside">
-    <div class="logo">
-      <a href="#">A<span>LEKS</span></a>
-    </div>
-    <nav class="nav">
-      <ul>
-        <li><a href="#home" class="active"><i class="fa fa-terminal"></i>HOME</a></li>
-        <li><a href="#read"><i class="fa fa-book"></i>GUIDE</a></li>
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <ul class="topnav-links" id="topnavLinks">
+        <li><a href="#home"  class="tnav-link active">HOME</a></li>
+        <li><a href="#about" class="tnav-link">ABOUT</a></li>
+        <li><a href="#read"  class="tnav-link">GUIDE</a></li>
       </ul>
-    </nav>
-    <div class="socials">
-      <a href="https://www.instagram.com/aleksbiserov/profilecard/?igsh=N3l2dHI2Y2ZqcG8x" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i></a>
-      <a href="https://www.linkedin.com/in/aleksandar-nikolov-54a201332/" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin"></i></a>
-      <a href="https://github.com/Kambo22" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i></a>
+
+      <div class="topnav-socials">
+        <a href="https://www.instagram.com/aleksbiserov/profilecard/?igsh=N3l2dHI2Y2ZqcG8x" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://www.linkedin.com/in/aleksandar-nikolov-54a201332/" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin"></i></a>
+        <a href="https://github.com/Kambo22" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i></a>
+      </div>
     </div>
-    <div class="aside-runner">
-      <span class="aside-runner-inner">CODE&middot;BUILD&middot;SHIP&middot;DEPLOY&middot;SCALE&middot;COMMIT&middot;PUSH&middot;REPEAT&middot;CODE&middot;BUILD&middot;SHIP&middot;DEPLOY&middot;SCALE&middot;COMMIT&middot;PUSH&middot;REPEAT&middot;</span>
+  </nav>
+
+  <!-- ══ HERO ═════════════════════════════════════════════════ -->
+  <section id="home" class="section-hero">
+
+    <!-- Huge background ghost word -->
+    <div class="hero-bg-word" data-parallax="0.35">PORTFOLIO</div>
+
+    <!-- Corner labels -->
+    <div class="hero-corner tl">ALEKSANDAR<br>NIKOLOV<br>&copy;&nbsp;2026</div>
+    <div class="hero-corner tr">BUILD&nbsp;&middot;&nbsp;SHIP<br>DEPLOY&nbsp;&middot;&nbsp;SCALE<br>&infin;&nbsp;INFINITE</div>
+    <div class="hero-corner bl">CODE&nbsp;&middot;&nbsp;BUILD&nbsp;&middot;&nbsp;SHIP<br>COMMIT&nbsp;&middot;&nbsp;PUSH&nbsp;&middot;&nbsp;REPEAT</div>
+    <div class="hero-corner br">MORE&nbsp;IS&nbsp;MORE<br>BREAK&nbsp;THE&nbsp;BUILD<br>OVERFLOW</div>
+
+    <!-- Side runners -->
+    <div class="hero-side-run left">JAVASCRIPT &middot; PYTHON &middot; SQL &middot; HTML &middot; CSS &middot; REACT &middot;</div>
+    <div class="hero-side-run right">FULLSTACK &middot; AGILE &middot; SCALABLE &middot; ROBUST &middot; SECURE &middot;</div>
+
+    <!-- Top ticker marquee -->
+    <div class="section-marquee">
+      <div class="section-marquee-inner">
+        <span>ALEKSANDAR NIKOLOV</span><span class="bullet">&#10022;</span>
+        <span>FRONTEND DEV</span><span class="bullet">&#10022;</span>
+        <span>ICT STUDENT</span><span class="bullet">&#10022;</span>
+        <span>WEB DESIGNER</span><span class="bullet">&#10022;</span>
+        <span>ALEKSANDAR NIKOLOV</span><span class="bullet">&#10022;</span>
+        <span>FRONTEND DEV</span><span class="bullet">&#10022;</span>
+        <span>ICT STUDENT</span><span class="bullet">&#10022;</span>
+        <span>WEB DESIGNER</span><span class="bullet">&#10022;</span>
+      </div>
     </div>
-  </aside>
 
-  <!-- Mobile overlay -->
-  <div class="nav-overlay" id="navOverlay"></div>
+    <!-- Hero body -->
+    <div class="hero-inner">
+      <div class="hero-text">
+        <p class="hero-greeting">Hello, my name is</p>
+        <h1 class="hero-name">
+          <span class="name-line"        data-text="ALEKSANDAR">ALEKSANDAR</span>
+          <span class="name-line stroke" data-text="NIKOLOV">NIKOLOV</span>
+        </h1>
+        <h2 class="hero-role">I AM A <span class="typing"></span></h2>
+        <p class="hero-bio">
+          I'm a frontend developer who loves to ask&nbsp;'why?' Mixing coding skills with real user feedback, my websites aren't just functional — they're a joy to use.
+        </p>
+        <a href="#about" class="cta-btn">EXPLORE&nbsp;&nbsp;&#8594;</a>
+      </div>
 
-  <!-- Main Content -->
-  <main class="main-content">
-
-    <!-- HOME -->
-    <section class="section active" id="home">
-      <div class="section-inner">
-        <div class="section-marquee">
-          <div class="section-marquee-inner">
-            <span>ALEKSANDAR NIKOLOV</span><span class="bullet">&#10022;</span>
-            <span>FRONTEND DEV</span><span class="bullet">&#10022;</span>
-            <span>ICT STUDENT</span><span class="bullet">&#10022;</span>
-            <span>WEB DESIGNER</span><span class="bullet">&#10022;</span>
-            <span>ALEKSANDAR NIKOLOV</span><span class="bullet">&#10022;</span>
-            <span>FRONTEND DEV</span><span class="bullet">&#10022;</span>
-            <span>ICT STUDENT</span><span class="bullet">&#10022;</span>
-            <span>WEB DESIGNER</span><span class="bullet">&#10022;</span>
-          </div>
+      <div class="hero-img" data-parallax="0.15">
+        <div class="img-frame">
+          <img src="images/aleksandar.jpg" alt="Aleksandar Nikolov" />
+          <div class="img-corner tl"></div>
+          <div class="img-corner tr"></div>
+          <div class="img-corner bl"></div>
+          <div class="img-corner br"></div>
+          <div class="img-scanlines"></div>
         </div>
-        <div class="home-layout">
-          <div class="home-text">
-            <p class="home-greeting">Hello, my name is</p>
-            <h1 class="home-name">ALEKSANDAR<br><span>NIKOLOV</span></h1>
-            <h2 class="home-role">I AM A <span class="typing"></span></h2>
-            <p class="home-bio">
-              I'm a frontend developer who loves to ask 'why?' I don't just build what I'm told — I put myself in the user's shoes, figuring out what they really need. Mixing coding skills with real user feedback, my websites aren't just functional — they're a joy to use.
-            </p>
+        <div class="img-tag t1">JAVASCRIPT</div>
+        <div class="img-tag t2">PYTHON</div>
+        <div class="img-tag t3">CSS / HTML</div>
+        <div class="img-tag t4">REACT</div>
+        <div class="img-tag t5">C#</div>
+        <div class="img-tag t6">THREE.JS</div>
+        <div class="img-tag t7">MATTER.JS</div>
+        <div class="img-tag t8">ITALIAN</div>
+        <div class="img-tag t9">ENGLISH</div>
+        <div class="img-tag t10">BULGARIAN</div>
+      </div>
+    </div>
+
+    <!-- Reverse marquee at the bottom -->
+    <div class="section-marquee reverse">
+      <div class="section-marquee-inner reverse-inner">
+        <span>CODE</span><span class="bullet">&#10022;</span>
+        <span>BUILD</span><span class="bullet">&#10022;</span>
+        <span>SHIP</span><span class="bullet">&#10022;</span>
+        <span>DEPLOY</span><span class="bullet">&#10022;</span>
+        <span>SCALE</span><span class="bullet">&#10022;</span>
+        <span>COMMIT</span><span class="bullet">&#10022;</span>
+        <span>PUSH</span><span class="bullet">&#10022;</span>
+        <span>REPEAT</span><span class="bullet">&#10022;</span>
+        <span>CODE</span><span class="bullet">&#10022;</span>
+        <span>BUILD</span><span class="bullet">&#10022;</span>
+        <span>SHIP</span><span class="bullet">&#10022;</span>
+        <span>DEPLOY</span><span class="bullet">&#10022;</span>
+        <span>SCALE</span><span class="bullet">&#10022;</span>
+        <span>COMMIT</span><span class="bullet">&#10022;</span>
+        <span>PUSH</span><span class="bullet">&#10022;</span>
+        <span>REPEAT</span><span class="bullet">&#10022;</span>
+      </div>
+    </div>
+
+    <!-- Scroll nudge -->
+    <div class="scroll-indicator">
+      <span>SCROLL</span>
+      <div class="scroll-line"><div class="scroll-dot"></div></div>
+    </div>
+  </section>
+
+  <!-- ══ ABOUT (Matter.js canvas lives here as background) ═══ -->
+  <section id="about" class="section-about">
+    <!-- Physics canvas — sits behind all content -->
+    <canvas id="matter-canvas" class="about-canvas"></canvas>
+
+    <div class="section-inner">
+      <div class="section-header">
+        <span class="section-number reveal">[ 02 ]</span>
+        <h2 class="section-title split-title" data-split>ABOUT<br><span>ME</span></h2>
+      </div>
+      <div class="about-layout">
+        <div class="about-img reveal-left">
+          <div class="about-img-ring">
+            <img src="images/about.JPG" alt="About Aleksandar" />
           </div>
-          <div class="home-img">
-            <div class="img-frame">
-              <img src="images/aleksandar.jpg" alt="Aleksandar Nikolov" />
-              <div class="img-corner tl"></div>
-              <div class="img-corner tr"></div>
-              <div class="img-corner bl"></div>
-              <div class="img-corner br"></div>
-            </div>
-            <div class="img-tag t1">JAVASCRIPT</div>
-            <div class="img-tag t2">PYTHON</div>
-            <div class="img-tag t3">CSS / HTML</div>
-            <div class="img-tag t4">REACT</div>
-            <div class="img-tag t5">C#</div>
-            <div class="img-tag t6">THREE.JS</div>
-            <div class="img-tag t7">MATTER.JS</div>
-            <div class="img-tag t8">ITALIAN</div>
-            <div class="img-tag t9">ENGLISH</div>
-            <div class="img-tag t10">BULGARIAN</div>
+          <div class="about-img-label tl">BG / NL</div>
+          <div class="about-img-label br">2026</div>
+        </div>
+        <div class="about-text">
+          <h3 class="about-role reveal-right">WEB DEVELOPER</h3>
+          <p class="reveal-right" style="--delay:80ms">Hello, I am Aleksandar — a Bulgarian student living and studying in The Netherlands. I'm a passionate designer with a focus on minimalistic and professional website creation, but I'm not afraid to tackle more vivid and eye-catching projects.</p>
+          <p class="reveal-right" style="--delay:160ms">When it comes to what I do in my free time, I am not only a programmer — I love to play basketball and have a deep love for sports.</p>
+          <div class="skill-tags reveal-right" style="--delay:240ms">
+            <span>JAVASCRIPT</span><span>PYTHON</span><span>SQL</span>
+            <span>HTML</span><span>CSS</span><span>REACT</span>
+            <span>NODE</span><span>GIT</span><span>C#</span>
+            <span>THREE.JS</span><span>MATTER.JS</span>
+            <span>ITALIAN</span><span>ENGLISH</span><span>BULGARIAN</span>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- READING GUIDE -->
-    <section class="section" id="read">
-      <div class="section-inner">
-        <div class="section-header">
-          <span class="section-number">[ 02 ]</span>
-          <h2 class="section-title">READING<br><span>GUIDE</span></h2>
-        </div>
-        <div class="read-card">
-          <div class="read-card-header">
-            <span class="card-tag">WELCOME</span>
-            <h3>Aleksandar &#8212; 2026</h3>
-          </div>
-          <p>Welcome to my portfolio! With this platform you can explore my work by going to <span class="accent">Projects</span>.</p>
-          <p>If you choose to navigate <span class="accent">by Project</span>, you'll gain a structured overview of my accomplishments within each specific project. This approach provides a cohesive picture of my work, allowing you to see the progression and interconnectedness of my efforts within each individual project.</p>
-        </div>
+  <!-- ══ READING GUIDE ════════════════════════════════════════ -->
+  <section id="read" class="section-read">
+    <div class="section-inner">
+      <div class="section-header">
+        <span class="section-number reveal">[ 03 ]</span>
+        <h2 class="section-title split-title" data-split>READING<br><span>GUIDE</span></h2>
       </div>
-    </section>
+      <div class="read-card reveal-scale">
+        <div class="read-card-header">
+          <span class="card-tag">WELCOME</span>
+          <h3>Aleksandar &#8212; 2026</h3>
+        </div>
+        <p>Welcome to my portfolio! With this platform you can explore my work by going to <span class="accent">Projects</span>.</p>
+        <p>If you choose to navigate <span class="accent">by Project</span>, you'll gain a structured overview of my accomplishments within each specific project. This approach provides a cohesive picture of my work, allowing you to see the progression and interconnectedness of my efforts within each individual project.</p>
+      </div>
+    </div>
+  </section>
 
-  </main>
+  <!-- ══ FOOTER ════════════════════════════════════════════════ -->
+  <footer class="site-footer">
+    <div class="footer-marquee">
+      <div class="footer-marquee-inner">
+        <span>CODE</span><span class="sep">&#10022;</span>
+        <span>BUILD</span><span class="sep">&#10022;</span>
+        <span>SHIP</span><span class="sep">&#10022;</span>
+        <span>DEPLOY</span><span class="sep">&#10022;</span>
+        <span>SCALE</span><span class="sep">&#10022;</span>
+        <span>COMMIT</span><span class="sep">&#10022;</span>
+        <span>PUSH</span><span class="sep">&#10022;</span>
+        <span>REPEAT</span><span class="sep">&#10022;</span>
+        <span>CODE</span><span class="sep">&#10022;</span>
+        <span>BUILD</span><span class="sep">&#10022;</span>
+        <span>SHIP</span><span class="sep">&#10022;</span>
+        <span>DEPLOY</span><span class="sep">&#10022;</span>
+        <span>SCALE</span><span class="sep">&#10022;</span>
+        <span>COMMIT</span><span class="sep">&#10022;</span>
+        <span>PUSH</span><span class="sep">&#10022;</span>
+        <span>REPEAT</span><span class="sep">&#10022;</span>
+      </div>
+    </div>
+    <div class="footer-inner">
+      <a href="#home" class="footer-logo">A<span>LEKS</span></a>
+      <span class="footer-copy">ALEKSANDAR NIKOLOV &copy; 2026</span>
+      <div class="footer-socials">
+        <a href="https://www.instagram.com/aleksbiserov/profilecard/?igsh=N3l2dHI2Y2ZqcG8x" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://www.linkedin.com/in/aleksandar-nikolov-54a201332/" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin"></i></a>
+        <a href="https://github.com/Kambo22" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i></a>
+      </div>
+    </div>
+  </footer>
 
   <script src="https://unpkg.com/typed.js@2.0.15/dist/typed.umd.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
   <script src="js/mainpage.js"></script>
 </body>
 </html>
