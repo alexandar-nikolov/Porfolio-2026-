@@ -351,3 +351,28 @@ function initAboutPhysics(section) {
     render.options.height = nH;
   }, { passive: true });
 }
+
+/* ── Skills fast-track: icon activation on scroll ──────────── */
+(function () {
+  const items = document.querySelectorAll('.ft-item');
+  const icons = document.querySelectorAll('.ft-icon-wrap');
+  if (!items.length || !icons.length) return;
+
+  function setActive(activeItem) {
+    items.forEach(el => el.classList.remove('active'));
+    icons.forEach(el => el.classList.remove('active'));
+    if (!activeItem) return;
+    activeItem.classList.add('active');
+    const icon = document.querySelector(`.ft-icon-wrap[data-icon="${activeItem.dataset.skill}"]`);
+    if (icon) icon.classList.add('active');
+  }
+
+  /* Trigger zone: item top must cross 30% from viewport top */
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) setActive(entry.target);
+    });
+  }, { rootMargin: '-28% 0px -55% 0px', threshold: 0 });
+
+  items.forEach(item => obs.observe(item));
+})();

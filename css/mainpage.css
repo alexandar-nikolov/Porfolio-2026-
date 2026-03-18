@@ -16,6 +16,8 @@
   --white:           #FFFFFF;
   --black:           #000000;
   --nav-h:           70px;
+  --max-w:           1400px;
+  --pad-x:           80px;
 }
 
 /* ── Document ───────────────────────────────────────────────── */
@@ -98,6 +100,59 @@ body::before {
   0%, 100% { transform: translateY(0); opacity: 1; }
   50%       { transform: translateY(14px); opacity: 0.3; }
 }
+
+/* ── Ambient Orbs (Meow Wolf-inspired floating depth) ─────── */
+@keyframes orbDrift1 {
+  0%        { transform: translate(0, 0)       scale(1);    opacity: 0.55; }
+  33%       { transform: translate(70px, -90px) scale(1.08); opacity: 0.75; }
+  66%       { transform: translate(-50px, 60px) scale(0.95); opacity: 0.5;  }
+  100%      { transform: translate(0, 0)        scale(1);    opacity: 0.55; }
+}
+@keyframes orbDrift2 {
+  0%        { transform: translate(0, 0)        scale(1);    opacity: 0.4; }
+  40%       { transform: translate(-80px, 70px) scale(1.1);  opacity: 0.65; }
+  75%       { transform: translate(50px, -40px) scale(0.92); opacity: 0.45; }
+  100%      { transform: translate(0, 0)        scale(1);    opacity: 0.4; }
+}
+@keyframes orbDrift3 {
+  0%        { transform: translate(0, 0)        scale(1);    opacity: 0.35; }
+  50%       { transform: translate(60px, 80px)  scale(1.06); opacity: 0.55; }
+  100%      { transform: translate(0, 0)        scale(1);    opacity: 0.35; }
+}
+@keyframes orbDrift4 {
+  0%        { transform: translate(0, 0)         scale(1);    opacity: 0.3; }
+  45%       { transform: translate(-60px, -70px) scale(1.12); opacity: 0.5; }
+  100%      { transform: translate(0, 0)         scale(1);    opacity: 0.3; }
+}
+
+.ambient-orbs { position: fixed; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
+
+.orb {
+  position: absolute; border-radius: 50%;
+  filter: blur(90px); will-change: transform;
+}
+.orb1 {
+  width: 650px; height: 550px; left: -180px; top: 8%;
+  background: radial-gradient(circle, rgba(106,0,255,0.45) 0%, transparent 70%);
+  animation: orbDrift1 20s ease-in-out infinite;
+}
+.orb2 {
+  width: 520px; height: 520px; right: -130px; top: 28%;
+  background: radial-gradient(circle, rgba(255,0,110,0.35) 0%, transparent 70%);
+  animation: orbDrift2 26s ease-in-out infinite;
+}
+.orb3 {
+  width: 700px; height: 420px; left: 18%; top: 58%;
+  background: radial-gradient(circle, rgba(0,245,255,0.28) 0%, transparent 70%);
+  animation: orbDrift3 18s ease-in-out infinite;
+}
+.orb4 {
+  width: 420px; height: 420px; right: 12%; top: 2%;
+  background: radial-gradient(circle, rgba(138,255,42,0.2) 0%, transparent 70%);
+  animation: orbDrift4 30s ease-in-out infinite;
+}
+
+/* ── Section Wave Dividers ──────────────────────────────────── */
 @keyframes glowPulse {
   0%, 100% { box-shadow: 0 0 18px rgba(255,0,110,0.35); }
   50%       { box-shadow: 0 0 38px rgba(255,0,110,0.7), 0 0 70px rgba(255,0,110,0.2); }
@@ -572,16 +627,16 @@ html, body { cursor: none !important; }
 
 /* Scroll indicator — always at bottom since section is exactly 100vh */
 .scroll-indicator {
-  position: absolute; bottom: 38px; left: 50%;
+  position: absolute; bottom: 34px; left: 50%;
   transform: translateX(-50%);
   display: flex; flex-direction: column; align-items: center; gap: 7px;
   font-family: 'Space Mono', monospace;
-  font-size: 0.52rem; letter-spacing: 0.4em;
-  color: rgba(255,255,255,0.28); pointer-events: none;
+  font-size: 0.58rem; letter-spacing: 0.42em;
+  color: rgba(255,255,255,0.42); pointer-events: none; z-index: 5;
   opacity: 0; animation: reveal-up 0.8s 1.3s cubic-bezier(0.16,1,0.3,1) forwards;
 }
-.scroll-line { width: 1px; height: 46px; background: rgba(255,0,110,0.2); position: relative; overflow: hidden; }
-.scroll-dot { position: absolute; top: 0; left: 0; right: 0; height: 16px; background: linear-gradient(to bottom, var(--hot-pink), transparent); animation: scrollBounce 1.8s ease-in-out infinite; }
+.scroll-line { width: 1px; height: 50px; background: rgba(255,0,110,0.22); position: relative; overflow: hidden; }
+.scroll-dot { position: absolute; top: 0; left: 0; right: 0; height: 14px; background: linear-gradient(to bottom, var(--hot-pink), transparent); animation: scrollBounce 1.8s ease-in-out infinite; }
 
 /* ═══════════════════════════════════════════════════════════════
    SECTION SHARED
@@ -607,6 +662,14 @@ html, body { cursor: none !important; }
 .section-about {
   position: relative; z-index: 2;
   overflow: hidden;
+}
+/* Meow Wolf-inspired ambient color wash for About */
+.section-about::before {
+  content: '';
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 70% 60% at 15% 50%, rgba(106,0,255,0.18) 0%, transparent 100%),
+    radial-gradient(ellipse 50% 40% at 85% 60%, rgba(255,0,110,0.1) 0%, transparent 100%);
 }
 
 /* Matter.js canvas pinned behind about content */
@@ -709,9 +772,212 @@ html, body { cursor: none !important; }
 }
 
 /* ═══════════════════════════════════════════════════════════════
+   SKILLS SECTION  (AVA fast-track 3-column sticky layout)
+   ═══════════════════════════════════════════════════════════════ */
+.section-skills {
+  position: relative; z-index: 2;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.ft-wrap {
+  display: grid;
+  grid-template-columns: 2fr 0.7fr 2fr;
+  align-items: start;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 var(--pad-x);
+}
+
+/* LEFT: sticky title block */
+.ft-left {
+  position: sticky;
+  top: 80px;
+  height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  padding: 60px 48px 60px 0;
+  border-right: 1px solid rgba(255,255,255,0.06);
+}
+.ft-left-inner { width: 100%; }
+
+.ft-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 0.45em;
+  color: rgba(255,0,110,0.7); text-transform: uppercase;
+  display: block; margin-bottom: 20px;
+}
+.ft-title {
+  font-family: 'Black Ops One', sans-serif;
+  font-size: clamp(2.2rem, 4.5vw, 4rem);
+  color: transparent; -webkit-text-stroke: 2px rgba(255,255,255,0.85);
+  text-transform: uppercase; line-height: 0.92;
+  letter-spacing: -0.02em; margin-bottom: 28px;
+}
+.ft-desc {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem; line-height: 1.9;
+  color: rgba(255,255,255,0.36); margin-bottom: 44px;
+}
+.ft-dur-label {
+  display: block; font-family: 'Space Mono', monospace;
+  font-size: 0.5rem; letter-spacing: 0.4em;
+  color: rgba(255,255,255,0.22); margin-bottom: 6px;
+}
+.ft-dur-val {
+  font-family: 'Russo One', sans-serif;
+  font-size: 0.9rem; color: var(--hot-pink);
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 18px rgba(255,0,110,0.45);
+}
+
+/* CENTER: sticky icon column */
+.ft-center {
+  position: sticky;
+  top: 80px;
+  height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid rgba(255,255,255,0.06);
+}
+.ft-center-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  padding: 24px 0;
+}
+.ft-icon-wrap {
+  width: 54px; height: 54px;
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,0.14);
+  transition: color 0.4s ease, filter 0.4s ease, transform 0.4s cubic-bezier(.34,1.56,.64,1);
+}
+.ft-icon-wrap.active {
+  color: var(--hot-pink);
+  filter: drop-shadow(0 0 10px rgba(255,0,110,0.75));
+  transform: scale(1.18);
+}
+.ft-icon-svg { width: 100%; height: 100%; }
+
+/* RIGHT: scrolling benefit items */
+.ft-right { padding: 60px 0 60px 48px; }
+
+.ft-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 30px;
+  min-height: 52vh;
+  padding: 52px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  opacity: 0.2;
+  transition: opacity 0.5s ease;
+}
+.ft-item:first-child { padding-top: 0; }
+.ft-item:last-child { border-bottom: none; min-height: auto; }
+.ft-item.active { opacity: 1; }
+
+.ft-item-icon-wrap {
+  flex-shrink: 0; width: 46px; height: 46px;
+  color: var(--hot-pink);
+  filter: drop-shadow(0 0 6px rgba(255,0,110,0.5));
+  margin-top: 2px;
+}
+.ft-item-icon-svg { width: 100%; height: 100%; }
+
+.ft-item-title {
+  font-family: 'Russo One', sans-serif;
+  font-size: 1.1rem; text-transform: uppercase;
+  letter-spacing: 0.06em; color: rgba(255,255,255,0.9);
+  margin-bottom: 14px;
+}
+.ft-item-desc {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.73rem; line-height: 1.9;
+  color: rgba(255,255,255,0.4);
+}
+
+/* ── Glyph: crosshairs ── */
+.glyph-cross {
+  position: absolute; width: 28px; height: 28px;
+  animation: glyphPulse 10s ease-in-out infinite;
+}
+.glyph-cross::before {
+  content: ''; position: absolute;
+  width: 1px; height: 100%; left: 50%; top: 0;
+  background: rgba(255,0,110,0.32);
+  box-shadow: 0 0 5px rgba(255,0,110,0.18);
+}
+.glyph-cross::after {
+  content: ''; position: absolute;
+  height: 1px; width: 100%; top: 50%; left: 0;
+  background: rgba(255,0,110,0.32);
+  box-shadow: 0 0 5px rgba(255,0,110,0.18);
+}
+.glyph-cross.gc1 { left: 11%; top: 26%; animation-delay: -1s;   animation-duration: 12s; }
+.glyph-cross.gc2 { left: 74%; top: 57%; animation-delay: -4.5s; animation-duration:  9s; }
+.glyph-cross.gc3 { left: 43%; top: 82%; animation-delay: -7s;   animation-duration: 14s; }
+
+/* ── Glyph: corner brackets ── */
+.glyph-corner {
+  position: absolute; width: 18px; height: 18px;
+  opacity: 0;
+  animation: glyphPulse 15s ease-in-out infinite;
+}
+.glyph-corner::before {
+  content: ''; position: absolute; inset: 0;
+  border-color: rgba(0,240,255,0.35); border-style: solid;
+  border-width: 1px 0 0 1px;
+}
+.glyph-corner.gcor1 { top: 2%;    left: 2%;   animation-delay:   0s; animation-duration: 13s; }
+.glyph-corner.gcor2 { top: 2%;    right: 2%;  animation-delay: -3.5s; animation-duration: 16s; transform: rotate(90deg); }
+.glyph-corner.gcor3 { bottom: 2%; right: 2%;  animation-delay:  -7s; animation-duration: 11s; transform: rotate(180deg); }
+.glyph-corner.gcor4 { bottom: 2%; left: 2%;   animation-delay: -10s; animation-duration: 14s; transform: rotate(270deg); }
+
+/* ── Glyph: coordinate labels ── */
+.glyph-coord {
+  position: absolute; font-family: 'Space Mono', monospace;
+  font-size: 0.36rem; letter-spacing: 0.22em;
+  color: rgba(0,240,255,0.18); text-transform: uppercase;
+  animation: glyphPulse 17s ease-in-out infinite;
+  white-space: nowrap; pointer-events: none;
+}
+.glyph-coord.gco1 { left: 3%;  bottom: 7%; animation-delay: -2s; animation-duration: 19s; }
+.glyph-coord.gco2 { right: 3%; top: 11%;   animation-delay: -9s; animation-duration: 15s; }
+
+/* ── Responsive ── */
+@media (max-width: 1100px) {
+  .ft-wrap { padding: 0 48px; }
+}
+@media (max-width: 900px) {
+  .ft-wrap { grid-template-columns: 1fr; padding: 0 32px; }
+  .ft-left  { position: relative; top: 0; height: auto; padding: 60px 0 40px; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .ft-center { display: none; }
+  .ft-right  { padding: 0 0 60px; }
+  .ft-item   { min-height: auto; opacity: 1; }
+}
+@media (max-width: 600px) {
+  .ft-wrap { padding: 0 20px; }
+  .ft-item { gap: 20px; }
+  .ft-title { font-size: clamp(2rem, 10vw, 3rem); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
    READING GUIDE
    ═══════════════════════════════════════════════════════════════ */
-.section-read { position: relative; z-index: 2; background: rgba(0,0,0,0.2); }
+.section-read {
+  position: relative; z-index: 2; background: rgba(0,0,0,0.2);
+  overflow: hidden;
+}
+/* Meow Wolf-inspired cyan accent wash for Reading Guide */
+.section-read::before {
+  content: '';
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 70% at 80% 40%, rgba(0,245,255,0.1) 0%, transparent 100%),
+    radial-gradient(ellipse 40% 50% at 20% 70%, rgba(138,255,42,0.07) 0%, transparent 100%);
+}
+.section-read .section-inner { position: relative; z-index: 1; }
 .read-card {
   max-width: 720px;
   background: rgba(255,255,255,0.02);
