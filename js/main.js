@@ -54,13 +54,13 @@ setTimeout(() => {
     return panel;
   }
 
-  const loader      = document.createElement('div');
-  loader.id         = 'loader';
-  loader.innerHTML  = '<div class="load-text">ENTERING PORTFOLIO</div>';
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:#000;z-index:998;pointer-events:none;';
+
   const topPanel    = makePanel(true);
   const bottomPanel = makePanel(false);
 
-  document.body.append(loader, topPanel, bottomPanel);
+  document.body.append(overlay, topPanel, bottomPanel);
 
   /* Force reflow then kick off slide */
   requestAnimationFrame(() => requestAnimationFrame(() => {
@@ -68,7 +68,6 @@ setTimeout(() => {
     bottomPanel.classList.add('open');
   }));
 
-  setTimeout(() => loader.classList.add('visible'), SLIDE_DUR + 80);
-  setTimeout(() => window.location.replace('mainpage.html'), SLIDE_DUR + 80 + BALL_TIME);
+  setTimeout(() => window.location.replace('mainpage.html'), SLIDE_DUR + 80);
 
 }, TRANSITION_DELAY);

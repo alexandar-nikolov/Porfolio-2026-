@@ -89,10 +89,10 @@ body::before {
   to   { transform: rotate(360deg); }
 }
 @keyframes nameGlitch {
-  0%,87%  { transform: none; clip-path: none; }
-  88%     { transform: translateX(-4px); clip-path: polygon(0 15%,100% 15%,100% 35%,0 35%); }
-  89%     { transform: translateX(4px);  clip-path: polygon(0 60%,100% 60%,100% 80%,0 80%); }
-  90%     { transform: none; clip-path: none; }
+  0%,  87% { color: transparent; text-shadow: none; }
+  88%      { color: var(--vivid-cyan); text-shadow: -3px 0 var(--hot-pink), 4px 0 var(--electric-yellow); }
+  89%      { color: var(--vivid-cyan); text-shadow:  3px 0 var(--vivid-cyan), -4px 0 var(--hot-pink); }
+  90%      { color: transparent; text-shadow: none; }
 }
 @keyframes scrollBounce {
   0%, 100% { transform: translateY(0); opacity: 1; }
@@ -490,14 +490,11 @@ html, body { cursor: none !important; }
 .name-line:nth-child(1) { animation-delay: 0.45s; }
 .name-line.stroke {
   color: transparent; -webkit-text-stroke: 3px var(--hot-pink);
-  animation-delay: 0.62s; position: relative;
+  animation: reveal-up 0.9s 0.62s cubic-bezier(0.16,1,0.3,1) both,
+             nameGlitch 0.12s 1.6s steps(1) infinite;
+  position: relative;
 }
-.name-line.stroke::after {
-  content: attr(data-text);
-  position: absolute; left: 0; top: 0; -webkit-text-stroke: 0; color: transparent;
-  text-shadow: 0 0 30px rgba(255,0,110,0.45), 0 0 60px rgba(255,0,110,0.2);
-  animation: nameGlitch 0.1s steps(1) infinite;
-}
+
 .hero-role {
   font-family: 'Bebas Neue', sans-serif;
   font-size: clamp(1.4rem, 3vw, 2.8rem);
