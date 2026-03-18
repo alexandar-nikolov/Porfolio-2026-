@@ -220,17 +220,16 @@ function initAboutPhysics(section) {
 
   const {
     Engine, Render, Runner, World, Bodies, Body,
-    Events, Mouse, MouseConstraint, Composite,
+    Events, Composite,
   } = Matter;
 
   const W = section.offsetWidth;
   const H = section.offsetHeight;
 
-  // Size canvas to match the section exactly
   canvas.width  = W;
   canvas.height = H;
 
-  const engine = Engine.create({ gravity: { x: 0, y: 0.55 } });
+  const engine = Engine.create({ gravity: { x: 0, y: 0.6 } });
 
   const render = Render.create({
     canvas,
@@ -243,15 +242,26 @@ function initAboutPhysics(section) {
     },
   });
 
-  // Static boundary walls
+  /* Measure where the left column ends so the right wall sits there */
+  const aboutImg    = section.querySelector('.about-img');
+  const sectionRect = section.getBoundingClientRect();
+  let zoneRight;
+  if (aboutImg) {
+    const imgRect = aboutImg.getBoundingClientRect();
+    zoneRight = Math.round(imgRect.right - sectionRect.left) + 16;
+  } else {
+    zoneRight = Math.round(W * 0.42);
+  }
+
+  /* Static walls — floor + left wall + invisible right divider */
   const wall = { isStatic: true, render: { fillStyle: 'transparent', strokeStyle: 'transparent' } };
   World.add(engine.world, [
-    Bodies.rectangle(W / 2, H + 26,  W + 100, 52,  wall),  // floor
-    Bodies.rectangle(-26,   H / 2,   52, H + 100,   wall),  // left
-    Bodies.rectangle(W + 26, H / 2,  52, H + 100,   wall),  // right
+    Bodies.rectangle(zoneRight / 2, H + 26,   zoneRight, 52,      wall),  // floor (left zone only)
+    Bodies.rectangle(-26,           H / 2,    52,         H + 100, wall),  // left wall
+    Bodies.rectangle(zoneRight + 26, H / 2,   52,         H + 100, wall),  // right divider wall
   ]);
 
-  // Skill pill definitions
+  /* Skill pill definitions */
   const SKILLS = [
     { label: 'JAVASCRIPT', color: '#FFBE0B' },
     { label: 'PYTHON',     color: '#00F5FF' },
@@ -269,52 +279,52 @@ function initAboutPhysics(section) {
     { label: 'ENGLISH',    color: '#00F5FF' },
     { label: 'BULGARIAN',  color: '#8AFF2A' },
     { label: 'DOCKER',     color: '#00F5FF' },
-    { label: 'PYTHON',     color: '#FFBE0B' },
-    { label: 'REACT',      color: '#FF006E' },
   ];
 
-  // Measure pill text widths
+  /* Measure pill text widths */
   const tmpCv  = document.createElement('canvas');
   const tmpCtx = tmpCv.getContext('2d');
   tmpCtx.font  = 'bold 11px "Space Mono", monospace';
 
   SKILLS.forEach((skill, i) => {
-    const tw  = tmpCtx.measureText(skill.label).width;
-    const bW  = tw + 32;
-    const bH  = 34;
-    // Spread across the top of the section, staggered heights
-    const x = 80 + Math.random() * (W - 160);
-    const y = -80 - i * 50;
+    const tw = tmpCtx.measureText(skill.label).width;
+    const bW = tw + 32;
+    const bH = 34;
+
+    /* Drop only within the left zone */
+    const maxX = Math.max(zoneRight - bW / 2 - 10, bW / 2 + 10);
+    const x    = bW / 2 + 10 + Math.random() * Math.max(maxX - bW / 2 - 10, 1);
+    const y    = -60 - i * 48;
 
     const body = Bodies.rectangle(x, y, bW, bH, {
-      restitution: 0.48,
-      friction:    0.38,
-      frictionAir: 0.007,
+      restitution: 0.28,
+      friction:    0.65,
+      frictionAir: 0.009,
       render: {
-        fillStyle:   'rgba(0,0,0,0.82)',
+        fillStyle:   'rgba(0,0,0,0.85)',
         strokeStyle: skill.color,
-        lineWidth:   1.8,
+        lineWidth:   1.5,
       },
     });
     body.skillLabel = skill.label;
     body.skillColor = skill.color;
 
     Body.setVelocity(body, {
-      x: (Math.random() - 0.5) * 6,
-      y: 2 + Math.random() * 4,
+      x: (Math.random() - 0.5) * 3,
+      y: 1.5 + Math.random() * 2,
     });
-    Body.setAngularVelocity(body, (Math.random() - 0.5) * 0.1);
+    Body.setAngularVelocity(body, (Math.random() - 0.5) * 0.07);
 
     World.add(engine.world, body);
   });
 
-  // Draw skill labels after each render frame
+  /* Draw skill labels after each render frame */
   Events.on(render, 'afterRender', () => {
     const ctx    = render.context;
     const bodies = Composite.allBodies(engine.world);
 
     ctx.save();
-    ctx.font         = 'bold 10.5px "Space Mono", monospace';
+    ctx.font         = 'bold 10px "Space Mono", monospace';
     ctx.textAlign    = 'center';
     ctx.textBaseline = 'middle';
 
@@ -325,7 +335,7 @@ function initAboutPhysics(section) {
       ctx.rotate(body.angle);
       ctx.fillStyle   = body.skillColor;
       ctx.shadowColor = body.skillColor;
-      ctx.shadowBlur  = 10;
+      ctx.shadowBlur  = 9;
       ctx.fillText(body.skillLabel, 0, 0);
       ctx.restore();
     });
@@ -333,13 +343,13 @@ function initAboutPhysics(section) {
     ctx.restore();
   });
 
-  // Fade canvas in after a brief moment
-  setTimeout(() => canvas.classList.add('visible'), 200);
+  /* Fade canvas in */
+  setTimeout(() => canvas.classList.add('visible'), 150);
 
   Render.run(render);
   Runner.run(Runner.create(), engine);
 
-  // Resize handler
+  /* Resize: recalculate zone and walls */
   window.addEventListener('resize', () => {
     const nW = section.offsetWidth;
     const nH = section.offsetHeight;

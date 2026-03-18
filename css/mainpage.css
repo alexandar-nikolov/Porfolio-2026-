@@ -465,9 +465,29 @@ html, body { cursor: none !important; }
   font-family: 'Black Ops One', sans-serif;
   font-size: clamp(8rem, 20vw, 22rem);
   color: transparent;
-  -webkit-text-stroke: 1.5px rgba(255,0,110,0.06);
+  -webkit-text-stroke: 1.5px rgba(255,0,110,0.13);
   white-space: nowrap; pointer-events: none; user-select: none;
   letter-spacing: -0.02em; will-change: transform;
+}
+
+/* ── Per-section ghost background words ── */
+.section-bg-clip {
+  position: absolute; inset: 0;
+  overflow: hidden; pointer-events: none; z-index: 0;
+}
+.section-bg-word {
+  position: absolute; top: -0.08em; right: -0.03em;
+  font-family: 'Black Ops One', sans-serif;
+  font-size: clamp(5rem, 14vw, 13rem);
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255,0,110,0.13);
+  white-space: nowrap; user-select: none;
+  letter-spacing: -0.02em; line-height: 1;
+}
+.section-about .section-bg-word {
+  top: 0.35em;
+  transform: rotate(-6deg);
+  transform-origin: right top;
 }
 
 /* Corner labels */
@@ -672,18 +692,18 @@ html, body { cursor: none !important; }
     radial-gradient(ellipse 50% 40% at 85% 60%, rgba(255,0,110,0.1) 0%, transparent 100%);
 }
 
-/* Matter.js canvas pinned behind about content */
+/* Matter.js canvas — full section, pills constrained to left by physics walls */
 .about-canvas {
-  position: absolute; top: 0; left: 0;
+  position: absolute; inset: 0;
   width: 100%; height: 100%;
   pointer-events: none;
-  z-index: 0;
+  z-index: 1;
   opacity: 0;
-  transition: opacity 0.6s ease;
+  transition: opacity 0.8s ease;
 }
 .about-canvas.visible { opacity: 1; }
 
-.section-about .section-inner { position: relative; z-index: 1; }
+.section-about .section-inner { position: relative; z-index: 2; }
 
 .about-layout { display: flex; gap: 72px; align-items: center; }
 .about-img { flex: 0 0 280px; position: relative; }
