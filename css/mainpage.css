@@ -25,6 +25,25 @@ html { scroll-behavior: smooth; }
 html, body { width: 100%; background: #000; cursor: crosshair; }
 body { overflow-x: hidden; overflow-y: auto; }
 
+/* ── WebGL Post-FX Overlay ──────────────────────────────────── */
+/*
+ * #postfx-canvas is injected by js/postfx.js.
+ * mix-blend-mode:screen means black pixels = no effect; coloured pixels
+ * additively brighten whatever the browser has already composited beneath.
+ * This layer sits above page sections but below the cursor/scanline/noise
+ * layers so the chromatic aberration halos appear to float over all content.
+ */
+#postfx-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9994;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  opacity: 0.70;         /* allow effects without overwhelming page contrast */
+}
+
 /* ── Noise Overlay ──────────────────────────────────────────── */
 body::before {
   content: '';
@@ -464,10 +483,17 @@ html, body { cursor: none !important; }
   transform: translate(-50%, -50%);
   font-family: 'Black Ops One', sans-serif;
   font-size: clamp(8rem, 20vw, 22rem);
-  color: transparent;
+  color: var(--white);
   -webkit-text-stroke: 1.5px rgba(255,0,110,0.13);
   white-space: nowrap; pointer-events: none; user-select: none;
   letter-spacing: -0.02em; will-change: transform;
+  opacity: 0.05;
+  /*
+   * REVERSE RENDERING: exclusion blend against everything beneath
+   * (bg gradient + postfx canvas). The ghost word "PORTFOLIO" shows
+   * as a complementary mid-tone wherever postfx halos overlap it.
+   */
+  mix-blend-mode: exclusion;
 }
 
 /* ── Per-section ghost background words ── */
@@ -557,6 +583,8 @@ html, body { cursor: none !important; }
   font-size: clamp(2.6rem, 7vw, 7.8rem);
   line-height: 0.86; text-transform: uppercase;
   margin-bottom: 20px; overflow: visible;
+  /* SVG warp filter — scale driven to 0 normally, glitched by postfx.js */
+  filter: url(#hero-warp);
 }
 .name-line {
   display: block; color: var(--white);
@@ -568,6 +596,45 @@ html, body { cursor: none !important; }
   animation: reveal-up 0.9s 0.62s cubic-bezier(0.16,1,0.3,1) both,
              nameGlitch 0.12s 1.6s steps(1) infinite;
   position: relative;
+  /* SVG chromatic aberration — red/blue offsets driven by postfx.js on glitch */
+  filter: url(#hero-chroma);
+}
+
+/*
+ * Glitch clone pseudo-elements on the stroke line.
+ * Cyan (::before) displaced left, pink (::after) right — clip-path slices.
+ */
+.name-line.stroke::before,
+.name-line.stroke::after {
+  content: attr(data-text);
+  position: absolute; top: 0; left: 0;
+  -webkit-text-stroke: 3px transparent;
+  white-space: nowrap; pointer-events: none;
+}
+.name-line.stroke::before {
+  color: var(--vivid-cyan);
+  clip-path: inset(100% 0 0 0);
+  animation: nameGlitchB 6s steps(1) infinite 1.6s;
+}
+.name-line.stroke::after {
+  color: var(--hot-pink);
+  clip-path: inset(100% 0 0 0);
+  animation: nameGlitchA 6s steps(1) infinite 1.6s;
+}
+
+@keyframes nameGlitchB {
+  0%,  80% { clip-path: inset(100% 0 0 0);  transform: translate(0); }
+  81%       { clip-path: inset(35% 0 38% 0); transform: translate(-8px, 0); }
+  82%       { clip-path: inset(55% 0 12% 0); transform: translate(7px,  0); }
+  83%       { clip-path: inset(8%  0 72% 0); transform: translate(-5px, 2px); }
+  84%       { clip-path: inset(100% 0 0 0);  transform: translate(0); }
+}
+@keyframes nameGlitchA {
+  0%,  82% { clip-path: inset(100% 0 0 0);  transform: translate(0); }
+  83%       { clip-path: inset(48% 0 22% 0); transform: translate(10px,  0); }
+  84%       { clip-path: inset(15% 0 58% 0); transform: translate(-8px,  0); }
+  85%       { clip-path: inset(68% 0 5%  0); transform: translate(6px,  -2px); }
+  86%       { clip-path: inset(100% 0 0 0);  transform: translate(0); }
 }
 
 .hero-role {
