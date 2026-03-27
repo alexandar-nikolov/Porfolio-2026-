@@ -74,6 +74,7 @@
         <li><a href="#home"      class="tnav-link active">HOME</a></li>
         <li><a href="#about"     class="tnav-link">ABOUT</a></li>
         <li><a href="#skills"    class="tnav-link">SKILLS</a></li>
+        <li><a href="#projects"  class="tnav-link">PROJECTS</a></li>
         <li><a href="#read"      class="tnav-link">GUIDE</a></li>
       </ul>
 
@@ -437,13 +438,256 @@
     </div><!-- /ft-wrap -->
   </section>
 
+  <!-- ══ PROJECTS ═══════════════════════════════════════════════ -->
+  <section id="projects" class="section-projects">
+    <div class="section-bg-clip" aria-hidden="true"><div class="section-bg-word">PROJECTS</div></div>
+
+    <div class="section-inner proj-header-inner">
+      <div class="section-header">
+        <span class="section-number reveal">[ 03 ]</span>
+        <h2 class="section-title split-title" data-split>MY<br><span>PROJECTS</span></h2>
+      </div>
+      <p class="proj-subline reveal" style="--delay:100ms">Select a filter — screens tune in to matching projects.</p>
+    </div>
+
+    <!-- ── FBI Ops Room Monitor Wall ───────────────────────────── -->
+    <div class="tv-stage">
+
+      <!-- Ops-room ambient labels -->
+      <span class="tvw-label tvw-label--tl" aria-hidden="true">OPS&nbsp;&#183;&nbsp;FEED&nbsp;&#183;&nbsp;LIVE</span>
+      <span class="tvw-label tvw-label--tr" aria-hidden="true">NIKOLOV&nbsp;&#183;&nbsp;SYS&nbsp;&#183;&nbsp;2026</span>
+      <span class="tvw-label tvw-label--bl" aria-hidden="true">&#9679;&nbsp;REC&nbsp;&#183;&nbsp;ALL&nbsp;CH</span>
+      <span class="tvw-label tvw-label--br" aria-hidden="true">SECURE&nbsp;&#183;&nbsp;UPLINK&nbsp;&#183;&nbsp;OK</span>
+
+      <!-- ═══ COMMAND STRIP — FBI terminal filter panel ═══ -->
+      <div class="tv-command-strip">
+        <div class="tv-cmd-brand">
+          <span class="tv-brand-logo">&#9654;&nbsp;NIKOLOV</span>
+          <span class="tv-brand-model">CMD&nbsp;&#183;&nbsp;2026</span>
+        </div>
+        <div class="tv-filter-buttons">
+          <button class="filter-btn active" data-filter="all"><span class="fbtn-pip"></span>ALL</button>
+          <button class="filter-btn" data-filter="react"><span class="fbtn-pip"></span>REACT</button>
+          <button class="filter-btn" data-filter="javascript"><span class="fbtn-pip"></span>JAVASCRIPT</button>
+          <button class="filter-btn" data-filter="python"><span class="fbtn-pip"></span>PYTHON</button>
+          <button class="filter-btn" data-filter="css"><span class="fbtn-pip"></span>CSS / HTML</button>
+          <button class="filter-btn" data-filter="design"><span class="fbtn-pip"></span>DESIGN</button>
+          <button class="filter-btn" data-filter="kotlin"><span class="fbtn-pip"></span>KOTLIN</button>
+        </div>
+        <div class="tv-cmd-status">
+          <div class="tv-signal-bars">
+            <span class="sig-bar"></span><span class="sig-bar"></span>
+            <span class="sig-bar"></span><span class="sig-bar"></span>
+            <span class="sig-bar"></span>
+          </div>
+          <span class="filter-status-text">SIGNAL: ALL CHANNELS</span>
+          <div class="tv-vu-wrap" aria-hidden="true">
+            <div class="tv-vu-meter"><div class="tv-vu-fill"></div></div>
+            <div class="tv-vu-meter"><div class="tv-vu-fill" style="--delay:0.3s"></div></div>
+          </div>
+          <div class="tv-filter-cursor">_</div>
+        </div>
+      </div>
+
+      <!-- ═══ 4 × 2 MONITOR WALL ═══ -->
+      <div class="tv-grid">
+
+        <div class="tv-screen-sm" data-index="0">
+          <div class="tv-bezel">
+            <div class="tv-display">
+              <canvas class="tv-static-canvas" width="160" height="100"></canvas>
+              <img class="tv-project-img" src="" alt="" loading="lazy" />
+              <div class="tv-info"><div class="tv-info-inner">
+                <h4 class="tv-project-title"></h4>
+                <p class="tv-project-desc"></p>
+                <div class="tv-project-tags"></div>
+                <button class="tv-project-link">OPEN CASE&nbsp;&#8594;</button>
+              </div></div>
+              <div class="tv-scanlines"></div>
+              <div class="tv-glare"></div>
+            </div>
+            <div class="tv-bezel-foot"><span class="tv-ch-label">CH.01</span><span class="tv-power-led"></span></div>
+          </div>
+        </div>
+
+        <div class="tv-screen-sm" data-index="1">
+          <div class="tv-bezel">
+            <div class="tv-display">
+              <canvas class="tv-static-canvas" width="160" height="100"></canvas>
+              <img class="tv-project-img" src="" alt="" loading="lazy" />
+              <div class="tv-info"><div class="tv-info-inner">
+                <h4 class="tv-project-title"></h4>
+                <p class="tv-project-desc"></p>
+                <div class="tv-project-tags"></div>
+                <button class="tv-project-link">OPEN CASE&nbsp;&#8594;</button>
+              </div></div>
+              <div class="tv-scanlines"></div>
+              <div class="tv-glare"></div>
+            </div>
+            <div class="tv-bezel-foot"><span class="tv-ch-label">CH.02</span><span class="tv-power-led"></span></div>
+          </div>
+        </div>
+
+        <div class="tv-screen-sm" data-index="2">
+          <div class="tv-bezel">
+            <div class="tv-display">
+              <canvas class="tv-static-canvas" width="160" height="100"></canvas>
+              <img class="tv-project-img" src="" alt="" loading="lazy" />
+              <div class="tv-info"><div class="tv-info-inner">
+                <h4 class="tv-project-title"></h4>
+                <p class="tv-project-desc"></p>
+                <div class="tv-project-tags"></div>
+                <button class="tv-project-link">OPEN CASE&nbsp;&#8594;</button>
+              </div></div>
+              <div class="tv-scanlines"></div>
+              <div class="tv-glare"></div>
+            </div>
+            <div class="tv-bezel-foot"><span class="tv-ch-label">CH.03</span><span class="tv-power-led"></span></div>
+          </div>
+        </div>
+
+        <div class="tv-screen-sm" data-index="3">
+          <div class="tv-bezel">
+            <div class="tv-display">
+              <canvas class="tv-static-canvas" width="160" height="100"></canvas>
+              <img class="tv-project-img" src="" alt="" loading="lazy" />
+              <div class="tv-info"><div class="tv-info-inner">
+                <h4 class="tv-project-title"></h4>
+                <p class="tv-project-desc"></p>
+                <div class="tv-project-tags"></div>
+                <button class="tv-project-link">OPEN CASE&nbsp;&#8594;</button>
+              </div></div>
+              <div class="tv-scanlines"></div>
+              <div class="tv-glare"></div>
+            </div>
+            <div class="tv-bezel-foot"><span class="tv-ch-label">CH.04</span><span class="tv-power-led"></span></div>
+          </div>
+        </div>
+
+        <div class="tv-screen-sm" data-index="4">
+          <div class="tv-bezel">
+            <div class="tv-display">
+              <canvas class="tv-static-canvas" width="160" height="100"></canvas>
+              <img class="tv-project-img" src="" alt="" loading="lazy" />
+              <div class="tv-info"><div class="tv-info-inner">
+                <h4 class="tv-project-title"></h4>
+                <p class="tv-project-desc"></p>
+                <div class="tv-project-tags"></div>
+                <button class="tv-project-link">OPEN CASE&nbsp;&#8594;</button>
+              </div></div>
+              <div class="tv-scanlines"></div>
+              <div class="tv-glare"></div>
+            </div>
+            <div class="tv-bezel-foot"><span class="tv-ch-label">CH.05</span><span class="tv-power-led"></span></div>
+          </div>
+        </div>
+
+        <div class="tv-screen-sm" data-index="5">
+          <div class="tv-bezel">
+            <div class="tv-display">
+              <canvas class="tv-static-canvas" width="160" height="100"></canvas>
+              <img class="tv-project-img" src="" alt="" loading="lazy" />
+              <div class="tv-info"><div class="tv-info-inner">
+                <h4 class="tv-project-title"></h4>
+                <p class="tv-project-desc"></p>
+                <div class="tv-project-tags"></div>
+                <button class="tv-project-link">OPEN CASE&nbsp;&#8594;</button>
+              </div></div>
+              <div class="tv-scanlines"></div>
+              <div class="tv-glare"></div>
+            </div>
+            <div class="tv-bezel-foot"><span class="tv-ch-label">CH.06</span><span class="tv-power-led"></span></div>
+          </div>
+        </div>
+
+        <div class="tv-screen-sm" data-index="6">
+          <div class="tv-bezel">
+            <div class="tv-display">
+              <canvas class="tv-static-canvas" width="160" height="100"></canvas>
+              <img class="tv-project-img" src="" alt="" loading="lazy" />
+              <div class="tv-info"><div class="tv-info-inner">
+                <h4 class="tv-project-title"></h4>
+                <p class="tv-project-desc"></p>
+                <div class="tv-project-tags"></div>
+                <button class="tv-project-link">OPEN CASE&nbsp;&#8594;</button>
+              </div></div>
+              <div class="tv-scanlines"></div>
+              <div class="tv-glare"></div>
+            </div>
+            <div class="tv-bezel-foot"><span class="tv-ch-label">CH.07</span><span class="tv-power-led"></span></div>
+          </div>
+        </div>
+
+        <div class="tv-screen-sm" data-index="7">
+          <div class="tv-bezel">
+            <div class="tv-display">
+              <canvas class="tv-static-canvas" width="160" height="100"></canvas>
+              <img class="tv-project-img" src="" alt="" loading="lazy" />
+              <div class="tv-info"><div class="tv-info-inner">
+                <h4 class="tv-project-title"></h4>
+                <p class="tv-project-desc"></p>
+                <div class="tv-project-tags"></div>
+                <button class="tv-project-link">OPEN CASE&nbsp;&#8594;</button>
+              </div></div>
+              <div class="tv-scanlines"></div>
+              <div class="tv-glare"></div>
+            </div>
+            <div class="tv-bezel-foot"><span class="tv-ch-label">CH.08</span><span class="tv-power-led"></span></div>
+          </div>
+        </div>
+
+      </div><!-- /tv-grid -->
+    </div><!-- /tv-stage -->
+
+    <!-- ═══ FBI CASE FILE OVERLAY ═══ -->
+    <div class="fbi-overlay" id="fbiOverlay" aria-hidden="true">
+      <div class="fbi-overlay-bg" id="fbiOverlayBg"></div>
+      <div class="fbi-case-panel" id="fbiCasePanel">
+        <div class="fbi-case-header">
+          <div class="fbi-case-id">
+            <span class="fbi-label">CASE FILE</span>
+            <span class="fbi-case-num" id="fbiCaseNum">#001</span>
+          </div>
+          <div class="fbi-header-live">
+            <span class="fbi-rec-dot">&#9679;</span>
+            <span>REC</span>
+            <span class="fbi-timestamp" id="fbiTimestamp">00:00:00</span>
+          </div>
+          <button class="fbi-close-btn" id="fbiCloseBtn" aria-label="Close case file">&#10005; CLOSE</button>
+        </div>
+        <div class="fbi-case-body">
+          <div class="fbi-img-wrap">
+            <img class="fbi-case-img" id="fbiCaseImg" src="" alt="" />
+            <div class="tv-scanlines"></div>
+            <div class="tv-glare"></div>
+            <div class="fbi-img-hud">
+              <span class="fbi-hud-tl">CLASSIFIED</span>
+              <span class="fbi-hud-tr">FEED LIVE</span>
+              <span class="fbi-hud-bl" id="fbiCoords">X: 0847 / Y: 0312</span>
+              <span class="fbi-hud-br" id="fbiCaseChannel">CH.01</span>
+            </div>
+          </div>
+          <div class="fbi-case-info">
+            <div class="fbi-info-inner">
+              <h3 class="fbi-case-title" id="fbiCaseTitle"></h3>
+              <p class="fbi-case-desc" id="fbiCaseDesc"></p>
+              <div class="fbi-case-tags" id="fbiCaseTags"></div>
+            </div>
+            <a class="fbi-case-link" id="fbiCaseLink" href="#" target="_blank" rel="noopener">VIEW&nbsp;PROJECT&nbsp;&#8594;</a>
+          </div>
+        </div>
+        <div class="fbi-panel-scanlines"></div>
+      </div>
+    </div>
+  </section>
+
   <!-- ══ READING GUIDE ════════════════════════════════════════ -->
   <section id="read" class="section-read">
     <!-- Ghost background word -->
     <div class="section-bg-clip" aria-hidden="true"><div class="section-bg-word">GUIDE</div></div>
     <div class="section-inner">
       <div class="section-header">
-        <span class="section-number reveal">[ 03 ]</span>
+        <span class="section-number reveal">[ 04 ]</span>
         <h2 class="section-title split-title" data-split>READING<br><span>GUIDE</span></h2>
       </div>
       <div class="read-card reveal-scale">
@@ -493,6 +737,7 @@
   <script src="https://unpkg.com/typed.js@2.0.15/dist/typed.umd.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
   <script src="js/mainpage.js"></script>
+  <script src="js/projects.js"></script>
   <script src="js/postfx.js"></script>
 </body>
 </html>
