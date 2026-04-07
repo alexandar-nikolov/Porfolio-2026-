@@ -145,6 +145,28 @@
     <div class="hero-corner bl">CODE&nbsp;&middot;&nbsp;BUILD&nbsp;&middot;&nbsp;SHIP<br>COMMIT&nbsp;&middot;&nbsp;PUSH&nbsp;&middot;&nbsp;REPEAT</div>
     <div class="hero-corner br">MORE&nbsp;IS&nbsp;MORE<br>BREAK&nbsp;THE&nbsp;BUILD<br>OVERFLOW</div>
 
+    <!-- Meow Wolf organic accent shapes -->
+    <div class="hero-organics" aria-hidden="true">
+      <!-- cyan spinning hollow triangle -->
+      <svg class="org-svg org-triangle" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="30,4 56,52 4,52" stroke="rgba(0,245,255,0.30)" stroke-width="1.5" fill="none"/>
+        <polygon points="30,14 46,44 14,44" stroke="rgba(0,245,255,0.14)" stroke-width="1" fill="none"/>
+      </svg>
+      <!-- yellow double-ring -->
+      <svg class="org-svg org-circle" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="44" stroke="rgba(255,190,11,0.22)" stroke-width="1.5" fill="none"/>
+        <circle cx="50" cy="50" r="28" stroke="rgba(255,190,11,0.12)" stroke-width="1" fill="none" stroke-dasharray="4 3"/>
+        <circle cx="50" cy="50" r="4"  fill="rgba(255,190,11,0.40)"/>
+      </svg>
+      <!-- lime 8-point cross -->
+      <svg class="org-svg org-cross" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+        <line x1="20" y1="2"  x2="20" y2="38" stroke="rgba(138,255,42,0.38)" stroke-width="1.5"/>
+        <line x1="2"  y1="20" x2="38" y2="20" stroke="rgba(138,255,42,0.38)" stroke-width="1.5"/>
+        <line x1="7"  y1="7"  x2="33" y2="33" stroke="rgba(138,255,42,0.20)" stroke-width="1"/>
+        <line x1="33" y1="7"  x2="7"  y2="33" stroke="rgba(138,255,42,0.20)" stroke-width="1"/>
+      </svg>
+    </div>
+
     <!-- Side runners -->
     <div class="hero-side-run left">JAVASCRIPT &middot; PYTHON &middot; SQL &middot; HTML &middot; CSS &middot; REACT &middot;</div>
     <div class="hero-side-run right">FULLSTACK &middot; AGILE &middot; SCALABLE &middot; ROBUST &middot; SECURE &middot;</div>
@@ -172,7 +194,7 @@
           <span class="name-line stroke" data-text="NIKOLOV">NIKOLOV</span>
         </h1>
         <h2 class="hero-role">I AM A <span class="typing"></span></h2>
-        <a href="#about" class="cta-btn">EXPLORE&nbsp;&nbsp;&#8594;</a>
+        <a href="#about" class="cta-btn" data-magnetic="0.35">EXPLORE&nbsp;&nbsp;&#8594;</a>
       </div>
 
       <div class="hero-img" data-parallax="0.15">
@@ -226,8 +248,31 @@
     </div>
   </section>
 
-  <!-- ══ ABOUT (Matter.js canvas lives here as background) ═══ -->
+  <!-- ══ ABOUT(Matter.js canvas lives here as background) ═══ -->
   <section id="about" class="section-about">
+    <!-- Meow Wolf morphing blob — purple tint -->
+    <div class="meow-blob" style="background:rgba(106,0,255,0.10);width:560px;height:480px;top:-60px;left:-80px;" aria-hidden="true"></div>
+    <!-- Organic accent shapes -->
+    <div class="sec-organics" aria-hidden="true">
+      <!-- cyan arc top-right -->
+      <svg class="sec-org" style="width:90px;top:8%;right:5%;animation:orgSpin 28s linear infinite;" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10,40 A30,30 0 0,1 70,40" stroke="rgba(0,245,255,0.28)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <circle cx="10" cy="40" r="3" fill="rgba(0,245,255,0.35)"/>
+      </svg>
+      <!-- pink diamond bottom-right -->
+      <svg class="sec-org" style="width:56px;bottom:12%;right:8%;animation:orgSpin 18s linear infinite reverse;" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="25,4 46,25 25,46 4,25" stroke="rgba(255,0,110,0.30)" stroke-width="1.5" fill="none"/>
+        <polygon points="25,12 38,25 25,38 12,25" stroke="rgba(255,0,110,0.14)" stroke-width="1" fill="none"/>
+      </svg>
+      <!-- yellow dot cluster bottom-left -->
+      <svg class="sec-org" style="width:70px;bottom:18%;left:3%;animation:circPulse 11s ease-in-out infinite alternate;" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="15" cy="15" r="3" fill="rgba(255,190,11,0.40)"/>
+        <circle cx="30" cy="10" r="2" fill="rgba(255,190,11,0.28)"/>
+        <circle cx="45" cy="20" r="4" fill="rgba(255,190,11,0.22)"/>
+        <circle cx="20" cy="35" r="2.5" fill="rgba(255,190,11,0.32)"/>
+        <circle cx="40" cy="42" r="3" fill="rgba(255,190,11,0.25)"/>
+      </svg>
+    </div>
     <!-- Ghost background word -->
     <div class="section-bg-clip" aria-hidden="true"><div class="section-bg-word">ABOUT</div></div>
     <!-- Physics canvas — full section, pills stay left via physics walls -->
@@ -247,25 +292,25 @@
           <div class="about-img-label br">2026</div>
         </div>
         <div class="about-text">
-          <h3 class="about-role reveal-right">WEB DEVELOPER</h3>
-          <p class="reveal-right" style="--delay:80ms">Hello, I am Aleksandar — a Bulgarian student living and studying in The Netherlands. I'm a passionate designer with a focus on minimalistic and professional website creation, but I'm not afraid to tackle more vivid and eye-catching projects.</p>
-          <p class="reveal-right" style="--delay:160ms">When it comes to what I do in my free time, I am not only a programmer — I love to play basketball and have a deep love for sports.</p>
+          <h3 class="about-role reveal-right" data-word-reveal data-reveal-delay="0">WEB DEVELOPER</h3>
+          <p class="reveal-right" style="--delay:80ms">I'm Aleksandar — a Bulgarian student based in The Netherlands. I build websites that feel as good as they look, whether that's something clean and minimal or loud and maximalist. Either way, there's always intention behind it.</p>
+          <p class="reveal-right" style="--delay:160ms">Outside of code I'm usually on a basketball court. Sport taught me the same thing coding did — small improvements, done consistently, add up to something worth showing.</p>
           <!-- Quick stats -->
           <div class="about-stats reveal-right" style="--delay:200ms">
             <div class="about-stat">
-              <span class="about-stat-n">10+</span>
+              <span class="about-stat-n" data-count="10" data-suffix="+" data-display="10+">10+</span>
               <span class="about-stat-label">PROJECTS</span>
             </div>
             <div class="about-stat">
-              <span class="about-stat-n">3</span>
+              <span class="about-stat-n" data-count="3" data-suffix="" data-display="3">3</span>
               <span class="about-stat-label">LANGUAGES</span>
             </div>
             <div class="about-stat">
-              <span class="about-stat-n">3</span>
+              <span class="about-stat-n" data-count="3" data-suffix="" data-display="3">3</span>
               <span class="about-stat-label">COUNTRIES</span>
             </div>
             <div class="about-stat">
-              <span class="about-stat-n">∞</span>
+              <span class="about-stat-n">&#8734;</span>
               <span class="about-stat-label">CURIOSITY</span>
             </div>
           </div>
@@ -283,6 +328,20 @@
 
   <!-- ══ SKILLS (AVA fast-track 3-column sticky) ═══════════════ -->
   <section id="skills" class="section-skills">
+    <!-- Meow Wolf morphing blob — cyan tint -->
+    <div class="meow-blob" style="background:rgba(0,245,255,0.07);width:480px;height:420px;top:80px;right:-60px;animation-delay:-6s;" aria-hidden="true"></div>
+    <!-- Organic accent shapes -->
+    <div class="sec-organics" aria-hidden="true">
+      <!-- lime triangle top-left -->
+      <svg class="sec-org" style="width:64px;top:6%;left:4%;animation:orgSpin 24s linear infinite reverse;" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="30,4 56,52 4,52" stroke="rgba(138,255,42,0.30)" stroke-width="1.5" fill="none"/>
+      </svg>
+      <!-- orange dashed circle bottom-right -->
+      <svg class="sec-org" style="width:88px;bottom:10%;right:6%;animation:circPulse 10s ease-in-out infinite alternate-reverse;" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="40" cy="40" r="34" stroke="rgba(251,86,7,0.25)" stroke-width="1.5" fill="none" stroke-dasharray="5 4"/>
+        <circle cx="40" cy="40" r="5" fill="rgba(251,86,7,0.35)"/>
+      </svg>
+    </div>
     <!-- Ghost background word -->
     <div class="section-bg-clip" aria-hidden="true"><div class="section-bg-word">SKILLS</div></div>
     <div class="ft-wrap">
@@ -366,7 +425,7 @@
             </svg>
           </div>
           <div class="ft-item-text">
-            <h3 class="ft-item-title">Frontend Engineering</h3>
+            <h3 class="ft-item-title" data-word-reveal data-reveal-delay="100">Frontend Engineering</h3>
             <p class="ft-item-desc">DOM, async patterns, and event-driven logic — turning specs into living, breathing UIs with JavaScript, React, and clean HTML/CSS.</p>
           </div>
         </div>
@@ -384,7 +443,7 @@
             </svg>
           </div>
           <div class="ft-item-text">
-            <h3 class="ft-item-title">Creative UI &amp; Motion</h3>
+            <h3 class="ft-item-title" data-word-reveal data-reveal-delay="100">Creative UI &amp; Motion</h3>
             <p class="ft-item-desc">Immersive animations and micro-interactions that make users feel the product — not just use it. Keyframes, physics, and scroll-driven magic.</p>
           </div>
         </div>
@@ -398,8 +457,8 @@
             </svg>
           </div>
           <div class="ft-item-text">
-            <h3 class="ft-item-title">Responsive Design</h3>
-            <p class="ft-item-desc">Every layout adapts fluidly — desktop, tablet, or phone. Mobile-first thinking, fluid typography, and zero-compromise experience on all screens.</p>
+            <h3 class="ft-item-title" data-word-reveal data-reveal-delay="100">Responsive Design</h3>
+            <p class="ft-item-desc">Phones, tablets, wide screens — every layout just works. I think mobile-first, not mobile-afterthought, and every breakpoint gets the same attention as the last.</p>
           </div>
         </div>
 
@@ -414,8 +473,8 @@
             </svg>
           </div>
           <div class="ft-item-text">
-            <h3 class="ft-item-title">Data &amp; Backend Basics</h3>
-            <p class="ft-item-desc">Python, SQL, and Node.js to understand the full stack — building solid APIs, querying databases, and bridging front to back.</p>
+            <h3 class="ft-item-title" data-word-reveal data-reveal-delay="100">Data &amp; Backend Basics</h3>
+            <p class="ft-item-desc">I know enough of the back end to have a real conversation with it. Python, SQL, and Node.js — not just to tick boxes, but to understand how the pieces actually connect.</p>
           </div>
         </div>
 
@@ -429,7 +488,7 @@
             </svg>
           </div>
           <div class="ft-item-text">
-            <h3 class="ft-item-title">3D &amp; Creative Code</h3>
+            <h3 class="ft-item-title" data-word-reveal data-reveal-delay="100">3D &amp; Creative Code</h3>
             <p class="ft-item-desc">Three.js and Matter.js for physics simulations and 3D scenes — turning a portfolio page into a full sensory experience.</p>
           </div>
         </div>
@@ -440,6 +499,20 @@
 
   <!-- ══ PROJECTS ═══════════════════════════════════════════════ -->
   <section id="projects" class="section-projects">
+    <!-- Organic accent shapes -->
+    <div class="sec-organics" aria-hidden="true">
+      <!-- pink spinning plus top-left -->
+      <svg class="sec-org" style="width:44px;top:5%;left:3%;animation:orgSpin 16s linear infinite;" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+        <line x1="20" y1="2"  x2="20" y2="38" stroke="rgba(255,0,110,0.35)" stroke-width="1.5"/>
+        <line x1="2"  y1="20" x2="38" y2="20" stroke="rgba(255,0,110,0.35)" stroke-width="1.5"/>
+      </svg>
+      <!-- cyan concentric squares top-right -->
+      <svg class="sec-org" style="width:72px;top:4%;right:4%;animation:circPulse 12s ease-in-out infinite alternate;" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+        <rect x="4"  y="4"  width="52" height="52" stroke="rgba(0,245,255,0.22)" stroke-width="1.2" fill="none"/>
+        <rect x="14" y="14" width="32" height="32" stroke="rgba(0,245,255,0.16)" stroke-width="1"   fill="none"/>
+        <rect x="24" y="24" width="12" height="12" stroke="rgba(0,245,255,0.28)" stroke-width="1"   fill="none"/>
+      </svg>
+    </div>
     <div class="section-bg-clip" aria-hidden="true"><div class="section-bg-word">PROJECTS</div></div>
 
     <div class="section-inner proj-header-inner">
@@ -683,6 +756,20 @@
 
   <!-- ══ READING GUIDE ════════════════════════════════════════ -->
   <section id="read" class="section-read">
+    <!-- Organic accent shapes -->
+    <div class="sec-organics" aria-hidden="true">
+      <!-- yellow hexagon-ish top-right -->
+      <svg class="sec-org" style="width:60px;top:7%;right:5%;animation:orgSpin 30s linear infinite;" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="30,4 54,17 54,43 30,56 6,43 6,17" stroke="rgba(255,190,11,0.28)" stroke-width="1.5" fill="none"/>
+      </svg>
+      <!-- purple cross bottom-left -->
+      <svg class="sec-org" style="width:40px;bottom:12%;left:4%;animation:orgSpin 20s linear infinite reverse;" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+        <line x1="20" y1="2"  x2="20" y2="38" stroke="rgba(106,0,255,0.32)" stroke-width="1.5"/>
+        <line x1="2"  y1="20" x2="38" y2="20" stroke="rgba(106,0,255,0.32)" stroke-width="1.5"/>
+        <line x1="7"  y1="7"  x2="33" y2="33" stroke="rgba(106,0,255,0.18)" stroke-width="1"/>
+        <line x1="33" y1="7"  x2="7"  y2="33" stroke="rgba(106,0,255,0.18)" stroke-width="1"/>
+      </svg>
+    </div>
     <!-- Ghost background word -->
     <div class="section-bg-clip" aria-hidden="true"><div class="section-bg-word">GUIDE</div></div>
     <div class="section-inner">
@@ -695,8 +782,8 @@
           <span class="card-tag">WELCOME</span>
           <h3>Aleksandar &#8212; 2026</h3>
         </div>
-        <p>Welcome to my portfolio! With this platform you can explore my work by going to <span class="accent">Projects</span>.</p>
-        <p>If you choose to navigate <span class="accent">by Project</span>, you'll gain a structured overview of my accomplishments within each specific project. This approach provides a cohesive picture of my work, allowing you to see the progression and interconnectedness of my efforts within each individual project.</p>
+        <p>This is where I keep the good stuff. Head to <span class="accent">Projects</span> to flip through my work — click any screen to open the full case file.</p>
+        <p>Each project comes with context: what it was, how I built it, and why the decisions I made made sense. The goal isn't to impress — it's to show how I think.</p>
       </div>
     </div>
   </section>
@@ -738,6 +825,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
   <script src="js/mainpage.js"></script>
   <script src="js/projects.js"></script>
+  <script src="js/enhance.js"></script>
   <script src="js/postfx.js"></script>
 </body>
 </html>

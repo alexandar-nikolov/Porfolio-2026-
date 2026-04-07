@@ -1891,3 +1891,144 @@ html {
   .tv-cmd-brand { display: none; }
   .tvw-label { display: none; }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   ENHANCE  —  AVA Digital + Meow Wolf layer
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Per-section colour mood (subtle tinted radial gradients) ── */
+.section-about   { position: relative; }
+.section-skills  { position: relative; }
+.section-projects{ position: relative; }
+
+.section-about::before {
+  content: '';
+  position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background: radial-gradient(ellipse 70% 55% at 12% 35%,
+    rgba(106,0,255,0.08) 0%, transparent 65%);
+}
+.section-skills::before {
+  content: '';
+  position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background: radial-gradient(ellipse 70% 55% at 88% 50%,
+    rgba(0,245,255,0.05) 0%, transparent 65%);
+}
+.section-projects::before {
+  content: '';
+  position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background: radial-gradient(ellipse 70% 45% at 50% 15%,
+    rgba(138,255,42,0.04) 0%, transparent 65%);
+}
+
+/* ── Meow Wolf morphing ambient blob ─────────────────────────── */
+.meow-blob {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(100px);
+  opacity: 0.45;
+  animation: blobMorph 18s ease-in-out infinite alternate;
+  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+}
+@keyframes blobMorph {
+  0%   { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+  33%  { border-radius: 55% 45% 35% 65% / 55% 65% 35% 45%; }
+  66%  { border-radius: 70% 30% 60% 40% / 40% 55% 45% 60%; }
+  100% { border-radius: 40% 60% 55% 45% / 40% 40% 60% 60%; }
+}
+
+/* ── Section wave drip dividers ──────────────────────────────── */
+.section-drip {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 64px; pointer-events: none; z-index: 4; overflow: hidden;
+}
+.section-drip svg { display: block; width: 100%; height: 100%; }
+
+/* ── Hero organic SVG accent shapes ─────────────────────────── */
+.hero-organics {
+  position: absolute; inset: 0;
+  pointer-events: none; z-index: 1; overflow: hidden;
+}
+.org-svg { position: absolute; }
+
+/* sinusoidal squiggle — full width near bottom third */
+.org-squiggle {
+  width: 100%; height: 56px;
+  bottom: 18%; left: 0;
+  animation: sqFloat 16s ease-in-out infinite alternate;
+}
+@keyframes sqFloat {
+  from { transform: translateY(0);    }
+  to   { transform: translateY(-14px);}
+}
+
+/* spinning hollow triangle — top-right quadrant */
+.org-triangle {
+  width: 68px; height: 68px;
+  top: 22%; right: 9%;
+  animation: orgSpin 22s linear infinite;
+}
+
+/* pulsing double-ring — lower-left */
+.org-circle {
+  width: 108px; height: 108px;
+  bottom: 28%; left: 6%;
+  animation: circPulse 9s ease-in-out infinite alternate;
+}
+@keyframes circPulse {
+  from { transform: scale(1);    opacity: 0.55; }
+  to   { transform: scale(1.1); opacity: 1;    }
+}
+
+/* spinning 8-point cross — mid-right */
+.org-cross {
+  width: 36px; height: 36px;
+  top: 56%; right: 22%;
+  animation: orgSpin 14s linear infinite reverse;
+}
+@keyframes orgSpin { to { transform: rotate(360deg); } }
+
+/* ── Clip-path horizontal wipe reveal (AVA Digital) ─────────── */
+.reveal-clip {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 0.85s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal-clip.visible { clip-path: inset(0 0% 0 0); }
+
+/* ── Word-by-word fly-up reveal (AVA Digital) ────────────────── */
+.wrd-outer {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  line-height: inherit;
+}
+.wrd {
+  display: inline-block;
+  transform: translateY(115%);
+  opacity: 0;
+  transition:
+    transform 0.65s cubic-bezier(0.16,1,0.3,1),
+    opacity   0.45s ease;
+  will-change: transform, opacity;
+}
+.wrd.visible { transform: translateY(0); opacity: 1; }
+
+/* ── Magnetic element (no extra CSS needed — handled in JS) ──── */
+[data-magnetic] { will-change: transform; }
+
+/* ── Count-up stat numbers ───────────────────────────────────── */
+.about-stat-n[data-count] { display: inline-block; }
+
+/* ── Enhanced ambient orbs (Meow Wolf: bigger + more vivid) ──── */
+.orb            { opacity: 0.28 !important; }
+.orb.orb1       { width: 620px !important; height: 620px !important; }
+.orb.orb2       { width: 520px !important; height: 520px !important; }
+.orb.orb3       { width: 470px !important; height: 470px !important; }
+.orb.orb4       { width: 400px !important; height: 400px !important; }
+
+/* ── Per-section organic SVG accent shapes ───────────────────── */
+.sec-organics {
+  position: absolute; inset: 0;
+  pointer-events: none; z-index: 1; overflow: hidden;
+}
+.sec-org { position: absolute; }
