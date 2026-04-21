@@ -220,14 +220,30 @@ function initAboutPhysics(section) {
 
   const {
     Engine, Render, Runner, World, Bodies, Body,
-    Events, Composite,
+    Events, Composite, Mouse, MouseConstraint,
   } = Matter;
 
-  const W = section.offsetWidth;
+  /* Measure the left-column boundary FIRST so the canvas is sized to the
+     physics zone only — this keeps the right column fully interactive. */
+  const aboutImg = section.querySelector('.about-img');
+  let zoneRight;
+  const calcZoneRight = () => {
+    const secRect = section.getBoundingClientRect();
+    if (aboutImg) {
+      const imgRect = aboutImg.getBoundingClientRect();
+      return Math.round(imgRect.right - secRect.left) + 16;
+    }
+    return Math.round(section.offsetWidth * 0.42);
+  };
+  zoneRight = calcZoneRight();
+
   const H = section.offsetHeight;
 
-  canvas.width  = W;
-  canvas.height = H;
+  /* Limit canvas to physics zone so the text/skill-tags on the right stay interactive */
+  canvas.width         = zoneRight;
+  canvas.height        = H;
+  canvas.style.width   = zoneRight + 'px';
+  canvas.style.touchAction = 'pan-y';  // let vertical touch-scroll pass through on mobile
 
   const engine = Engine.create({ gravity: { x: 0, y: 0.6 } });
 
@@ -235,31 +251,22 @@ function initAboutPhysics(section) {
     canvas,
     engine,
     options: {
-      width:      W,
+      width:      zoneRight,
       height:     H,
       background: 'transparent',
       wireframes: false,
     },
   });
 
-  /* Measure where the left column ends so the right wall sits there */
-  const aboutImg    = section.querySelector('.about-img');
-  const sectionRect = section.getBoundingClientRect();
-  let zoneRight;
-  if (aboutImg) {
-    const imgRect = aboutImg.getBoundingClientRect();
-    zoneRight = Math.round(imgRect.right - sectionRect.left) + 16;
-  } else {
-    zoneRight = Math.round(W * 0.42);
-  }
-
-  /* Static walls — floor + left wall + invisible right divider */
-  const wall = { isStatic: true, render: { fillStyle: 'transparent', strokeStyle: 'transparent' } };
-  World.add(engine.world, [
-    Bodies.rectangle(zoneRight / 2, H + 26,   zoneRight, 52,      wall),  // floor (left zone only)
-    Bodies.rectangle(-26,           H / 2,    52,         H + 100, wall),  // left wall
-    Bodies.rectangle(zoneRight + 26, H / 2,   52,         H + 100, wall),  // right divider wall
-  ]);
+  /* Helper: build the three static boundary walls */
+  const wallOpts = { isStatic: true, render: { fillStyle: 'transparent', strokeStyle: 'transparent' } };
+  const buildWalls = (zR, h) => [
+    Bodies.rectangle(zR / 2,  h + 26, zR, 52,      wallOpts),  // floor
+    Bodies.rectangle(-26,     h / 2,  52, h + 100,  wallOpts),  // left wall
+    Bodies.rectangle(zR + 26, h / 2,  52, h + 100,  wallOpts),  // right divider
+  ];
+  let walls = buildWalls(zoneRight, H);
+  World.add(engine.world, walls);
 
   /* Skill pill definitions */
   const SKILLS = [
@@ -349,16 +356,44 @@ function initAboutPhysics(section) {
   Render.run(render);
   Runner.run(Runner.create(), engine);
 
-  /* Resize: recalculate zone and walls */
+  /* ── Drag interaction ────────────────────────── */
+  const mouse = Mouse.create(render.canvas);
+  const mouseConstraint = MouseConstraint.create(engine, {
+    mouse,
+    constraint: { stiffness: 0.15, angularStiffness: 0.1, render: { visible: false } },
+  });
+  World.add(engine.world, mouseConstraint);
+  render.mouse = mouse;
+
+  /* Canvas covers only the physics zone — pointer events are safe to enable */
+  canvas.style.pointerEvents = 'auto';
+  canvas.style.cursor = 'grab';
+
+  /* Forward wheel events so page still scrolls */
+  render.canvas.addEventListener('wheel', e => {
+    window.scrollBy({ top: e.deltaY, behavior: 'auto' });
+  }, { passive: true });
+
+  /* Drag cursor feedback */
+  Events.on(mouseConstraint, 'startdrag', () => { canvas.style.cursor = 'grabbing'; });
+  Events.on(mouseConstraint, 'enddrag',   () => { canvas.style.cursor = 'grab'; });
+
+  /* Resize: recalculate zone, resize canvas/render, and rebuild walls */
   window.addEventListener('resize', () => {
-    const nW = section.offsetWidth;
     const nH = section.offsetHeight;
-    canvas.width  = nW;
-    canvas.height = nH;
-    render.canvas.width   = nW;
-    render.canvas.height  = nH;
-    render.options.width  = nW;
+    zoneRight = calcZoneRight();
+
+    canvas.width         = zoneRight;
+    canvas.height        = nH;
+    canvas.style.width   = zoneRight + 'px';
+    render.canvas.width  = zoneRight;
+    render.canvas.height = nH;
+    render.options.width  = zoneRight;
     render.options.height = nH;
+
+    World.remove(engine.world, walls);
+    walls = buildWalls(zoneRight, nH);
+    World.add(engine.world, walls);
   }, { passive: true });
 }
 
@@ -386,3 +421,12 @@ function initAboutPhysics(section) {
 
   items.forEach(item => obs.observe(item));
 })();
+
+/* ── Reorder sections: Projects before About ────────────────── */
+document.addEventListener('DOMContentLoaded', () => {
+  const projects  = document.getElementById('projects');
+  const about     = document.getElementById('about');
+  if (projects && about && about.parentNode) {
+    about.parentNode.insertBefore(projects, about);
+  }
+});

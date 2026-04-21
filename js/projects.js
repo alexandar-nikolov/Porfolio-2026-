@@ -10,59 +10,83 @@
 const PROJECTS = [
   {
     title: 'Portfolio 2026',
-    desc:  'WebGL post-FX, Matter.js physics, immersive animations and full custom shader pipeline.',
+    desc: 'A maximalist developer portfolio featuring WebGL post-FX shaders, Matter.js physics, immersive glitch animations, and a full custom rendering pipeline.',
+    details: 'Built from scratch with zero frameworks — pure HTML, CSS, and vanilla JS. Features a custom WebGL fragment shader, SVG chromatic aberration filters, and physics-based UI elements.',
     image: 'images/portfolio.png',
-    tags:  ['javascript', 'css', 'design'],
-    url:   '#home',
+    tags: ['javascript', 'css', 'design'],
+    tech: ['JavaScript', 'Matter.js', 'WebGL', 'CSS Animations'],
+    url: '#home',
+    github: 'https://github.com/Kambo22',
   },
   {
     title: 'Athina Website',
-    desc:  'Full design and development of a brand website with responsive layouts.',
+    desc: 'Full design and development of a brand website for Athina Amsterdam — responsive layouts, custom animations, brand-consistent visual identity.',
+    details: 'Complete web presence from concept to deployment. Custom scroll animations, mobile-first responsive grid, and interactive product showcases.',
     image: 'images/AthinaWebsite.png',
-    tags:  ['javascript', 'css'],
-    url:   '#',
+    tags: ['javascript', 'css'],
+    tech: ['JavaScript', 'HTML5', 'CSS', 'Responsive Design'],
+    url: '#',
+    github: '#',
   },
   {
-    title: 'Klooigeld',
-    desc:  'Interactive web app with modern React component architecture.',
+    title: 'Klooigeld App',
+    desc: 'Interactive React web application with modern component architecture, React hooks state management, and a clean financial tracking interface.',
+    details: 'React SPA with component-driven architecture, hooks for state management, and a responsive dashboard layout for personal finance tracking.',
     image: 'images/klooigeld.png',
-    tags:  ['react', 'javascript', 'css'],
-    url:   '#',
+    tags: ['react', 'javascript', 'css'],
+    tech: ['React', 'JavaScript', 'CSS Modules', 'Vite'],
+    url: '#',
+    github: '#',
   },
   {
     title: 'NFC Card Game',
-    desc:  'Android game leveraging NFC technology, built with Kotlin.',
+    desc: 'Android game leveraging NFC technology — tap physical cards to trigger in-game events. Built in Kotlin with Android Studio.',
+    details: 'Kotlin Android app with NFC tag reading, custom card registration, game state management, and a real-time battle system triggered by NFC card taps.',
     image: 'images/nfcgame.png',
-    tags:  ['kotlin'],
-    url:   '#',
+    tags: ['kotlin'],
+    tech: ['Kotlin', 'Android SDK', 'NFC API', 'SQLite'],
+    url: '#',
+    github: '#',
   },
   {
     title: 'Figma UI Design',
-    desc:  'High-fidelity interactive prototype created entirely in Figma.',
+    desc: 'High-fidelity interactive prototype — from research and wireframes to a complete click-through demo with full design system documentation.',
+    details: 'Complete design process: user research, wireframes, component library, high-fidelity mockups, and interactive prototype. Includes design system with tokens and documentation.',
     image: 'images/Figma_website.png',
-    tags:  ['design', 'css'],
-    url:   '#',
+    tags: ['design', 'css'],
+    tech: ['Figma', 'Design Systems', 'UX Research', 'Prototyping'],
+    url: '#',
+    github: '#',
   },
   {
-    title: 'UI Prototype',
-    desc:  'Rapid prototyping and wireframing — from concept to click-through.',
+    title: 'UI Prototype Sprint',
+    desc: 'Rapid prototyping sprint — concept to interactive click-through in 48 hours, including user flow mapping and responsive wireframes.',
+    details: 'Fast-paced prototype built for stakeholder presentation. Demonstrates navigation flows, key interactions, and visual hierarchy across mobile and desktop.',
     image: 'images/prototype1.png',
-    tags:  ['design'],
-    url:   '#',
+    tags: ['design'],
+    tech: ['Figma', 'User Flows', 'Wireframing', 'Rapid Prototyping'],
+    url: '#',
+    github: '#',
   },
   {
     title: 'Responsive Website',
-    desc:  'Mobile-first responsive site using semantic HTML and modern CSS.',
+    desc: 'Mobile-first responsive website using semantic HTML5 and modern CSS Grid/Flexbox — no frameworks, pixel-perfect across all breakpoints.',
+    details: 'Built with semantic HTML5, CSS custom properties, Grid and Flexbox layouts, fluid typography, and optimised assets for fast load times.',
     image: 'images/Website.png',
-    tags:  ['css', 'javascript'],
-    url:   '#',
+    tags: ['css', 'javascript'],
+    tech: ['HTML5', 'CSS Grid', 'Flexbox', 'Vanilla JS'],
+    url: '#',
+    github: '#',
   },
   {
     title: 'Git Workflow Project',
-    desc:  'Collaborative development with advanced branching and CI strategies.',
+    desc: 'Collaborative development project showcasing advanced branching strategies, CI pipeline configuration, and structured code review workflows.',
+    details: 'Team project with feature branch workflow, pull request reviews, automated testing on CI, semantic versioning, and comprehensive commit history.',
     image: 'images/git.jpg',
-    tags:  ['javascript'],
-    url:   '#',
+    tags: ['javascript'],
+    tech: ['Git', 'GitHub Actions', 'CI/CD', 'JavaScript'],
+    url: '#',
+    github: '#',
   },
 ];
 
@@ -404,14 +428,30 @@ class ProjectsSection {
     if (img) { img.src = project.image; img.alt = project.title; }
 
     /* Populate info */
-    const title = document.getElementById('fbiCaseTitle');
-    const desc  = document.getElementById('fbiCaseDesc');
-    const tags  = document.getElementById('fbiCaseTags');
-    const link  = document.getElementById('fbiCaseLink');
-    if (title) title.textContent = project.title;
-    if (desc)  desc.textContent  = project.desc;
-    if (tags)  tags.innerHTML    = project.tags.map(t => `<span>${t.toUpperCase()}</span>`).join('');
-    if (link)  link.href         = project.url;
+    const title   = document.getElementById('fbiCaseTitle');
+    const desc    = document.getElementById('fbiCaseDesc');
+    const details = document.getElementById('fbiCaseDetails');
+    const tags    = document.getElementById('fbiCaseTags');
+    const tech    = document.getElementById('fbiCaseTech');
+    const link    = document.getElementById('fbiCaseLink');
+    const gh      = document.getElementById('fbiCaseGh');
+    if (title)   title.textContent = project.title;
+    if (desc)    desc.textContent  = project.desc;
+    if (details) details.textContent = project.details || '';
+    if (tags)    tags.innerHTML    = project.tags.map(t => `<span>${t.toUpperCase()}</span>`).join('');
+    if (tech)    tech.innerHTML    = (project.tech || []).map(t => `<span>${t}</span>`).join('');
+    if (link)    link.href         = project.url;
+
+    /* GitHub link — hide if not set */
+    if (gh) {
+      if (project.github && project.github !== '#') {
+        gh.href = project.github;
+        gh.classList.remove('hidden');
+      } else {
+        gh.href = '#';
+        gh.classList.add('hidden');
+      }
+    }
 
     /* HUD details */
     const ch = document.getElementById('fbiCaseChannel');
