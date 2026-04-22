@@ -33,7 +33,7 @@
   `;
 
   const FRAG = `
-    precision highp float;
+    precision mediump float;
 
     uniform float u_time;
     uniform vec2  u_res;
@@ -163,12 +163,19 @@
   let tx = 0, ty = 0, sx = 0, sy = 0;
   document.addEventListener('mousemove', e => { tx = e.clientX; ty = e.clientY; });
 
+  /* ── DPR cap — limits resolution on HiDPI screens for perf ─── */
+  const DPR = Math.min(window.devicePixelRatio || 1, 1.5);
+
   function resize() {
-    canvas.width  = window.innerWidth;
-    canvas.height = window.innerHeight;
+    canvas.width  = Math.floor(window.innerWidth  * DPR);
+    canvas.height = Math.floor(window.innerHeight * DPR);
     gl.viewport(0, 0, canvas.width, canvas.height);
     /* Centre blob on start */
-    if (sx === 0) { sx = canvas.width / 2; sy = canvas.height / 2; }
+    if (sx === 0 && sy === 0) {
+      tx = window.innerWidth  / 2;
+      ty = window.innerHeight / 2;
+      sx = tx; sy = ty;
+    }
   }
   window.addEventListener('resize', resize, { passive: true });
   resize();
@@ -177,16 +184,24 @@
   const bgEl = document.querySelector('.bg');
   if (bgEl) bgEl.style.display = 'none';
 
+  /* ── Pause when tab is hidden ──────────────────────────────── */
+  let paused = false;
+  document.addEventListener('visibilitychange', () => {
+    paused = document.hidden;
+    if (!paused) requestAnimationFrame(render);
+  });
+
   /* ── Render loop ───────────────────────────────────────────── */
   const t0 = performance.now();
   function render() {
+    if (paused) return;
     sx += (tx - sx) * 0.055;   /* smooth mouse lerp */
     sy += (ty - sy) * 0.055;
 
     const elapsed = (performance.now() - t0) / 1000;
     gl.uniform1f(uTime,  elapsed);
     gl.uniform2f(uRes,   canvas.width, canvas.height);
-    gl.uniform2f(uMouse, sx, canvas.height - sy);
+    gl.uniform2f(uMouse, sx * DPR, canvas.height - sy * DPR);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     requestAnimationFrame(render);
   }

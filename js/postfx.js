@@ -236,7 +236,7 @@
   }
 
   function scheduleGlitch() {
-    const delay = 1500 + Math.random() * 2500;
+    const delay = 3000 + Math.random() * 4000;
     setTimeout(fireGlitchBurst, delay);
   }
   scheduleGlitch();
@@ -249,17 +249,26 @@
   });
 
   /* ── Resize ────────────────────────────────────────────────── */
+  const DPR = Math.min(window.devicePixelRatio || 1, 1.5); // cap at 1.5× for perf
   function resize() {
-    canvas.width  = window.innerWidth;
-    canvas.height = window.innerHeight;
+    canvas.width  = Math.floor(window.innerWidth  * DPR);
+    canvas.height = Math.floor(window.innerHeight * DPR);
     gl.viewport(0, 0, canvas.width, canvas.height);
   }
   window.addEventListener('resize', resize, { passive: true });
   resize();
 
+  /* ── Pause when tab hidden ─────────────────────────────────── */
+  let paused = false;
+  document.addEventListener('visibilitychange', () => {
+    paused = document.hidden;
+    if (!paused) requestAnimationFrame(render);
+  });
+
   /* ── Render loop ───────────────────────────────────────────── */
   const t0 = performance.now();
   function render() {
+    if (paused) return;
     sx += (tx - sx) * 0.055;
     sy += (ty - sy) * 0.055;
 

@@ -2,9 +2,18 @@
 /* ── Cursor Glow ─────────────────────────────────────────────── */
 const cursorGlow = document.getElementById('cursorGlow');
 if (cursorGlow) {
+  let glowRafPending = false;
+  let glowX = 0, glowY = 0;
   document.addEventListener('mousemove', (e) => {
-    cursorGlow.style.left = `${e.clientX}px`;
-    cursorGlow.style.top  = `${e.clientY}px`;
+    glowX = e.clientX;
+    glowY = e.clientY;
+    if (!glowRafPending) {
+      glowRafPending = true;
+      requestAnimationFrame(() => {
+        cursorGlow.style.transform = `translate3d(${glowX - 180}px, ${glowY - 180}px, 0)`;
+        glowRafPending = false;
+      });
+    }
   });
 }
 

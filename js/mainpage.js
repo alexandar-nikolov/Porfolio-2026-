@@ -3,9 +3,17 @@
 /* ── Cursor Glow (ambient) ───────────────────────────────────── */
 const cursorGlow = document.getElementById('cursorGlow');
 if (cursorGlow) {
+  let glowRafPending = false;
+  let glowX = 0, glowY = 0;
   document.addEventListener('mousemove', e => {
-    cursorGlow.style.left = e.clientX + 'px';
-    cursorGlow.style.top  = e.clientY + 'px';
+    glowX = e.clientX; glowY = e.clientY;
+    if (!glowRafPending) {
+      glowRafPending = true;
+      requestAnimationFrame(() => {
+        cursorGlow.style.transform = `translate3d(${glowX - 160}px, ${glowY - 160}px, 0)`;
+        glowRafPending = false;
+      });
+    }
   });
 }
 
@@ -154,11 +162,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ── Parallax on scroll (hero bg word + image) ───────────── */
   const parallaxEls = document.querySelectorAll('[data-parallax]');
+  let parallaxRafPending = false;
   const applyParallax = () => {
-    const y = window.scrollY;
-    parallaxEls.forEach(el => {
-      const speed = parseFloat(el.dataset.parallax) || 0.3;
-      el.style.transform = `translateY(${y * speed}px)`;
+    if (parallaxRafPending) return;
+    parallaxRafPending = true;
+    requestAnimationFrame(() => {
+      const y = window.scrollY;
+      parallaxEls.forEach(el => {
+        const speed = parseFloat(el.dataset.parallax) || 0.3;
+        el.style.transform = `translateY(${y * speed}px)`;
+      });
+      parallaxRafPending = false;
     });
   };
   window.addEventListener('scroll', applyParallax, { passive: true });

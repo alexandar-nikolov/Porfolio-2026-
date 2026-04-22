@@ -89,6 +89,7 @@ body::before {
   background: linear-gradient(90deg, transparent, var(--vivid-cyan), transparent);
   opacity: 0.35;
   pointer-events: none;
+  will-change: top;
   animation: scan 4s linear infinite;
 }
 
@@ -106,8 +107,9 @@ body::before {
   height: 360px;
   border-radius: 50%;
   background: radial-gradient(circle, rgba(255, 0, 110, 0.11) 0%, transparent 70%);
-  transform: translate(-50%, -50%);
-  transition: left 0.07s, top 0.07s;
+  top: 0;
+  left: 0;
+  will-change: transform;
 }
 
 /* ── Ghost Diagonal Text ──────────────────────────────────── */
@@ -160,6 +162,7 @@ body::before {
   white-space: nowrap;
   opacity: 0.5;
   z-index: 20;
+  will-change: top;
 }
 
 .side-run.left {
@@ -189,6 +192,7 @@ body::before {
   inset: 0;
   z-index: 2;
   overflow: hidden;
+  contain: layout style;
   /*
    * REVERSE RENDERING — the entire stage composites against the WebGL
    * plasma shader (z-index 0) beneath it using the "difference" operator.
@@ -311,7 +315,8 @@ body::before {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 10;
-  animation: floatA 7s ease-in-out infinite, glitchShake 0.1s steps(1) infinite;
+  will-change: transform;
+  animation: floatA 7s ease-in-out infinite, glitchShake 5s linear infinite;
   position: absolute;
 }
 
