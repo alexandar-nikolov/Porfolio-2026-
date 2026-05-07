@@ -22,7 +22,7 @@
 
 /* ── Document ───────────────────────────────────────────────── */
 html { scroll-behavior: smooth; }
-html, body { width: 100%; background: #000; cursor: crosshair; }
+html, body { width: 100%; background: #000; color: #fff; cursor: crosshair; }
 body { overflow-x: hidden; overflow-y: auto; }
 
 /* ── WebGL Post-FX Overlay ──────────────────────────────────── */
@@ -742,6 +742,14 @@ html, body { cursor: none !important; }
    ═══════════════════════════════════════════════════════════════ */
 .section-inner { max-width: 1200px; margin: 0 auto; padding: 72px 80px; width: 100%; }
 .section-header { margin-bottom: 40px; }
+.proj-subline {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.52);
+  margin-top: 18px;
+}
 .section-number {
   font-family: 'Space Mono', monospace; font-size: 0.72rem; letter-spacing: 0.5em;
   color: rgba(255,0,110,0.55); display: block; margin-bottom: 14px;
@@ -753,7 +761,11 @@ html, body { cursor: none !important; }
   color: transparent; -webkit-text-stroke: 2px rgba(255,255,255,0.82);
   overflow: hidden;
 }
-.section-title span { color: var(--hot-pink); -webkit-text-stroke-color: var(--hot-pink); text-shadow: 0 0 40px rgba(255,0,110,0.35); }
+.section-title span {
+  color: var(--hot-pink);
+  -webkit-text-stroke-color: var(--hot-pink);
+  text-shadow: 0 0 28px rgba(255,0,110,0.45);
+}
 
 /* ═══════════════════════════════════════════════════════════════
    ABOUT SECTION
@@ -1259,7 +1271,7 @@ html {
 .filter-btn span, .filter-btn .fbtn-pip { position: relative; z-index: 1; }
 .filter-btn:hover::before, .filter-btn.active::before { transform: scaleX(1); }
 .filter-btn:hover, .filter-btn.active {
-  color: var(--black);
+  color: #fff;
   border-color: transparent;
   box-shadow: 3px 3px 0 rgba(0,0,0,0.8), 0 0 14px rgba(255,0,110,0.4);
   transform: translate(-1px, -1px);
@@ -1270,8 +1282,8 @@ html {
 }
 .filter-status-text {
   font-family: 'Space Mono', monospace;
-  font-size: 0.45rem; letter-spacing: 0.3em; text-transform: uppercase;
-  color: rgba(255,255,255,0.25);
+  font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase;
+  color: rgba(255,255,255,0.65);
 }
 .tv-signal-bars { display: flex; align-items: flex-end; gap: 2px; height: 16px; }
 .sig-bar {
@@ -2401,7 +2413,7 @@ body::before {
     var(--hot-pink) 0%,
     var(--vivid-cyan) 50%,
     var(--electric-yellow) 100%) !important;
-  box-shadow: 3px 0 0 #000 !important;
+  box-shadow: 0 0 16px rgba(255,0,110,0.65), 0 0 32px rgba(0,245,255,0.18) !important;
   clip-path: polygon(0 0, 100% 4px, 100% 100%, 0 calc(100% - 4px)) !important;
 }
 
