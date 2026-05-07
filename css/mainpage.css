@@ -1299,27 +1299,24 @@ html {
   max-width: var(--max-w); margin: 0 auto;
   padding: 0 48px 80px;
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  grid-auto-rows: 80px;
-  gap: 12px;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 320px;
+  gap: 16px;
   position: relative; z-index: 2;
 }
 
-/* Billboard size classes — varied Shibuya proportions */
-.bb-lg   { grid-column: span 5; grid-row: span 6; }
-.bb-tall { grid-column: span 3; grid-row: span 9; }
-.bb-wide { grid-column: span 7; grid-row: span 5; }
-.bb-md   { grid-column: span 4; grid-row: span 6; }
+/* Billboard size classes — no-op at desktop (placements below take over) */
+.bb-lg, .bb-tall, .bb-wide, .bb-md { }
 
-/* Billboard layout slots (Shibuya crossing asymmetry) */
-.billboard[data-index="0"] { grid-column: 1 / span 5;  grid-row: 1 / span 6; }
-.billboard[data-index="1"] { grid-column: 6 / span 3;  grid-row: 1 / span 9; }
-.billboard[data-index="2"] { grid-column: 9 / span 4;  grid-row: 1 / span 5; }
-.billboard[data-index="3"] { grid-column: 1 / span 4;  grid-row: 7 / span 6; }
-.billboard[data-index="4"] { grid-column: 5 / span 5;  grid-row: 10 / span 6; }
-.billboard[data-index="5"] { grid-column: 9 / span 3;  grid-row: 6 / span 9; }
-.billboard[data-index="6"] { grid-column: 12 / span 1; grid-row: 1 / span 7; }
-.billboard[data-index="7"] { grid-column: 1 / span 8;  grid-row: 13 / span 5; }
+/* Billboard layout — non-overlapping 3-col Shibuya mosaic */
+.billboard[data-index="0"] { grid-column: 1 / span 2; grid-row: 1; }
+.billboard[data-index="1"] { grid-column: 3;           grid-row: 1 / span 2; }
+.billboard[data-index="2"] { grid-column: 1;           grid-row: 2; }
+.billboard[data-index="3"] { grid-column: 2;           grid-row: 2; }
+.billboard[data-index="4"] { grid-column: 1 / span 2;  grid-row: 3; }
+.billboard[data-index="5"] { grid-column: 3;           grid-row: 3 / span 2; }
+.billboard[data-index="6"] { grid-column: 1;           grid-row: 4; }
+.billboard[data-index="7"] { grid-column: 2;           grid-row: 4; }
 
 /* ── Billboard outer frame (Spider-Verse thick outline) ──────── */
 .billboard {
@@ -1674,41 +1671,40 @@ html {
 
 /* ── Responsive ───────────────────────────────────────────────── */
 @media (max-width: 1100px) {
-  .shibuya-wall { padding: 0 32px 60px; gap: 8px; grid-auto-rows: 64px; }
+  .shibuya-wall { padding: 0 32px 60px; gap: 12px; grid-auto-rows: 280px; }
 }
 @media (max-width: 900px) {
   .shibuya-wall {
-    grid-template-columns: repeat(6, 1fr);
-    grid-auto-rows: 80px;
-    gap: 8px; padding: 0 20px 60px;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: 260px;
+    gap: 10px; padding: 0 20px 60px;
   }
-  .billboard[data-index="0"] { grid-column: 1 / span 3; grid-row: 1 / span 5; }
-  .billboard[data-index="1"] { grid-column: 4 / span 3; grid-row: 1 / span 6; }
-  .billboard[data-index="2"] { grid-column: 1 / span 4; grid-row: 6 / span 4; }
-  .billboard[data-index="3"] { grid-column: 5 / span 2; grid-row: 7 / span 5; }
-  .billboard[data-index="4"] { grid-column: 1 / span 3; grid-row: 10 / span 5; }
-  .billboard[data-index="5"] { grid-column: 4 / span 3; grid-row: 12 / span 6; }
-  .billboard[data-index="6"] { grid-column: 1 / span 2; grid-row: 15 / span 5; }
-  .billboard[data-index="7"] { grid-column: 3 / span 4; grid-row: 18 / span 4; }
+  .billboard[data-index="0"] { grid-column: 1 / span 2; grid-row: 1; }
+  .billboard[data-index="1"] { grid-column: 2;           grid-row: 2 / span 2; }
+  .billboard[data-index="2"] { grid-column: 1;           grid-row: 2; }
+  .billboard[data-index="3"] { grid-column: 1;           grid-row: 3; }
+  .billboard[data-index="4"] { grid-column: 1 / span 2;  grid-row: 4; }
+  .billboard[data-index="5"] { grid-column: 2;           grid-row: 5 / span 2; }
+  .billboard[data-index="6"] { grid-column: 1;           grid-row: 5; }
+  .billboard[data-index="7"] { grid-column: 1;           grid-row: 6; }
   .shibuya-command-strip { padding: 0 20px; }
   .fbi-case-body { grid-template-columns: 1fr; }
   .fbi-img-wrap { min-height: 200px; border-right: none; border-bottom: 2px solid rgba(255,0,110,0.2); }
 }
 @media (max-width: 600px) {
   .shibuya-wall {
-    grid-template-columns: repeat(4, 1fr);
-    grid-auto-rows: 70px;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: 200px;
+    gap: 8px;
   }
-  .billboard[data-index="0"] { grid-column: 1 / span 2; grid-row: 1 / span 5; }
-  .billboard[data-index="1"] { grid-column: 3 / span 2; grid-row: 1 / span 6; }
-  .billboard[data-index="2"] { grid-column: 1 / span 4; grid-row: 6 / span 4; }
-  .billboard[data-index="3"] { grid-column: 1 / span 2; grid-row: 10 / span 5; }
-  .billboard[data-index="4"] { grid-column: 3 / span 2; grid-row: 10 / span 5; }
-  .billboard[data-index="5"] { grid-column: 1 / span 2; grid-row: 15 / span 6; }
-  .billboard[data-index="6"] { grid-column: 3 / span 2; grid-row: 15 / span 5; }
-  .billboard[data-index="7"] { grid-column: 1 / span 4; grid-row: 21 / span 4; }
-}
-
+  .billboard[data-index="0"],
+  .billboard[data-index="1"],
+  .billboard[data-index="2"],
+  .billboard[data-index="3"],
+  .billboard[data-index="4"],
+  .billboard[data-index="5"],
+  .billboard[data-index="6"],
+  .billboard[data-index="7"] { grid-column: unset; grid-row: unset; }
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -2146,4 +2142,291 @@ section {
 @media (max-width: 680px) {
   .fbi-case-links { flex-direction: column; align-items: flex-start; }
   .fbi-case-tech { display: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SPIDER-VERSE  ×  ACROSS THE MULTIVERSE
+   Full-site comic-book language:
+   Ben-Day halftone · Hard ink shadows · Thick borders · Chroma split
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Global halftone dot overlay (body-level Ben-Day) ─────────── */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.016) 1.2px, transparent 1.2px);
+  background-size: 16px 16px;
+}
+
+/* ── Nav: thick comic-panel header ───────────────────────────── */
+.topnav {
+  border-bottom: 3px solid var(--hot-pink) !important;
+  box-shadow: 0 4px 0 #000 !important;
+}
+.topnav.scrolled {
+  box-shadow: 0 4px 0 #000, 0 8px 30px rgba(255,0,110,0.18) !important;
+}
+.tnav-link::after {
+  height: 3px !important;
+  box-shadow: none !important;
+  background: var(--hot-pink) !important;
+}
+.tnav-link.active,
+.tnav-link:hover { text-shadow: 2px 2px 0 #000; }
+
+/* ── CTA button: hard ink-offset print shadow ─────────────────── */
+.cta-btn {
+  border: 3px solid #000 !important;
+  box-shadow: 5px 5px 0 #000 !important;
+  animation: glowPulse 2.5s ease-in-out infinite, reveal-up 0.8s 1.02s cubic-bezier(0.16,1,0.3,1) both !important;
+}
+.cta-btn:hover {
+  transform: translate(-3px, -3px) scale(1) !important;
+  box-shadow: 8px 8px 0 #000 !important;
+}
+
+/* ── Section titles: chromatic aberration split ───────────────── */
+.section-title {
+  filter:
+    drop-shadow(-3px -2px 0 rgba(0,245,255,0.35))
+    drop-shadow( 3px  2px 0 rgba(255,0,110,0.3));
+}
+.section-title span {
+  filter: drop-shadow(2px 2px 0 #000);
+}
+
+/* ── Section number labels: bolder ───────────────────────────── */
+.section-number {
+  font-size: 0.8rem !important;
+  letter-spacing: 0.55em !important;
+  color: var(--hot-pink) !important;
+  text-shadow: 2px 2px 0 #000;
+}
+
+/* ── Section dividers: ink panel border ───────────────────────── */
+.section-skills,
+.section-about,
+.section-testimonials {
+  border-top: 3px solid #000 !important;
+}
+.section-projects {
+  border-top: 3px solid #000 !important;
+  border-bottom: 3px solid #000 !important;
+}
+
+/* Per-section halftone mood overlay (on top of existing gradient) */
+.section-projects::after,
+.section-skills::after,
+.section-about::after,
+.section-testimonials::after {
+  content: '';
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.018) 1.5px, transparent 1.5px);
+  background-size: 18px 18px;
+}
+
+/* ── Billboard frames: even thicker Spider-Verse outline ─────── */
+.bb-outer-frame {
+  border-width: 5px !important;
+  box-shadow:
+    8px 8px 0 #000,
+    0 0 0 2px #000,
+    0 0 50px rgba(255,0,110,0.12) !important;
+}
+.bb-outer-frame:hover {
+  box-shadow:
+    10px 10px 0 #000,
+    0 0 0 2px #000,
+    0 0 60px rgba(var(--bb-accent, 255,0,110), 0.25) !important;
+}
+
+/* ── About photo: angular comic-panel frame ───────────────────── */
+.about-img-ring::before,
+.about-img-ring::after {
+  border-radius: 0 !important;
+  animation: none !important;
+}
+.about-img-ring::before {
+  border: 4px solid var(--hot-pink) !important;
+  box-shadow: 5px 5px 0 #000 !important;
+  transform: rotate(3deg);
+}
+.about-img-ring::after {
+  border: 3px solid var(--vivid-cyan) !important;
+  box-shadow: -4px -4px 0 #000 !important;
+  transform: rotate(-3deg);
+}
+.about-img-ring img {
+  border-radius: 0 !important;
+  clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+  border: 3px solid #000 !important;
+  box-shadow: 4px 4px 0 #000 !important;
+}
+
+/* ── About stat strip: bolder numbers ────────────────────────── */
+.about-stat-n {
+  text-shadow: 3px 3px 0 #000 !important;
+}
+.about-stats {
+  border-top: 2px solid rgba(255,0,110,0.4) !important;
+  border-bottom: 2px solid rgba(255,0,110,0.4) !important;
+}
+.about-stat { border-right-width: 2px !important; }
+
+/* ── Skill tags: thick border + hard shadow ───────────────────── */
+.skill-tags span {
+  border-width: 2px !important;
+  text-shadow: 1px 1px 0 #000;
+  box-shadow: 3px 3px 0 rgba(0,245,255,0.25) !important;
+}
+.skill-tags span:hover {
+  box-shadow: 4px 4px 0 #000 !important;
+  transform: translate(-2px, -2px) !important;
+}
+
+/* ── Skills section: ft-items get panel borders ──────────────── */
+.ft-item.active .ft-icon-wrap {
+  filter: drop-shadow(3px 3px 0 #000);
+}
+.ft-title {
+  text-shadow: 4px 4px 0 #000, -2px -2px 0 rgba(0,245,255,0.3);
+}
+
+/* ── Testimonial cards: hard comic speech panel ──────────────── */
+.tcard {
+  background: rgba(4,0,12,0.97) !important;
+  border: 3px solid var(--hot-pink) !important;
+  box-shadow: 6px 6px 0 #000 !important;
+  clip-path: none !important;
+  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s, border-color 0.3s !important;
+}
+.tcard:nth-child(odd)  { transform: rotate(-0.7deg); }
+.tcard:nth-child(even) { transform: rotate(0.5deg); }
+.tcard:hover {
+  transform: rotate(0deg) translateY(-8px) !important;
+  box-shadow: 10px 10px 0 #000 !important;
+  border-color: var(--electric-yellow) !important;
+}
+.tcard-accent-line {
+  height: 4px !important;
+  background: var(--hot-pink) !important;
+  box-shadow: none !important;
+  transform: scaleX(1) !important;
+}
+.tcard:hover .tcard-accent-line {
+  background: var(--electric-yellow) !important;
+}
+.tcard-quote-mark {
+  color: var(--electric-yellow) !important;
+  opacity: 0.7 !important;
+  text-shadow: 3px 3px 0 #000 !important;
+}
+.tcard-name { text-shadow: 1px 1px 0 #000; }
+.tcard-attr {
+  border-top: 2px solid rgba(255,0,110,0.3) !important;
+}
+.tcard-avatar {
+  border-radius: 0 !important;
+  border-width: 2px !important;
+  box-shadow: 3px 3px 0 #000 !important;
+}
+
+/* Recommendation cards: same comic treatment */
+.rec-card {
+  border: 2px solid rgba(255,0,110,0.5) !important;
+  box-shadow: 5px 5px 0 #000 !important;
+}
+.rec-tag {
+  border-width: 2px !important;
+  box-shadow: 2px 2px 0 rgba(0,245,255,0.2) !important;
+}
+.rec-view-btn {
+  border-width: 2px !important;
+  box-shadow: 3px 3px 0 #000 !important;
+}
+.rec-view-btn:hover {
+  transform: translate(-2px, -2px) !important;
+  box-shadow: 5px 5px 0 #000 !important;
+}
+
+/* ── Filter buttons: Spider-Verse action panel ────────────────── */
+.filter-btn {
+  border: 2px solid rgba(255,255,255,0.2) !important;
+  transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s, border-color 0.2s !important;
+}
+.filter-btn.active {
+  border-color: var(--hot-pink) !important;
+  box-shadow: 4px 4px 0 #000 !important;
+  text-shadow: 1px 1px 0 #000;
+}
+.filter-btn:hover:not(.active) {
+  transform: translate(-1px, -1px) !important;
+  box-shadow: 2px 2px 0 #000 !important;
+}
+
+/* ── FBI case panel: hard border upgrade ─────────────────────── */
+.fbi-case-panel {
+  border-width: 4px !important;
+  box-shadow: 10px 10px 0 #000, 0 0 80px rgba(255,0,110,0.2) !important;
+}
+.fbi-case-link {
+  box-shadow: 4px 4px 0 #000 !important;
+}
+.fbi-case-link:hover {
+  transform: translate(-3px, -3px) !important;
+  box-shadow: 7px 7px 0 #000 !important;
+}
+
+/* ── Hero image frame: comic panel corners ────────────────────── */
+.img-frame img {
+  border: 3px solid #000 !important;
+  box-shadow: 6px 6px 0 #000 !important;
+}
+.img-corner {
+  width: 28px !important; height: 28px !important;
+  border-width: 4px !important;
+}
+
+/* ── Marquee tickers: bolder comic feel ───────────────────────── */
+.section-marquee {
+  border-top-width: 2px !important;
+  border-bottom-width: 2px !important;
+  border-color: rgba(255,0,110,0.5) !important;
+  box-shadow: 0 2px 0 #000, 0 -2px 0 #000;
+}
+.section-marquee-inner .bullet {
+  font-size: 1em;
+  text-shadow: 2px 2px 0 #000;
+}
+
+/* ── Footer: comic strip ink border ──────────────────────────── */
+.site-footer {
+  border-top: 4px solid var(--hot-pink) !important;
+  box-shadow: 0 -4px 0 #000 !important;
+}
+.footer-marquee {
+  border-bottom-width: 2px !important;
+  box-shadow: 0 2px 0 #000;
+}
+.footer-logo {
+  text-shadow: 3px 3px 0 #000;
+}
+
+/* ── Loader: matching Spider-Verse treatment ──────────────────── */
+.loader-name {
+  text-shadow: 6px 6px 0 #000, -2px -2px 0 rgba(0,245,255,0.4) !important;
+}
+.loader-bar-wrap {
+  border: 2px solid #000 !important;
+  box-shadow: 4px 4px 0 #000 !important;
+}
+
+/* ── Scroll indicator ─────────────────────────────────────────── */
+.scroll-line { box-shadow: 2px 0 0 #000; }
+
+/* ── Responsive Spider-Verse adjustments ──────────────────────── */
+@media (max-width: 900px) {
+  .tcard:nth-child(odd),
+  .tcard:nth-child(even) { transform: none; }
+  .section-title { filter: none; }
 }
