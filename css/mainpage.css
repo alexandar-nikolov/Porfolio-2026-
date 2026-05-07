@@ -2159,6 +2159,15 @@ section {
   --hard-shadow-lg: 10px 10px 0 #000;
 }
 
+/* ── JS-injected impact words (spiderverse.js) ───────────────── */
+.sv-impact {
+  font-family: 'Black Ops One', 'Anton', sans-serif;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  will-change: transform, opacity;
+  user-select: none;
+}
+
 /* ────────────────────────────────────────────────────────────────
    BEN-DAY HALFTONE — vivid pink + cyan alternating dot grid
    ──────────────────────────────────────────────────────────────── */
@@ -2499,15 +2508,10 @@ body::before {
 }
 
 /* ────────────────────────────────────────────────────────────────
-   SKILLS SECTION — hexagonal Ben-Day grid texture
+   SKILLS SECTION — clean, no texture override
    ──────────────────────────────────────────────────────────────── */
 .section-skills {
-  background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='97'%3E%3Cpolygon points='28,1 55,15.5 55,46.5 28,61 1,46.5 1,15.5' fill='none' stroke='%23FF006E' stroke-opacity='0.10' stroke-width='1.5'/%3E%3Cpolygon points='28,49 55,63.5 55,94.5 28,109 1,94.5 1,63.5' fill='none' stroke='%23FF006E' stroke-opacity='0.10' stroke-width='1.5'/%3E%3C/svg%3E"),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='97'%3E%3Cpolygon points='28,1 55,15.5 55,46.5 28,61 1,46.5 1,15.5' fill='none' stroke='%2300F5FF' stroke-opacity='0.055' stroke-width='1.5'/%3E%3Cpolygon points='28,49 55,63.5 55,94.5 28,109 1,94.5 1,63.5' fill='none' stroke='%2300F5FF' stroke-opacity='0.055' stroke-width='1.5'/%3E%3C/svg%3E") !important;
-  background-size: 56px 97px, 56px 97px !important;
-  background-position: 0 0, 28px 48px !important;
-  background-repeat: repeat !important;
+  background-image: none !important;
 }
 /* Keep halftone ::after, clear conflicts */
 .section-skills::after {
@@ -2656,7 +2660,9 @@ body::before {
   text-shadow: 7px 7px 0 #000, -3px -3px 0 rgba(0,245,255,0.50) !important;
 }
 .loader-bar-wrap {
-  border: 3px solid #000 !important;
+  /* Use outline so border-box doesn't crush the 3px content height */
+  outline: 3px solid #000 !important;
+  outline-offset: 2px !important;
   box-shadow: 5px 5px 0 #000 !important;
 }
 

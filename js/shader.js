@@ -1,15 +1,21 @@
 /**
- * shader.js — Neon Metaball Plasma (index.html background)
+ * shader.js — Neon Metaball Plasma × Spider-Verse (index.html background)
  *
  * GPU-rendered GLSL fragment shader. Replaces the CSS .bg element entirely.
  *
  * What it does:
- *   • Five autonomously orbiting metaballs in neon palette
+ *   • Six autonomously orbiting metaballs in neon palette
  *   • One large mouse-controlled blob that follows the cursor
  *   • Rim lighting on metaball surfaces  (very bright neon edges)
  *   • Vortex spiral underlayer that pulses with time
  *   • mix-blend-mode:difference on .stage makes ALL marquee text
  *     colours INVERT in real-time wherever a metaball drifts behind them
+ *
+ * Spider-Verse enhancements (NEW):
+ *   • Ben-Day halftone dots — comic printing signature (two frequencies)
+ *   • Speed lines radiating from mouse — Spider-Man action burst
+ *   • Cel-shading quantization — comic book posterize
+ *   • Ink edge detection via dFdx/dFdy — harsh comic outlines on metaballs
  */
 (function () {
   'use strict';
@@ -26,13 +32,17 @@
 
   if (!gl) { canvas.remove(); return; }
 
+  /* Request OES_standard_derivatives for ink edge dFdx/dFdy */
+  const hasDerivatives = !!gl.getExtension('OES_standard_derivatives');
+
   /* ── GLSL ─────────────────────────────────────────────────── */
   const VERT = `
     attribute vec2 a_pos;
     void main() { gl_Position = vec4(a_pos, 0.0, 1.0); }
   `;
 
-  const FRAG = `
+  /* #extension must be the very first line of the fragment source */
+  const FRAG = (hasDerivatives ? `#extension GL_OES_standard_derivatives : enable\n` : ``) + `
     precision mediump float;
 
     uniform float u_time;
@@ -41,7 +51,7 @@
 
     #define TAU 6.28318530718
 
-    /* Cosine colour palette — shifted to purple/cyan/teal dominant, less pink */
+    /* ── Spider-Verse neon comics palette ── */
     vec3 palette(float t) {
       vec3 a = vec3(0.22, 0.18, 0.32);
       vec3 b = vec3(0.20, 0.16, 0.26);
@@ -50,7 +60,33 @@
       return a + b * cos(TAU * (c * t + d));
     }
 
-    /* Classic smooth metaball potential */
+    /* ── Ben-Day halftone dot — signature Spider-Verse / comics printing ──
+       val 0..1 controls dot radius inside the cell.
+       Returns 1.0 inside the dot, 0.0 outside (with soft anti-alias edge).  */
+    float benDay(vec2 uv, float freq, float val) {
+      vec2 cell = fract(uv * freq) - 0.5;
+      float r = clamp(val * 0.72, 0.0, 0.49);
+      return 1.0 - smoothstep(r - 0.015, r + 0.015, length(cell));
+    }
+
+    /* ── Speed lines — Spider-Man radial action burst from focal point ── */
+    float speedLines(vec2 uv, vec2 origin, float time) {
+      vec2 d = uv - origin;
+      float ang  = atan(d.y, d.x);
+      float dist = length(d);
+      /* 24 radiating spokes, slowly rotating */
+      float spokes = pow(max(0.0, sin(ang * 24.0 + time * 0.28)), 16.0);
+      /* Strong near origin, fading at edge */
+      float fade = smoothstep(1.5, 0.05, dist) * smoothstep(0.0, 0.08, dist);
+      return spokes * fade;
+    }
+
+    /* ── Cel-shade quantize — posterize to N flat tones ── */
+    vec3 cel(vec3 c, float n) {
+      return floor(c * n + 0.5) / n;
+    }
+
+    /* ── Classic smooth metaball potential ── */
     float ball(vec2 p, vec2 c, float r) {
       vec2 d = p - c;
       return (r * r) / (dot(d, d) + 0.001);
@@ -91,30 +127,58 @@
       f += vort;
 
       /* ── Isosurface layers ───────────────────────────────── */
-      /* Dark interstitial space: f < 1.5                       */
-      /* Soft outer glow:         f 0.8 – 2.0                   */
-      /* Bright rim:              f 2.0 – 3.2  (neon edge)      */
-      /* Interior fill:           f > 3.2                        */
-
       float inside = smoothstep(2.8, 4.2, f);
       float rim    = smoothstep(1.8, 2.8, f) * (1.0 - inside);
       float glow   = exp(-max(0.0, 1.8 - f) * 2.8)
                      * (1.0 - rim - inside * 0.6);
 
-      /* Base: near-black deep-purple void */
+      /* ── Base colour: near-black deep-purple void ── */
       vec3 col = vec3(0.022, 0.0, 0.055);
 
-      /* Interior: restrained neon fill (~18 % brightness) */
       col += palette(f * 0.13 + t * 0.045) * inside * 0.18;
-
-      /* Rim: visible but not blinding neon edge */
-      col += (palette(f * 0.22 + t * 0.065) * 0.55 + vec3(0.10))
-             * rim * 0.50;
-
-      /* Outer glow — very subtle */
+      col += (palette(f * 0.22 + t * 0.065) * 0.55 + vec3(0.10)) * rim * 0.50;
       col += palette(f * 0.10 + t * 0.030) * glow * 0.14;
 
-      /* Vignette — fade to black toward corners */
+      /* ════════════════════════════════════════════════════════
+         SPIDER-VERSE ENHANCEMENTS
+         ════════════════════════════════════════════════════════ */
+
+      /* 1. Ben-Day halftone dots — replace smooth gradients with
+            comic-printing dot patterns (two frequencies: coarse + fine) */
+      float lum     = dot(col, vec3(0.299, 0.587, 0.114));
+      float dotVal  = lum * 2.6;
+      float dots_bg = benDay(uv, 11.0, dotVal * 0.65);   /* coarse 11/unit */
+      float dots_fg = benDay(uv, 23.0, dotVal * 0.45);   /* fine   23/unit */
+      float dotMask = smoothstep(0.03, 0.22, lum);
+      /* In lit areas: half-tone replaces smooth colour */
+      col = mix(col, col * (0.38 + dots_bg * 0.82), dotMask * 0.50);
+      col = mix(col, col * (0.65 + dots_fg * 0.52), dotMask * 0.28);
+
+      /* 2. Speed lines from mouse — radial spokes, cycling cyan ↔ pink */
+      float sl      = speedLines(uv, mu, u_time);
+      float slSwap  = sin(u_time * 0.5) * 0.5 + 0.5;
+      vec3  slCol   = mix(
+        vec3(0.0, 0.96, 1.0),    /* vivid cyan  */
+        vec3(1.0, 0.0,  0.43),   /* hot pink    */
+        slSwap
+      );
+      col += slCol * sl * 0.30;
+
+      /* 3. Cel-shading — quantize to 4 tones for painterly comic look */
+      vec3 celCol = cel(col, 4.0);
+      col = mix(col, celCol, 0.28);
+
+      /* 4. Ink edge detection — dFdx/dFdy detect sharp metaball boundaries
+            and darken them, producing harsh ink outlines like comic panels.
+            Requires OES_standard_derivatives (guarded by preprocessor). */
+      #ifdef GL_OES_standard_derivatives
+      float dfx     = abs(dFdx(f));
+      float dfy     = abs(dFdy(f));
+      float inkEdge = smoothstep(0.25, 2.2, (dfx + dfy) * 18.0);
+      col *= (1.0 - inkEdge * 0.68);
+      #endif
+
+      /* ── Vignette — fade to black toward corners ── */
       float vign = 1.0 - smoothstep(0.65, 1.50, rad);
       col *= vign * 0.55 + 0.45;
 
