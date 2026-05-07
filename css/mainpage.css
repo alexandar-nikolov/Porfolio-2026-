@@ -2240,26 +2240,39 @@ body::before {
     0 0 60px rgba(var(--bb-accent, 255,0,110), 0.25) !important;
 }
 
-/* ── About photo: angular comic-panel frame ───────────────────── */
+/* ── About photo: angular comic-panel frame (z-index fix) ────── */
+.about-img-ring {
+  border-radius: 0 !important;
+}
 .about-img-ring::before,
 .about-img-ring::after {
   border-radius: 0 !important;
   animation: none !important;
 }
+/* Pink offset panel behind image — the shadow/depth layer */
 .about-img-ring::before {
   border: 4px solid var(--hot-pink) !important;
-  box-shadow: 5px 5px 0 #000 !important;
-  transform: rotate(3deg);
+  box-shadow: 8px 8px 0 #000 !important;
+  transform: rotate(4deg) !important;
+  z-index: 0 !important;
+  inset: -6px !important;
 }
+/* Cyan border frame ON TOP of the image (visible overlay) */
 .about-img-ring::after {
-  border: 3px solid var(--vivid-cyan) !important;
-  box-shadow: -4px -4px 0 #000 !important;
-  transform: rotate(-3deg);
+  border: 4px solid var(--vivid-cyan) !important;
+  box-shadow: none !important;
+  transform: none !important;
+  z-index: 2 !important;
+  inset: 0 !important;
+  pointer-events: none;
 }
 .about-img-ring img {
   border-radius: 0 !important;
-  clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
-  border: 3px solid #000 !important;
+  width: 100% !important; height: 100% !important;
+  object-fit: cover !important;
+  clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px)) !important;
+  z-index: 1 !important;
+  border: none !important;
   box-shadow: 4px 4px 0 #000 !important;
 }
 
@@ -2428,5 +2441,126 @@ body::before {
 @media (max-width: 900px) {
   .tcard:nth-child(odd),
   .tcard:nth-child(even) { transform: none; }
-  .section-title { filter: none; }
+  .section-title { filter: none; animation: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SPIDER-VERSE EXTENDED  — "Animated on Twos" + Hex Grid + Portals
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── "Animated on Twos": stepped chromatic glitch on headings ──
+   Mimics 12fps hand-drawn animation — values snap, never interpolate */
+@keyframes spiderChroma {
+  0%,  86% {
+    filter:
+      drop-shadow(-3px -2px 0 rgba(0,245,255,0.35))
+      drop-shadow( 3px  2px 0 rgba(255,0,110,0.30));
+  }
+  87% {
+    filter:
+      drop-shadow(-8px -3px 0 rgba(0,245,255,0.80))
+      drop-shadow( 9px  3px 0 rgba(255,0,110,0.80));
+  }
+  89% {
+    filter:
+      drop-shadow(-1px  0px 0 rgba(0,245,255,0.12))
+      drop-shadow( 2px  1px 0 rgba(255,0,110,0.12));
+  }
+  91% {
+    filter:
+      drop-shadow(-6px -2px 0 rgba(0,245,255,0.65))
+      drop-shadow( 7px  2px 0 rgba(255,0,110,0.60));
+  }
+  93%, 100% {
+    filter:
+      drop-shadow(-3px -2px 0 rgba(0,245,255,0.35))
+      drop-shadow( 3px  2px 0 rgba(255,0,110,0.30));
+  }
+}
+.section-title {
+  animation: spiderChroma 9s step-start infinite;
+}
+
+/* ── Hexagonal grid on skills section (comic-book panel texture) */
+.section-skills {
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='97'%3E%3Cpolygon points='28,1 55,15.5 55,46.5 28,61 1,46.5 1,15.5' fill='none' stroke='%23FF006E' stroke-opacity='0.07' stroke-width='1.2'/%3E%3Cpolygon points='28,49 55,63.5 55,94.5 28,109 1,94.5 1,63.5' fill='none' stroke='%23FF006E' stroke-opacity='0.07' stroke-width='1.2'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='97'%3E%3Cpolygon points='28,1 55,15.5 55,46.5 28,61 1,46.5 1,15.5' fill='none' stroke='%23FF006E' stroke-opacity='0.07' stroke-width='1.2'/%3E%3Cpolygon points='28,49 55,63.5 55,94.5 28,109 1,94.5 1,63.5' fill='none' stroke='%23FF006E' stroke-opacity='0.07' stroke-width='1.2'/%3E%3C/svg%3E");
+  background-size: 56px 97px, 56px 97px;
+  background-position: 0 0, 28px 48px;
+  background-repeat: repeat;
+}
+
+/* ── Spot portal / ink-splat decorative rings at section seams ─ */
+.section-projects::before {
+  content: '';
+  position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(circle at 4% 12%, rgba(255,0,110,0.10) 0%, rgba(255,0,110,0) 18%),
+    radial-gradient(circle at 96% 88%, rgba(0,245,255,0.08) 0%, rgba(0,245,255,0) 16%),
+    radial-gradient(ellipse 70% 45% at 50% 15%, rgba(138,255,42,0.04) 0%, transparent 65%);
+}
+
+/* Spot portal rings — concentric white-glow ink circles */
+@keyframes portalPulse {
+  0%   { opacity: 0.18; transform: scale(1); }
+  50%  { opacity: 0.32; transform: scale(1.06); }
+  100% { opacity: 0.18; transform: scale(1); }
+}
+.section-skills::after {
+  /* Keep existing halftone dots, add hex grid via background on .section-skills above */
+  content: '' !important;
+}
+/* Spot portal ink-ring on section-about corner */
+.section-about::before {
+  background:
+    radial-gradient(circle at 96% 8%, rgba(255,190,11,0.12) 0%, rgba(255,190,11,0) 20%),
+    radial-gradient(circle at 3% 92%, rgba(106,0,255,0.10) 0%, rgba(106,0,255,0) 18%),
+    radial-gradient(ellipse 70% 60% at 15% 50%, rgba(106,0,255,0.18) 0%, transparent 100%),
+    radial-gradient(ellipse 50% 40% at 85% 60%, rgba(255,0,110,0.10) 0%, transparent 100%) !important;
+}
+
+/* ── "Trapper Keeper" / 80s angled panel for section headers ── */
+.section-header {
+  position: relative;
+}
+.section-header::before {
+  content: '';
+  position: absolute;
+  left: -80px; top: 50%; bottom: -20px;
+  width: 4px;
+  background: var(--hot-pink);
+  box-shadow: 3px 0 0 #000;
+  clip-path: polygon(0 0, 100% 8px, 100% 100%, 0 calc(100% - 8px));
+}
+
+/* ── Chromatic hover on billboard open button ──────────────────── */
+.bb-open-btn {
+  transition: transform 0.15s step-start, box-shadow 0.15s step-start !important;
+}
+.bb-open-btn:hover {
+  transform: translate(-3px, -3px) !important;
+  box-shadow: 5px 5px 0 #000 !important;
+  filter: drop-shadow(2px 0 0 rgba(0,245,255,0.5)) drop-shadow(-2px 0 0 rgba(255,0,110,0.5));
+}
+
+/* ── "Step-start" transitions on interactive elements (on-twos feel) */
+.billboard {
+  transition:
+    transform 0.25s cubic-bezier(.34,1.56,.64,1),
+    opacity 0.2s step-start,
+    filter 0.2s step-start !important;
+}
+.filter-btn {
+  transition:
+    background 0.1s step-start,
+    border-color 0.1s step-start,
+    color 0.1s step-start,
+    transform 0.2s cubic-bezier(.34,1.56,.64,1),
+    box-shadow 0.1s step-start !important;
+}
+
+/* ── "Torn paper" angled section separator lines ──────────────── */
+.section-marquee:first-of-type {
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 4px), 97% 100%, 0 100%);
 }
