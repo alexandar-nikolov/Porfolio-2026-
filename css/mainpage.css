@@ -2144,103 +2144,292 @@ section {
   .fbi-case-tech { display: none; }
 }
 
+
 /* ═══════════════════════════════════════════════════════════════
-   SPIDER-VERSE  ×  ACROSS THE MULTIVERSE
-   Full-site comic-book language:
-   Ben-Day halftone · Hard ink shadows · Thick borders · Chroma split
+   SPIDER-VERSE  ×  ACROSS THE MULTIVERSE  —  FULL COMIC OVERDRIVE
+   Every surface: Ben-Day halftone · ink borders · hard flat shadow
+   chroma split · on-twos snap · Spot portals · Shibuya neon
    ═══════════════════════════════════════════════════════════════ */
 
-/* ── Global halftone dot overlay (body-level Ben-Day) ─────────── */
-body::before {
-  content: '';
-  position: fixed; inset: 0; z-index: 0; pointer-events: none;
-  background-image: radial-gradient(circle, rgba(255,255,255,0.016) 1.2px, transparent 1.2px);
-  background-size: 16px 16px;
+/* ── Design shorthand tokens ─────────────────────────────────── */
+:root {
+  --ink:            #000000;
+  --hard-shadow:    6px 6px 0 #000;
+  --hard-shadow-sm: 4px 4px 0 #000;
+  --hard-shadow-lg: 10px 10px 0 #000;
 }
 
-/* ── Nav: thick comic-panel header ───────────────────────────── */
+/* ────────────────────────────────────────────────────────────────
+   BEN-DAY HALFTONE — vivid pink + cyan alternating dot grid
+   ──────────────────────────────────────────────────────────────── */
+.grid-bg {
+  background-image:
+    radial-gradient(circle, rgba(255,0,110,0.10) 1.4px, transparent 1.4px) !important;
+  background-size: 24px 24px !important;
+  animation: halftoneShift 90s linear infinite !important;
+}
+@keyframes halftoneShift {
+  from { background-position: 0 0; }
+  to   { background-position: 24px 24px; }
+}
+
+/* Replace noise overlay with two-color Ben-Day dots */
+body::before {
+  background-image:
+    radial-gradient(circle, rgba(255,0,110,0.08) 1.3px, transparent 1.3px),
+    radial-gradient(circle, rgba(0,245,255,0.055) 1.3px, transparent 1.3px) !important;
+  background-size: 22px 22px, 22px 22px !important;
+  background-position: 0 0, 11px 11px !important;
+  z-index: 9997 !important;
+  opacity: 1 !important;
+  mix-blend-mode: normal !important;
+}
+
+/* ────────────────────────────────────────────────────────────────
+   NAV — solid comic-panel header, no blur glass
+   ──────────────────────────────────────────────────────────────── */
 .topnav {
-  border-bottom: 3px solid var(--hot-pink) !important;
-  box-shadow: 0 4px 0 #000 !important;
+  background: rgba(4,0,10,0.97) !important;
+  border-bottom: 5px solid var(--hot-pink) !important;
+  box-shadow: 0 6px 0 #000 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 .topnav.scrolled {
-  box-shadow: 0 4px 0 #000, 0 8px 30px rgba(255,0,110,0.18) !important;
+  background: #04000a !important;
+  box-shadow: 0 6px 0 #000, 0 10px 0 rgba(255,0,110,0.18) !important;
+}
+.topnav-logo {
+  color: var(--hot-pink) !important;
+  -webkit-text-stroke: 0 !important;
+  font-size: 2rem !important;
+  text-shadow:
+    3px 3px 0 #000,
+    -1px -1px 0 rgba(0,245,255,0.55) !important;
+  transition: text-shadow 0.12s step-start !important;
+}
+.topnav-logo span {
+  color: var(--electric-yellow) !important;
+  text-shadow: 2px 2px 0 #000 !important;
+}
+.topnav-logo:hover {
+  text-shadow:
+    4px 4px 0 #000,
+    -2px -2px 0 rgba(255,190,11,0.75) !important;
+}
+.tnav-link {
+  color: rgba(255,255,255,0.52) !important;
+  font-size: 0.70rem !important;
+  letter-spacing: 0.38em !important;
+}
+.tnav-link.active {
+  color: var(--hot-pink) !important;
+  text-shadow: 2px 2px 0 #000 !important;
+}
+.tnav-link:hover {
+  color: var(--electric-yellow) !important;
+  text-shadow: 2px 2px 0 #000 !important;
 }
 .tnav-link::after {
   height: 3px !important;
+  background: var(--electric-yellow) !important;
   box-shadow: none !important;
-  background: var(--hot-pink) !important;
 }
-.tnav-link.active,
-.tnav-link:hover { text-shadow: 2px 2px 0 #000; }
 
-/* ── CTA button: hard ink-offset print shadow ─────────────────── */
+/* ────────────────────────────────────────────────────────────────
+   CTA BUTTON — flat ink-offset print button, on-twos snap
+   ──────────────────────────────────────────────────────────────── */
 .cta-btn {
   border: 3px solid #000 !important;
-  box-shadow: 5px 5px 0 #000 !important;
+  box-shadow: 6px 6px 0 #000 !important;
+  letter-spacing: 0.4em !important;
+  transition: transform 0.1s step-start, box-shadow 0.1s step-start, background 0.1s step-start !important;
   animation: glowPulse 2.5s ease-in-out infinite, reveal-up 0.8s 1.02s cubic-bezier(0.16,1,0.3,1) both !important;
 }
 .cta-btn:hover {
-  transform: translate(-3px, -3px) scale(1) !important;
-  box-shadow: 8px 8px 0 #000 !important;
+  transform: translate(-4px,-4px) !important;
+  box-shadow: 10px 10px 0 #000 !important;
+  background: var(--electric-yellow) !important;
+  color: #000 !important;
+  filter: drop-shadow(3px 0 0 rgba(255,0,110,0.5)) !important;
 }
 
-/* ── Section titles: chromatic aberration split ───────────────── */
+/* ────────────────────────────────────────────────────────────────
+   HERO SECTION — ink frame upgrades
+   ──────────────────────────────────────────────────────────────── */
+.hero-bg-word {
+  opacity: 0.07 !important;
+  -webkit-text-stroke-width: 2px !important;
+  -webkit-text-stroke-color: rgba(255,0,110,0.22) !important;
+}
+.hero-name .name-line {
+  text-shadow: 5px 5px 0 #000 !important;
+}
+.hero-name .name-line.stroke {
+  -webkit-text-stroke: 4px var(--hot-pink) !important;
+  filter: url(#hero-chroma) drop-shadow(5px 5px 0 #000) !important;
+}
+.hero-role {
+  color: var(--electric-yellow) !important;
+  text-shadow: 3px 3px 0 #000 !important;
+  letter-spacing: 0.28em !important;
+}
+.hero-greeting {
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.8) !important;
+}
+.img-frame img {
+  border: 4px solid #000 !important;
+  box-shadow: 8px 8px 0 #000 !important;
+  filter: saturate(0.88) contrast(1.18) !important;
+}
+.img-corner {
+  width: 30px !important;
+  height: 30px !important;
+  border-width: 5px !important;
+}
+.img-tag {
+  border-width: 2px !important;
+  box-shadow: none !important;
+  font-size: 0.58rem !important;
+  text-shadow: 1px 1px 0 #000 !important;
+  transition: transform 0.1s step-start, box-shadow 0.1s step-start !important;
+}
+.img-tag:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 4px 4px 0 #000 !important;
+}
+
+/* ────────────────────────────────────────────────────────────────
+   SECTION TITLES — "Animated on Twos" chroma split
+   ──────────────────────────────────────────────────────────────── */
+@keyframes spiderChroma {
+  0%,  83% {
+    filter:
+      drop-shadow(-4px -2px 0 rgba(0,245,255,0.42))
+      drop-shadow( 4px  2px 0 rgba(255,0,110,0.37));
+  }
+  84% {
+    filter:
+      drop-shadow(-11px -4px 0 rgba(0,245,255,0.95))
+      drop-shadow(  12px  4px 0 rgba(255,0,110,0.95))
+      drop-shadow(   0px  0px 4px rgba(255,190,11,0.55));
+  }
+  86% {
+    filter:
+      drop-shadow(-1px  0px 0 rgba(0,245,255,0.12))
+      drop-shadow( 2px  1px 0 rgba(255,0,110,0.12));
+  }
+  88% {
+    filter:
+      drop-shadow(-8px -3px 0 rgba(0,245,255,0.78))
+      drop-shadow(  9px  3px 0 rgba(255,0,110,0.73));
+  }
+  90%, 100% {
+    filter:
+      drop-shadow(-4px -2px 0 rgba(0,245,255,0.42))
+      drop-shadow( 4px  2px 0 rgba(255,0,110,0.37));
+  }
+}
 .section-title {
-  filter:
-    drop-shadow(-3px -2px 0 rgba(0,245,255,0.35))
-    drop-shadow( 3px  2px 0 rgba(255,0,110,0.3));
+  animation: spiderChroma 7s step-start infinite !important;
+  -webkit-text-stroke: 2.5px rgba(255,255,255,0.90) !important;
+  letter-spacing: -0.01em !important;
+  line-height: 0.85 !important;
 }
 .section-title span {
-  filter: drop-shadow(2px 2px 0 #000);
-}
-
-/* ── Section number labels: bolder ───────────────────────────── */
-.section-number {
-  font-size: 0.8rem !important;
-  letter-spacing: 0.55em !important;
   color: var(--hot-pink) !important;
-  text-shadow: 2px 2px 0 #000;
+  -webkit-text-stroke-color: var(--hot-pink) !important;
+  filter: drop-shadow(3px 3px 0 #000) drop-shadow(-1px -1px 0 rgba(255,190,11,0.35)) !important;
+}
+.section-number {
+  font-size: 0.80rem !important;
+  letter-spacing: 0.60em !important;
+  color: var(--hot-pink) !important;
+  text-shadow: 2px 2px 0 #000 !important;
 }
 
-/* ── Section dividers: ink panel border ───────────────────────── */
+/* ────────────────────────────────────────────────────────────────
+   SECTION PANELS — thick comic-book panel borders
+   ──────────────────────────────────────────────────────────────── */
+.section-projects,
 .section-skills,
 .section-about,
 .section-testimonials {
-  border-top: 3px solid #000 !important;
-}
-.section-projects {
-  border-top: 3px solid #000 !important;
-  border-bottom: 3px solid #000 !important;
+  border-top: 5px solid #000 !important;
+  border-bottom: 5px solid #000 !important;
+  box-shadow: 0 6px 0 var(--hot-pink), 0 -6px 0 var(--hot-pink) !important;
 }
 
-/* Per-section halftone mood overlay (on top of existing gradient) */
+/* Per-section halftone mood overlay */
 .section-projects::after,
 .section-skills::after,
 .section-about::after,
 .section-testimonials::after {
-  content: '';
-  position: absolute; inset: 0; z-index: 0; pointer-events: none;
-  background-image: radial-gradient(circle, rgba(255,255,255,0.018) 1.5px, transparent 1.5px);
-  background-size: 18px 18px;
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.022) 1.5px, transparent 1.5px) !important;
+  background-size: 18px 18px !important;
 }
 
-/* ── Billboard frames: even thicker Spider-Verse outline ─────── */
+/* ────────────────────────────────────────────────────────────────
+   SECTION HEADER — hot pink / cyan / yellow gradient left stripe
+   ──────────────────────────────────────────────────────────────── */
+.section-header {
+  position: relative !important;
+  padding-left: 22px !important;
+}
+.section-header::before {
+  content: '' !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  width: 6px !important;
+  background: linear-gradient(180deg,
+    var(--hot-pink) 0%,
+    var(--vivid-cyan) 50%,
+    var(--electric-yellow) 100%) !important;
+  box-shadow: 3px 0 0 #000 !important;
+  clip-path: polygon(0 0, 100% 4px, 100% 100%, 0 calc(100% - 4px)) !important;
+}
+
+/* ────────────────────────────────────────────────────────────────
+   BILLBOARD FRAMES — neon ink border, flat pop shadow
+   ──────────────────────────────────────────────────────────────── */
 .bb-outer-frame {
   border-width: 5px !important;
   box-shadow:
     8px 8px 0 #000,
-    0 0 0 2px #000,
-    0 0 50px rgba(255,0,110,0.12) !important;
+    0 0 0 2px #000 !important;
 }
 .bb-outer-frame:hover {
   box-shadow:
-    10px 10px 0 #000,
+    12px 12px 0 #000,
     0 0 0 2px #000,
-    0 0 60px rgba(var(--bb-accent, 255,0,110), 0.25) !important;
+    0 0 40px rgba(255,0,110,0.30) !important;
+  transform: translate(-2px,-2px) !important;
+}
+.bb-open-btn {
+  transition: transform 0.1s step-start, box-shadow 0.1s step-start !important;
+}
+.bb-open-btn:hover {
+  transform: translate(-4px,-4px) !important;
+  box-shadow: 6px 6px 0 #000 !important;
+  filter: drop-shadow(3px 0 0 rgba(0,245,255,0.65)) drop-shadow(-3px 0 0 rgba(255,0,110,0.65)) !important;
+}
+.billboard {
+  transition:
+    transform 0.25s cubic-bezier(0.34,1.56,0.64,1),
+    opacity 0.15s step-start,
+    filter 0.15s step-start !important;
 }
 
-/* ── About photo: angular comic-panel frame (z-index fix) ────── */
+/* ────────────────────────────────────────────────────────────────
+   ABOUT IMAGE — angular comic-panel frame (z-index fix kept)
+   ──────────────────────────────────────────────────────────────── */
 .about-img-ring {
   border-radius: 0 !important;
 }
@@ -2249,79 +2438,107 @@ body::before {
   border-radius: 0 !important;
   animation: none !important;
 }
-/* Pink offset panel behind image — the shadow/depth layer */
+/* Hot-pink depth panel: sits behind the photo */
 .about-img-ring::before {
-  border: 4px solid var(--hot-pink) !important;
-  box-shadow: 8px 8px 0 #000 !important;
-  transform: rotate(4deg) !important;
+  border: 5px solid var(--hot-pink) !important;
+  box-shadow: 10px 10px 0 #000 !important;
+  transform: rotate(5deg) !important;
   z-index: 0 !important;
-  inset: -6px !important;
+  inset: -8px !important;
+  background: rgba(255,0,110,0.05) !important;
 }
-/* Cyan border frame ON TOP of the image (visible overlay) */
+/* Cyan overlay border: sits ON TOP of the photo */
 .about-img-ring::after {
   border: 4px solid var(--vivid-cyan) !important;
   box-shadow: none !important;
   transform: none !important;
   z-index: 2 !important;
   inset: 0 !important;
-  pointer-events: none;
+  pointer-events: none !important;
+  background: transparent !important;
 }
 .about-img-ring img {
   border-radius: 0 !important;
-  width: 100% !important; height: 100% !important;
+  width: 100% !important;
+  height: 100% !important;
   object-fit: cover !important;
-  clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px)) !important;
+  clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 22px 100%, 0 calc(100% - 22px)) !important;
   z-index: 1 !important;
   border: none !important;
-  box-shadow: 4px 4px 0 #000 !important;
+  box-shadow: 5px 5px 0 #000 !important;
+  filter: saturate(0.9) contrast(1.15) !important;
 }
 
-/* ── About stat strip: bolder numbers ────────────────────────── */
+/* ── About stats strip ───────────────────────────────────────── */
 .about-stat-n {
-  text-shadow: 3px 3px 0 #000 !important;
+  text-shadow: 4px 4px 0 #000, -2px -2px 0 rgba(0,245,255,0.30) !important;
 }
 .about-stats {
-  border-top: 2px solid rgba(255,0,110,0.4) !important;
-  border-bottom: 2px solid rgba(255,0,110,0.4) !important;
+  border-top: 3px solid var(--hot-pink) !important;
+  border-bottom: 3px solid var(--hot-pink) !important;
+  background: rgba(255,0,110,0.04) !important;
 }
-.about-stat { border-right-width: 2px !important; }
+.about-stat {
+  border-right-color: rgba(255,0,110,0.35) !important;
+  border-right-width: 2px !important;
+}
 
-/* ── Skill tags: thick border + hard shadow ───────────────────── */
+/* ────────────────────────────────────────────────────────────────
+   SKILL TAGS — heavy ink chip
+   ──────────────────────────────────────────────────────────────── */
 .skill-tags span {
   border-width: 2px !important;
-  text-shadow: 1px 1px 0 #000;
-  box-shadow: 3px 3px 0 rgba(0,245,255,0.25) !important;
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.85) !important;
+  box-shadow: 4px 4px 0 rgba(0,245,255,0.22) !important;
+  transition: all 0.1s step-start !important;
 }
 .skill-tags span:hover {
-  box-shadow: 4px 4px 0 #000 !important;
-  transform: translate(-2px, -2px) !important;
+  box-shadow: 5px 5px 0 #000 !important;
+  transform: translate(-3px,-3px) !important;
+  filter: drop-shadow(2px 0 0 rgba(255,0,110,0.55)) !important;
 }
 
-/* ── Skills section: ft-items get panel borders ──────────────── */
+/* ────────────────────────────────────────────────────────────────
+   SKILLS SECTION — hexagonal Ben-Day grid texture
+   ──────────────────────────────────────────────────────────────── */
+.section-skills {
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='97'%3E%3Cpolygon points='28,1 55,15.5 55,46.5 28,61 1,46.5 1,15.5' fill='none' stroke='%23FF006E' stroke-opacity='0.10' stroke-width='1.5'/%3E%3Cpolygon points='28,49 55,63.5 55,94.5 28,109 1,94.5 1,63.5' fill='none' stroke='%23FF006E' stroke-opacity='0.10' stroke-width='1.5'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='97'%3E%3Cpolygon points='28,1 55,15.5 55,46.5 28,61 1,46.5 1,15.5' fill='none' stroke='%2300F5FF' stroke-opacity='0.055' stroke-width='1.5'/%3E%3Cpolygon points='28,49 55,63.5 55,94.5 28,109 1,94.5 1,63.5' fill='none' stroke='%2300F5FF' stroke-opacity='0.055' stroke-width='1.5'/%3E%3C/svg%3E") !important;
+  background-size: 56px 97px, 56px 97px !important;
+  background-position: 0 0, 28px 48px !important;
+  background-repeat: repeat !important;
+}
+/* Keep halftone ::after, clear conflicts */
+.section-skills::after {
+  content: '' !important;
+}
 .ft-item.active .ft-icon-wrap {
-  filter: drop-shadow(3px 3px 0 #000);
+  filter: drop-shadow(4px 4px 0 #000) drop-shadow(-2px -2px 0 rgba(0,245,255,0.42)) !important;
 }
 .ft-title {
-  text-shadow: 4px 4px 0 #000, -2px -2px 0 rgba(0,245,255,0.3);
+  text-shadow: 5px 5px 0 #000, -2px -2px 0 rgba(0,245,255,0.38) !important;
 }
 
-/* ── Testimonial cards: hard comic speech panel ──────────────── */
+/* ────────────────────────────────────────────────────────────────
+   TESTIMONIAL CARDS — hand-tossed comic speech panels
+   ──────────────────────────────────────────────────────────────── */
 .tcard {
-  background: rgba(4,0,12,0.97) !important;
-  border: 3px solid var(--hot-pink) !important;
-  box-shadow: 6px 6px 0 #000 !important;
+  background: rgba(4,0,12,0.98) !important;
+  border: 4px solid var(--hot-pink) !important;
+  box-shadow: 8px 8px 0 #000 !important;
   clip-path: none !important;
-  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s, border-color 0.3s !important;
+  transition: transform 0.1s step-start, box-shadow 0.1s step-start, border-color 0.1s step-start !important;
 }
-.tcard:nth-child(odd)  { transform: rotate(-0.7deg); }
-.tcard:nth-child(even) { transform: rotate(0.5deg); }
+.tcard:nth-child(odd)  { transform: rotate(-1.1deg) !important; }
+.tcard:nth-child(even) { transform: rotate(0.9deg) !important; }
 .tcard:hover {
-  transform: rotate(0deg) translateY(-8px) !important;
-  box-shadow: 10px 10px 0 #000 !important;
+  transform: rotate(0deg) translateY(-10px) !important;
+  box-shadow: 12px 12px 0 #000 !important;
   border-color: var(--electric-yellow) !important;
 }
 .tcard-accent-line {
-  height: 4px !important;
+  height: 5px !important;
   background: var(--hot-pink) !important;
   box-shadow: none !important;
   transform: scaleX(1) !important;
@@ -2331,236 +2548,261 @@ body::before {
 }
 .tcard-quote-mark {
   color: var(--electric-yellow) !important;
-  opacity: 0.7 !important;
-  text-shadow: 3px 3px 0 #000 !important;
+  opacity: 0.88 !important;
+  text-shadow: 4px 4px 0 #000 !important;
 }
-.tcard-name { text-shadow: 1px 1px 0 #000; }
-.tcard-attr {
-  border-top: 2px solid rgba(255,0,110,0.3) !important;
-}
+.tcard-name { text-shadow: 2px 2px 0 #000 !important; }
+.tcard-attr { border-top: 3px solid rgba(255,0,110,0.40) !important; }
 .tcard-avatar {
   border-radius: 0 !important;
-  border-width: 2px !important;
-  box-shadow: 3px 3px 0 #000 !important;
+  border-width: 3px !important;
+  box-shadow: 4px 4px 0 #000 !important;
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px)) !important;
 }
 
-/* Recommendation cards: same comic treatment */
+/* Recommendation cards */
 .rec-card {
-  border: 2px solid rgba(255,0,110,0.5) !important;
-  box-shadow: 5px 5px 0 #000 !important;
+  border: 3px solid rgba(255,0,110,0.60) !important;
+  box-shadow: 6px 6px 0 #000 !important;
 }
 .rec-tag {
   border-width: 2px !important;
-  box-shadow: 2px 2px 0 rgba(0,245,255,0.2) !important;
+  box-shadow: 3px 3px 0 rgba(0,245,255,0.22) !important;
 }
 .rec-view-btn {
-  border-width: 2px !important;
-  box-shadow: 3px 3px 0 #000 !important;
+  border-width: 3px !important;
+  box-shadow: 4px 4px 0 #000 !important;
+  transition: all 0.1s step-start !important;
 }
 .rec-view-btn:hover {
-  transform: translate(-2px, -2px) !important;
-  box-shadow: 5px 5px 0 #000 !important;
-}
-
-/* ── Filter buttons: Spider-Verse action panel ────────────────── */
-.filter-btn {
-  border: 2px solid rgba(255,255,255,0.2) !important;
-  transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s, border-color 0.2s !important;
-}
-.filter-btn.active {
-  border-color: var(--hot-pink) !important;
-  box-shadow: 4px 4px 0 #000 !important;
-  text-shadow: 1px 1px 0 #000;
-}
-.filter-btn:hover:not(.active) {
-  transform: translate(-1px, -1px) !important;
-  box-shadow: 2px 2px 0 #000 !important;
-}
-
-/* ── FBI case panel: hard border upgrade ─────────────────────── */
-.fbi-case-panel {
-  border-width: 4px !important;
-  box-shadow: 10px 10px 0 #000, 0 0 80px rgba(255,0,110,0.2) !important;
-}
-.fbi-case-link {
-  box-shadow: 4px 4px 0 #000 !important;
-}
-.fbi-case-link:hover {
-  transform: translate(-3px, -3px) !important;
+  transform: translate(-3px,-3px) !important;
   box-shadow: 7px 7px 0 #000 !important;
 }
 
-/* ── Hero image frame: comic panel corners ────────────────────── */
-.img-frame img {
-  border: 3px solid #000 !important;
-  box-shadow: 6px 6px 0 #000 !important;
+/* ────────────────────────────────────────────────────────────────
+   FILTER BUTTONS — on-twos snap, hard ink treatment
+   ──────────────────────────────────────────────────────────────── */
+.filter-btn {
+  border: 2px solid rgba(255,255,255,0.25) !important;
+  transition: all 0.1s step-start !important;
+  letter-spacing: 0.30em !important;
 }
-.img-corner {
-  width: 28px !important; height: 28px !important;
-  border-width: 4px !important;
+.filter-btn.active {
+  border-color: var(--hot-pink) !important;
+  box-shadow: 5px 5px 0 #000 !important;
+  text-shadow: 1px 1px 0 #000 !important;
+  transform: translate(-2px,-2px) !important;
+}
+.filter-btn:hover:not(.active) {
+  transform: translate(-2px,-2px) !important;
+  box-shadow: 3px 3px 0 #000 !important;
+  border-color: rgba(255,190,11,0.65) !important;
+  color: var(--electric-yellow) !important;
 }
 
-/* ── Marquee tickers: bolder comic feel ───────────────────────── */
+/* ────────────────────────────────────────────────────────────────
+   FBI CASE PANEL
+   ──────────────────────────────────────────────────────────────── */
+.fbi-case-panel {
+  border-width: 5px !important;
+  box-shadow: 12px 12px 0 #000, 0 0 80px rgba(255,0,110,0.20) !important;
+}
+.fbi-case-link {
+  box-shadow: 5px 5px 0 #000 !important;
+  transition: all 0.1s step-start !important;
+}
+.fbi-case-link:hover {
+  transform: translate(-4px,-4px) !important;
+  box-shadow: 9px 9px 0 #000 !important;
+}
+
+/* ────────────────────────────────────────────────────────────────
+   MARQUEE TICKERS — vivid saturated comic strip
+   ──────────────────────────────────────────────────────────────── */
 .section-marquee {
-  border-top-width: 2px !important;
-  border-bottom-width: 2px !important;
-  border-color: rgba(255,0,110,0.5) !important;
-  box-shadow: 0 2px 0 #000, 0 -2px 0 #000;
+  border-top: 3px solid rgba(255,0,110,0.72) !important;
+  border-bottom: 3px solid rgba(255,0,110,0.72) !important;
+  box-shadow: 0 3px 0 #000, 0 -3px 0 #000 !important;
+  background: rgba(255,0,110,0.05) !important;
+}
+.section-marquee-inner {
+  color: rgba(255,255,255,0.58) !important;
 }
 .section-marquee-inner .bullet {
-  font-size: 1em;
-  text-shadow: 2px 2px 0 #000;
+  font-size: 1em !important;
+  text-shadow: 2px 2px 0 #000 !important;
+  color: var(--electric-yellow) !important;
 }
 
-/* ── Footer: comic strip ink border ──────────────────────────── */
+/* ────────────────────────────────────────────────────────────────
+   FOOTER — comic back-cover treatment
+   ──────────────────────────────────────────────────────────────── */
 .site-footer {
-  border-top: 4px solid var(--hot-pink) !important;
-  box-shadow: 0 -4px 0 #000 !important;
+  border-top: 6px solid var(--hot-pink) !important;
+  box-shadow: 0 -6px 0 #000 !important;
 }
 .footer-marquee {
-  border-bottom-width: 2px !important;
-  box-shadow: 0 2px 0 #000;
+  border-bottom-width: 3px !important;
+  box-shadow: 0 3px 0 #000 !important;
 }
 .footer-logo {
-  text-shadow: 3px 3px 0 #000;
+  text-shadow: 4px 4px 0 #000, -2px -2px 0 rgba(0,245,255,0.38) !important;
 }
 
-/* ── Loader: matching Spider-Verse treatment ──────────────────── */
+/* ────────────────────────────────────────────────────────────────
+   LOADER — full Spider-Verse opening card
+   ──────────────────────────────────────────────────────────────── */
 .loader-name {
-  text-shadow: 6px 6px 0 #000, -2px -2px 0 rgba(0,245,255,0.4) !important;
+  text-shadow: 7px 7px 0 #000, -3px -3px 0 rgba(0,245,255,0.50) !important;
 }
 .loader-bar-wrap {
-  border: 2px solid #000 !important;
-  box-shadow: 4px 4px 0 #000 !important;
+  border: 3px solid #000 !important;
+  box-shadow: 5px 5px 0 #000 !important;
 }
 
-/* ── Scroll indicator ─────────────────────────────────────────── */
-.scroll-line { box-shadow: 2px 0 0 #000; }
+/* ────────────────────────────────────────────────────────────────
+   SCROLL INDICATOR
+   ──────────────────────────────────────────────────────────────── */
+.scroll-line { box-shadow: 2px 0 0 #000 !important; }
 
-/* ── Responsive Spider-Verse adjustments ──────────────────────── */
-@media (max-width: 900px) {
-  .tcard:nth-child(odd),
-  .tcard:nth-child(even) { transform: none; }
-  .section-title { filter: none; animation: none; }
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   SPIDER-VERSE EXTENDED  — "Animated on Twos" + Hex Grid + Portals
-   ═══════════════════════════════════════════════════════════════ */
-
-/* ── "Animated on Twos": stepped chromatic glitch on headings ──
-   Mimics 12fps hand-drawn animation — values snap, never interpolate */
-@keyframes spiderChroma {
-  0%,  86% {
-    filter:
-      drop-shadow(-3px -2px 0 rgba(0,245,255,0.35))
-      drop-shadow( 3px  2px 0 rgba(255,0,110,0.30));
-  }
-  87% {
-    filter:
-      drop-shadow(-8px -3px 0 rgba(0,245,255,0.80))
-      drop-shadow( 9px  3px 0 rgba(255,0,110,0.80));
-  }
-  89% {
-    filter:
-      drop-shadow(-1px  0px 0 rgba(0,245,255,0.12))
-      drop-shadow( 2px  1px 0 rgba(255,0,110,0.12));
-  }
-  91% {
-    filter:
-      drop-shadow(-6px -2px 0 rgba(0,245,255,0.65))
-      drop-shadow( 7px  2px 0 rgba(255,0,110,0.60));
-  }
-  93%, 100% {
-    filter:
-      drop-shadow(-3px -2px 0 rgba(0,245,255,0.35))
-      drop-shadow( 3px  2px 0 rgba(255,0,110,0.30));
-  }
-}
-.section-title {
-  animation: spiderChroma 9s step-start infinite;
-}
-
-/* ── Hexagonal grid on skills section (comic-book panel texture) */
-.section-skills {
-  background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='97'%3E%3Cpolygon points='28,1 55,15.5 55,46.5 28,61 1,46.5 1,15.5' fill='none' stroke='%23FF006E' stroke-opacity='0.07' stroke-width='1.2'/%3E%3Cpolygon points='28,49 55,63.5 55,94.5 28,109 1,94.5 1,63.5' fill='none' stroke='%23FF006E' stroke-opacity='0.07' stroke-width='1.2'/%3E%3C/svg%3E"),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='97'%3E%3Cpolygon points='28,1 55,15.5 55,46.5 28,61 1,46.5 1,15.5' fill='none' stroke='%23FF006E' stroke-opacity='0.07' stroke-width='1.2'/%3E%3Cpolygon points='28,49 55,63.5 55,94.5 28,109 1,94.5 1,63.5' fill='none' stroke='%23FF006E' stroke-opacity='0.07' stroke-width='1.2'/%3E%3C/svg%3E");
-  background-size: 56px 97px, 56px 97px;
-  background-position: 0 0, 28px 48px;
-  background-repeat: repeat;
-}
-
-/* ── Spot portal / ink-splat decorative rings at section seams ─ */
+/* ────────────────────────────────────────────────────────────────
+   PROJECTS — Spot portal ambient at corners
+   ──────────────────────────────────────────────────────────────── */
 .section-projects::before {
-  content: '';
-  position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
   background:
-    radial-gradient(circle at 4% 12%, rgba(255,0,110,0.10) 0%, rgba(255,0,110,0) 18%),
-    radial-gradient(circle at 96% 88%, rgba(0,245,255,0.08) 0%, rgba(0,245,255,0) 16%),
-    radial-gradient(ellipse 70% 45% at 50% 15%, rgba(138,255,42,0.04) 0%, transparent 65%);
+    radial-gradient(circle at 3% 10%, rgba(255,0,110,0.14) 0%, transparent 22%),
+    radial-gradient(circle at 97% 90%, rgba(0,245,255,0.11) 0%, transparent 20%),
+    radial-gradient(ellipse 65% 40% at 50% 12%, rgba(138,255,42,0.05) 0%, transparent 60%) !important;
 }
 
-/* Spot portal rings — concentric white-glow ink circles */
-@keyframes portalPulse {
-  0%   { opacity: 0.18; transform: scale(1); }
-  50%  { opacity: 0.32; transform: scale(1.06); }
-  100% { opacity: 0.18; transform: scale(1); }
-}
-.section-skills::after {
-  /* Keep existing halftone dots, add hex grid via background on .section-skills above */
-  content: '' !important;
-}
-/* Spot portal ink-ring on section-about corner */
+/* ────────────────────────────────────────────────────────────────
+   ABOUT — multiverse portal ambient light
+   ──────────────────────────────────────────────────────────────── */
 .section-about::before {
   background:
-    radial-gradient(circle at 96% 8%, rgba(255,190,11,0.12) 0%, rgba(255,190,11,0) 20%),
-    radial-gradient(circle at 3% 92%, rgba(106,0,255,0.10) 0%, rgba(106,0,255,0) 18%),
+    radial-gradient(circle at 97% 6%, rgba(255,190,11,0.14) 0%, transparent 22%),
+    radial-gradient(circle at 2%  94%, rgba(106,0,255,0.12) 0%, transparent 20%),
     radial-gradient(ellipse 70% 60% at 15% 50%, rgba(106,0,255,0.18) 0%, transparent 100%),
     radial-gradient(ellipse 50% 40% at 85% 60%, rgba(255,0,110,0.10) 0%, transparent 100%) !important;
 }
 
-/* ── "Trapper Keeper" / 80s angled panel for section headers ── */
-.section-header {
-  position: relative;
-}
-.section-header::before {
-  content: '';
-  position: absolute;
-  left: -80px; top: 50%; bottom: -20px;
-  width: 4px;
-  background: var(--hot-pink);
-  box-shadow: 3px 0 0 #000;
-  clip-path: polygon(0 0, 100% 8px, 100% 100%, 0 calc(100% - 8px));
+/* ────────────────────────────────────────────────────────────────
+   PORTAL PULSE — Spot's ink-ring signature animation
+   ──────────────────────────────────────────────────────────────── */
+@keyframes portalPulse {
+  0%   { opacity: 0.22; transform: scale(1)    rotate(0deg); }
+  50%  { opacity: 0.40; transform: scale(1.08) rotate(180deg); }
+  100% { opacity: 0.22; transform: scale(1)    rotate(360deg); }
 }
 
-/* ── Chromatic hover on billboard open button ──────────────────── */
-.bb-open-btn {
-  transition: transform 0.15s step-start, box-shadow 0.15s step-start !important;
-}
-.bb-open-btn:hover {
-  transform: translate(-3px, -3px) !important;
-  box-shadow: 5px 5px 0 #000 !important;
-  filter: drop-shadow(2px 0 0 rgba(0,245,255,0.5)) drop-shadow(-2px 0 0 rgba(255,0,110,0.5));
-}
-
-/* ── "Step-start" transitions on interactive elements (on-twos feel) */
-.billboard {
-  transition:
-    transform 0.25s cubic-bezier(.34,1.56,.64,1),
-    opacity 0.2s step-start,
-    filter 0.2s step-start !important;
-}
-.filter-btn {
-  transition:
-    background 0.1s step-start,
-    border-color 0.1s step-start,
-    color 0.1s step-start,
-    transform 0.2s cubic-bezier(.34,1.56,.64,1),
-    box-shadow 0.1s step-start !important;
+/* ────────────────────────────────────────────────────────────────
+   SPEED LINES — radial comic action lines on hero
+   ──────────────────────────────────────────────────────────────── */
+.section-hero::before {
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 1 !important;
+  pointer-events: none !important;
+  background: repeating-conic-gradient(
+    from 0deg at 50% 50%,
+    rgba(255,0,110,0.028) 0deg 1.2deg,
+    transparent 1.2deg 6deg
+  ) !important;
 }
 
-/* ── "Torn paper" angled section separator lines ──────────────── */
-.section-marquee:first-of-type {
-  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 4px), 97% 100%, 0 100%);
+/* ────────────────────────────────────────────────────────────────
+   AMBIENT ORBS — boosted saturation for Spider-Verse pops
+   ──────────────────────────────────────────────────────────────── */
+.orb1 {
+  background: radial-gradient(circle, rgba(106,0,255,0.55) 0%, transparent 70%) !important;
+  opacity: 0.80 !important;
+}
+.orb2 {
+  background: radial-gradient(circle, rgba(255,0,110,0.45) 0%, transparent 70%) !important;
+  opacity: 0.75 !important;
+}
+.orb3 {
+  background: radial-gradient(circle, rgba(0,245,255,0.38) 0%, transparent 70%) !important;
+  opacity: 0.70 !important;
+}
+.orb4 {
+  background: radial-gradient(circle, rgba(255,190,11,0.30) 0%, transparent 70%) !important;
+  opacity: 0.65 !important;
+}
+
+/* ────────────────────────────────────────────────────────────────
+   GHOST BACKGROUND WORDS — more visible comic-book watermarks
+   ──────────────────────────────────────────────────────────────── */
+.section-bg-word {
+  -webkit-text-stroke: 1.5px rgba(255,0,110,0.18) !important;
+  opacity: 0.85 !important;
+}
+
+/* ────────────────────────────────────────────────────────────────
+   HERO GREETING — hand-scrawl with ink glow
+   ──────────────────────────────────────────────────────────────── */
+.hero-greeting {
+  font-size: clamp(0.95rem, 2vw, 1.45rem) !important;
+  color: var(--lime) !important;
+  text-shadow:
+    2px 2px 0 #000,
+    0 0 20px rgba(138,255,42,0.55) !important;
+  letter-spacing: 0.05em !important;
+}
+
+/* ────────────────────────────────────────────────────────────────
+   SECTION MARQUEE REVERSE — contrasting color for the bottom strip
+   ──────────────────────────────────────────────────────────────── */
+.section-marquee.reverse {
+  background: rgba(0,245,255,0.04) !important;
+  border-color: rgba(0,245,255,0.55) !important;
+}
+.reverse .section-marquee-inner,
+.reverse-inner {
+  color: rgba(255,255,255,0.45) !important;
+}
+
+/* ────────────────────────────────────────────────────────────────
+   GLYPH LAYER — boost pink scanner lines
+   ──────────────────────────────────────────────────────────────── */
+.glyph-line {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255,0,110,0.12) 30%,
+    rgba(255,0,110,0.20) 50%,
+    rgba(255,0,110,0.12) 70%,
+    transparent 100%
+  ) !important;
+}
+.glyph-seg {
+  background: linear-gradient(90deg, transparent, rgba(255,0,110,0.75), transparent) !important;
+  box-shadow: 0 0 8px rgba(255,0,110,0.45) !important;
+}
+
+/* ────────────────────────────────────────────────────────────────
+   RESPONSIVE — strip heavy effects on small screens
+   ──────────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .tcard:nth-child(odd),
+  .tcard:nth-child(even) { transform: none !important; }
+  .section-title { filter: none !important; animation: none !important; }
+  .section-header::before { display: none !important; }
+  .section-header { padding-left: 0 !important; }
+  body::before { background-size: 20px 20px, 20px 20px !important; }
+}
+@media (max-width: 600px) {
+  .bb-outer-frame { box-shadow: 5px 5px 0 #000, 0 0 0 2px #000 !important; }
+  .section-projects,
+  .section-skills,
+  .section-about,
+  .section-testimonials {
+    box-shadow: none !important;
+  }
 }
