@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 /* ── Cursor Glow (ambient) ───────────────────────────────────── */
 const cursorGlow = document.getElementById('cursorGlow');

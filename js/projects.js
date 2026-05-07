@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 /* ════════════════════════════════════════════════════════════════
    PROJECTS — TV Screen Wall (4 × 2 FBI Ops Room Redesign)
    · TVStaticShader  — Canvas 2D noise (analog static + artifacts)
@@ -239,10 +239,10 @@ class TVScreen {
     this.state   = 'static';
 
     /* Cache child elements */
-    this._display = el.querySelector('.tv-display');
+    this._display = el.querySelector('.bb-inner');
     this._canvas  = el.querySelector('.tv-static-canvas');
     this._img     = el.querySelector('.tv-project-img');
-    this._info    = el.querySelector('.tv-info');
+    this._info    = el.querySelector('.bb-info');
 
     /* Populate project data into the small screen overlay */
     this._img.src = project.image;
@@ -279,14 +279,14 @@ class TVScreen {
         d.style.transform  = 'scaleY(0.025)';
 
         requestAnimationFrame(() => {
-          this.el.classList.add('tv-tuning-in');
+          this.el.classList.add('bb-tuning-in');
           d.style.transition = '';
           d.style.transform  = '';
           d.style.filter     = '';
 
           setTimeout(() => {
-            this.el.classList.remove('tv-tuning-in');
-            this.el.classList.add('tv-live');
+            this.el.classList.remove('bb-tuning-in');
+            this.el.classList.add('bb-live');
             this.state = 'live';
           }, 580);
         });
@@ -302,11 +302,11 @@ class TVScreen {
     setTimeout(() => {
       const d = this._display;
 
-      this.el.classList.remove('tv-live');
-      this.el.classList.add('tv-tuning-out');
+      this.el.classList.remove('bb-live');
+      this.el.classList.add('bb-tuning-out');
 
       setTimeout(() => {
-        this.el.classList.remove('tv-tuning-out');
+        this.el.classList.remove('bb-tuning-out');
         d.style.transition = 'none';
         d.style.transform  = 'scaleY(0.025)';
         d.style.filter     = 'brightness(5) saturate(0)';
@@ -371,7 +371,7 @@ class ProjectsSection {
   }
 
   _build() {
-    document.querySelectorAll('.tv-screen-sm[data-index]').forEach(el => {
+    document.querySelectorAll('.billboard[data-index]').forEach(el => {
       const i = parseInt(el.dataset.index, 10);
       const p = PROJECTS[i];
       if (!p) return;
@@ -394,9 +394,9 @@ class ProjectsSection {
   /* ── FBI Case File Overlay ────────────────────────────────────── */
   _bindExpand() {
     /* Click anywhere on a live screen to open the case file */
-    document.querySelectorAll('.tv-screen-sm').forEach(el => {
+    document.querySelectorAll('.billboard').forEach(el => {
       el.addEventListener('click', () => {
-        if (!el.classList.contains('tv-live')) return;
+        if (!el.classList.contains('bb-live')) return;
         const i = parseInt(el.dataset.index, 10);
         const p = PROJECTS[i];
         if (p) this._openCase(p, i);
@@ -560,7 +560,7 @@ class ProjectsSection {
 
 /* ── Boot ─────────────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
-  if (document.querySelector('.tv-screen-sm')) {
+  if (document.querySelector('.billboard')) {
     new ProjectsSection();
   }
 });
