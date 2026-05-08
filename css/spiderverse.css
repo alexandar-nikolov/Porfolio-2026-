@@ -132,8 +132,12 @@ body.spiderverse .cw1 {
   -webkit-text-stroke: 4px #E23636 !important;
   color: transparent !important;
   animation: sv-float 4s ease-in-out infinite !important;
-  /* drop a blue offset shadow beneath */
-  text-shadow: 6px 6px 0 #1A3A8F !important;
+  animation-timing-function: steps(6, end) !important; /* hand-keyed flip-book feel */
+  /* chromatic aberration: red channel left, blue right, deep offset */
+  text-shadow:
+    -4px 0   rgba(226,54,54,0.85),
+     4px 0   rgba(26,58,143,0.85),
+     8px 8px 0 #1A3A8F !important;
 }
 /* Kill the cyberpunk glitch clones */
 body.spiderverse .cw1::before {
@@ -329,7 +333,11 @@ body.spiderverse .name-line {
 body.spiderverse .name-line.stroke {
   color: transparent !important;
   -webkit-text-stroke: 3px var(--sv-red) !important;
-  text-shadow: 5px 5px 0 var(--sv-blue) !important;
+  /* chromatic aberration: RGB channel split like misregistered comic printing */
+  text-shadow:
+    -3px 0   rgba(226,54,54,0.75),
+     3px 0   rgba(26,58,143,0.75),
+     5px 5px 0 var(--sv-blue) !important;
   filter: none !important;
   animation: reveal-up 0.9s 0.62s cubic-bezier(0.16,1,0.3,1) both !important;
 }
@@ -435,7 +443,11 @@ body.spiderverse .section-title {
   font-family: 'Bangers', cursive !important;
   color: #FFFFFF !important;
   -webkit-text-stroke: 0 !important;
-  text-shadow: 4px 4px 0 var(--sv-red) !important;
+  /* chromatic aberration: red/blue CMYK mis-registration + black offset */
+  text-shadow:
+    -3px 0   rgba(226,54,54,0.85),
+     3px 0   rgba(26,58,143,0.85),
+     4px 4px 0 var(--sv-black) !important;
   letter-spacing: 0.04em !important;
   
 }
@@ -503,42 +515,160 @@ body.spiderverse .meow-blob { display: none !important; }
 
 /* ── 11. PROJECTS SECTION ────────────────────────────────────── */
 
-/* Shibuya billboard wall — comic panel look */
+/* ── COMIC PANEL FRAME ── */
 body.spiderverse .billboard .bb-outer-frame {
-  border: 3px solid var(--sv-black) !important;
-  box-shadow: 7px 7px 0 var(--sv-black) !important;
-  background: #FFFFFF !important;
+  border: 4px solid var(--sv-black) !important;
+  box-shadow: 8px 8px 0 var(--sv-black) !important;
+  background: #F4EEDB !important;
+  border-radius: 0 !important;
 }
 body.spiderverse .billboard:hover .bb-outer-frame {
-  box-shadow: 10px 10px 0 var(--sv-red) !important;
-  transform: translate(-3px, -3px) !important;
+  box-shadow: 12px 12px 0 var(--sv-red) !important;
+  transform: translate(-4px, -4px) !important;
 }
+
+/* Thick panel corner marks */
+body.spiderverse .bb-thick-corner {
+  background: var(--sv-black) !important;
+  width: 12px !important;
+  height: 12px !important;
+  opacity: 0.7 !important;
+}
+
+/* ── HIDE ALL TV CHROME — comic books don't have screens ── */
+body.spiderverse .tv-static-canvas,
+body.spiderverse .bb-screen-label,
+body.spiderverse .tv-scanlines,
+body.spiderverse .bb-halftone,
+body.spiderverse .bb-power-row,
+body.spiderverse .bb-side-text {
+  display: none !important;
+}
+
+/* ── ACTIVE PANEL: comic book page layout ── */
+body.spiderverse .billboard:is(.bb-live, .bb-tuning-in, .bb-tuning-out) .bb-inner {
+  display: flex !important;
+  flex-direction: column !important;
+  background: #FFFDE7 !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  gap: 0 !important;
+}
+
+/* Image fills top 55% like a comic book illustration */
+body.spiderverse .billboard:is(.bb-live, .bb-tuning-in, .bb-tuning-out) .tv-project-img {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  flex: 0 0 55% !important;
+  width: 100% !important;
+  object-fit: cover !important;
+  object-position: top center !important;
+  opacity: 1 !important;
+  display: block !important;
+  border-bottom: 3px solid #0D0D0D !important;
+  border-radius: 0 !important;
+  filter: none !important;
+}
+
+/* Caption box fills the bottom — like comic speech/caption panels */
+body.spiderverse .billboard:is(.bb-live, .bb-tuning-in, .bb-tuning-out) .bb-info {
+  position: relative !important;
+  inset: auto !important;
+  top: auto !important;
+  left: auto !important;
+  width: 100% !important;
+  opacity: 1 !important;
+  transform: none !important;
+  background: #FFFDE7 !important;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 7px 10px 8px !important;
+  overflow: hidden !important;
+  min-height: 0 !important;
+  border-top: 0 !important;
+}
+body.spiderverse .billboard:is(.bb-live, .bb-tuning-in, .bb-tuning-out) .bb-info-inner {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px !important;
+  height: 100% !important;
+  overflow: hidden !important;
+}
+
+/* Category tag: yellow label like a comic caption colour bar */
+body.spiderverse .bb-cat-tag {
+  background: var(--sv-yellow) !important;
+  color: var(--sv-black) !important;
+  border: 2px solid var(--sv-black) !important;
+  box-shadow: 2px 2px 0 var(--sv-black) !important;
+  font-family: 'Bangers', cursive !important;
+  font-size: 0.6rem !important;
+  letter-spacing: 0.12em !important;
+  padding: 1px 6px !important;
+  align-self: flex-start !important;
+  border-radius: 0 !important;
+  display: inline-block !important;
+}
+
+/* Project title in bold Bangers with red offset drop shadow */
 body.spiderverse .tv-project-title {
   font-family: 'Bangers', cursive !important;
+  font-size: clamp(0.88rem, 1.55vw, 1.1rem) !important;
+  line-height: 1.1 !important;
   color: var(--sv-black) !important;
   text-shadow: 2px 2px 0 var(--sv-red) !important;
-  letter-spacing: 0.06em !important;
+  letter-spacing: 0.05em !important;
+  margin: 0 !important;
 }
+
+/* Description text: ink on paper */
 body.spiderverse .tv-project-desc {
-  color: #333333 !important;
+  color: #2A2A2A !important;
+  font-size: 0.69rem !important;
+  line-height: 1.35 !important;
+  flex: 1 !important;
+  overflow: hidden !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 3 !important;
+  -webkit-box-orient: vertical !important;
+  margin: 0 !important;
+}
+
+/* Tag badges: small Ben-Day yellow stamps */
+body.spiderverse .tv-project-tags {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 3px !important;
 }
 body.spiderverse .tv-project-tags .tag {
   background: var(--sv-yellow) !important;
   color: var(--sv-black) !important;
   border: 2px solid var(--sv-black) !important;
   font-family: 'Bangers', cursive !important;
+  font-size: 0.54rem !important;
+  letter-spacing: 0.06em !important;
   box-shadow: 2px 2px 0 var(--sv-black) !important;
   border-radius: 0 !important;
+  padding: 1px 5px !important;
+  text-shadow: none !important;
 }
+
+/* "Read Issue" button */
 body.spiderverse .bb-open-btn {
   background: var(--sv-red) !important;
   color: #FFFFFF !important;
   border: 2px solid var(--sv-black) !important;
   font-family: 'Bangers', cursive !important;
-  font-size: 1rem !important;
-  letter-spacing: 0.08em !important;
+  font-size: 0.78rem !important;
+  letter-spacing: 0.1em !important;
   box-shadow: 3px 3px 0 var(--sv-black) !important;
   clip-path: none !important;
+  margin-top: auto !important;
+  align-self: flex-start !important;
+  padding: 3px 10px !important;
+  border-radius: 0 !important;
 }
 body.spiderverse .bb-open-btn:hover {
   background: var(--sv-yellow) !important;
@@ -546,22 +676,60 @@ body.spiderverse .bb-open-btn:hover {
   box-shadow: 5px 5px 0 var(--sv-black) !important;
   transform: translate(-2px, -2px) !important;
 }
-body.spiderverse .bb-cat-tag {
-  background: var(--sv-yellow) !important;
-  color: var(--sv-black) !important;
-  border: 2px solid var(--sv-black) !important;
-  box-shadow: 2px 2px 0 var(--sv-black) !important;
+
+/* ── BLANK COMIC PAGE: panels not matching current filter ── */
+body.spiderverse .billboard:not(.bb-live):not(.bb-tuning-in):not(.bb-tuning-out) .bb-inner {
+  background-color: #F4EEDB !important;
+  /* Pencil crosshatch — like a blank sketchbook page */
+  background-image:
+    repeating-linear-gradient(
+      45deg, transparent, transparent 15px,
+      rgba(0,0,0,0.038) 15px, rgba(0,0,0,0.038) 16px
+    ),
+    repeating-linear-gradient(
+      -45deg, transparent, transparent 15px,
+      rgba(0,0,0,0.038) 15px, rgba(0,0,0,0.038) 16px
+    ) !important;
 }
-body.spiderverse .bb-power-led {
-  background: var(--sv-red) !important;
-  box-shadow: 0 0 4px var(--sv-red) !important;
+/* Hide project content on blank pages */
+body.spiderverse .billboard:not(.bb-live) .tv-project-img,
+body.spiderverse .billboard:not(.bb-live) .bb-info {
+  display: none !important;
 }
-body.spiderverse .bb-power-label,
-body.spiderverse .bb-side-text {
-  color: var(--sv-black) !important;
-  font-family: 'Bangers', cursive !important;
+
+/* Blank panel placeholder (JS-injected .sv-comic-blank div) */
+.sv-comic-blank {
+  display: none;
+  position: absolute;
+  inset: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  pointer-events: none;
+  z-index: 2;
 }
-/* Filter buttons */
+body.spiderverse .billboard:not(.bb-live):not(.bb-tuning-in):not(.bb-tuning-out) .sv-comic-blank {
+  display: flex !important;
+}
+.sv-blank-q {
+  font-family: 'Bangers', cursive;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  color: rgba(13,13,13,0.11);
+  line-height: 1;
+  letter-spacing: 0.06em;
+}
+.sv-blank-label {
+  font-family: 'Bangers', cursive;
+  font-size: 0.68rem;
+  color: rgba(13,13,13,0.18);
+  letter-spacing: 0.18em;
+  text-align: center;
+  text-transform: uppercase;
+  line-height: 1.45;
+}
+
+/* ── FILTER BAR: dimension selector ── */
 body.spiderverse .filter-btn {
   background: #FFFFFF !important;
   color: var(--sv-black) !important;
@@ -571,7 +739,7 @@ body.spiderverse .filter-btn {
   letter-spacing: 0.06em !important;
   box-shadow: 3px 3px 0 var(--sv-black) !important;
   border-radius: 0 !important;
-  transition: box-shadow 0.1s, transform 0.1s !important;
+  transition: box-shadow 0.1s steps(2), transform 0.1s steps(2) !important;
 }
 body.spiderverse .filter-btn:hover {
   transform: translate(-2px, -2px) !important;
@@ -583,11 +751,9 @@ body.spiderverse .filter-btn.active {
   box-shadow: 4px 4px 0 var(--sv-black) !important;
 }
 body.spiderverse .fbtn-pip { background: currentColor !important; }
-/* Shibuya decorative text → red */
 body.spiderverse .shib-strip {
   color: rgba(226,54,54,0.18) !important;
 }
-/* Command strip */
 body.spiderverse .shibuya-command-strip {
   border: 2px solid var(--sv-black) !important;
   background: #FFFFFF !important;
@@ -606,7 +772,7 @@ body.spiderverse .sig-bar {
   background: var(--sv-red) !important;
 }
 body.spiderverse .proj-subline {
-  color: rgba(255,255,255,0.55) !important;
+  color: rgba(0,0,0,0.7) !important;
   font-family: 'Bangers', cursive !important;
   letter-spacing: 0.1em !important;
 }
@@ -634,6 +800,29 @@ body.spiderverse .skill-category-title {
   color: #FFFFFF !important;
   text-shadow: 2px 2px 0 var(--sv-red) !important;
   letter-spacing: 0.08em !important;
+}
+
+/* ── 12b. STEPPED TIMING — 12 fps "on 2s" simulation ────────────
+   In Spider-Verse, each character animates on 2s (12 fps).
+   CSS steps() replicates this: animations snap between discrete
+   frames instead of smooth easing — giving a hand-keyed feel.   */
+
+/* Scroll reveals: snap in 4 visible frames */
+body.spiderverse .reveal {
+  transition-timing-function: steps(4, end) !important;
+}
+
+/* Cards / panels: 2-snap hover jump */
+body.spiderverse .billboard,
+body.spiderverse .tcard,
+body.spiderverse .rec-card,
+body.spiderverse .skill-category {
+  transition-timing-function: steps(2, end) !important;
+}
+
+/* Skill bars fill in 10 discrete steps */
+body.spiderverse .skill-bar-fill {
+  animation-timing-function: steps(10, end) !important;
 }
 
 /* ── 13. TESTIMONIALS / RECS ─────────────────────────────────── */
@@ -971,9 +1160,6 @@ body.spiderverse .theme-toggle-btn:hover {
     animation: none !important;
     transition: none !important;
   }
-  body.spiderverse::after {
-    animation: none !important;
-  }
 }
 
 /* ── 21. FOOTER ──────────────────────────────────────────────── */
@@ -1018,61 +1204,119 @@ html.spiderverse {
   scrollbar-color: #E23636 #0a0a0a !important;
 }
 
-/* ── 23. DIMENSION BLEED — full-screen comic sketch flash ─────── */
+/* ── 23. DIMENSION BLEED — comic sketch flash ─────── */
 /*
-   Uses backdrop-filter on body::after to apply
-   invert + grayscale + high-contrast to EVERYTHING on screen
-   simultaneously — like a dimension crack showing through in
-   pencil-sketch form (black outlines, white paper insides).
-
-   Timeline (14 s cycle):
-     0  – 73 %  → normal (9.38 s)
-     73 – 75 %  → stutter flash ×2  (0.28 s)
-     75 – 78 %  → lock into sketch  (0.42 s)
-     78 – 91 %  → HOLD sketch ≈ 1.8 s
-     91 – 94 %  → flicker out       (0.42 s)
-     94 – 100 % → back to normal    (0.84 s)
+   JS adds/removes body.sv-sketch-active on a 14s cycle.
+   Rapid pre-flash stutter, then holds for ~1.8s.
+   Everything snaps to white paper + black ink instantly
+   (no CSS transitions — the JS stutter creates the effect).
 */
 
-body.spiderverse::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 99991;           /* above all page layers, below cursor only */
-  pointer-events: none;
-  opacity: 0;
-  /* The actual sketch filter — applied as backdrop-filter so it
-     affects everything BEHIND this element without disrupting
-     fixed-position elements (toggle, nav, cursor). */
-  -webkit-backdrop-filter: invert(1) grayscale(1) contrast(3.5) brightness(1.15);
-          backdrop-filter: invert(1) grayscale(1) contrast(3.5) brightness(1.15);
-  animation: sv-dimension-bleed 14s linear infinite;
+/* 1. Hide cyberpunk decoration layers so white body shows through */
+body.sv-sketch-active .bg,
+body.sv-sketch-active .grid-bg,
+body.sv-sketch-active .glyph-layer,
+body.sv-sketch-active .scanline,
+body.sv-sketch-active .ambient-orbs {
+  opacity: 0 !important;
 }
 
-@keyframes sv-dimension-bleed {
-  /* ── normal ── */
-  0%,  72%   { opacity: 0; }
+/* 2. White paper — body, sections, nav */
+body.sv-sketch-active,
+body.sv-sketch-active .section-hero,
+body.sv-sketch-active .section-about,
+body.sv-sketch-active .section-projects,
+body.sv-sketch-active .section-skills,
+body.sv-sketch-active .section-testimonials,
+body.sv-sketch-active .site-footer,
+body.sv-sketch-active .topnav,
+body.sv-sketch-active .topnav-inner {
+  background: #F8F8F2 !important;
+  background-color: #F8F8F2 !important;
+  background-image: none !important;
+}
 
-  /* ── stutter pre-flash (rapid on/off × 2) ── */
-  73%        { opacity: 0.7; }   /* FLASH 1 */
-  73.7%      { opacity: 0;   }   /* blink off */
-  74.5%      { opacity: 0.85; }  /* FLASH 2 */
-  75.3%      { opacity: 0;   }   /* blink off */
+/* 3. Cards and panels — white with black comic border */
+body.sv-sketch-active .proj-card,
+body.sv-sketch-active .rec-card,
+body.sv-sketch-active .tcard,
+body.sv-sketch-active .skill-category,
+body.sv-sketch-active .about-stat-item,
+body.sv-sketch-active .hero-tag {
+  background: #FFFFFF !important;
+  background-color: #FFFFFF !important;
+  background-image: none !important;
+  border-color: #0D0D0D !important;
+}
 
-  /* ── commit to sketch ── */
-  76%        { opacity: 0.6; }
-  77%        { opacity: 1;   }   /* fully locked into sketch */
+/* 4. All text and icons → black ink */
+body.sv-sketch-active * {
+  color: #0D0D0D !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+}
 
-  /* ── HOLD — the whole screen is now a B&W pencil drawing ── */
-  91%        { opacity: 1;   }   /* held for ~1.96 s total */
+/* 5. Headings: clear the inherited SV stroke so they render as
+      plain black ink (the * rule above already sets color: #0D0D0D) */
+body.sv-sketch-active h1,
+body.sv-sketch-active h2,
+body.sv-sketch-active h3,
+body.sv-sketch-active .cw1,
+body.sv-sketch-active .name-line {
+  -webkit-text-stroke: 0 !important;
+  -webkit-text-fill-color: #0D0D0D !important;
+}
 
-  /* ── flicker out ── */
-  92%        { opacity: 0.4; }
-  92.8%      { opacity: 0.8; }
-  93.5%      { opacity: 0;   }   /* dimension seals shut */
+/* 6. Images → B&W pencil sketch */
+body.sv-sketch-active img {
+  filter: grayscale(1) contrast(1.2) brightness(1.05) !important;
+}
 
-  /* ── normal ── */
-  100%       { opacity: 0;   }
+/* 7. Skill/progress bars → dark grey ink fill */
+body.sv-sketch-active .skill-bar-fill,
+body.sv-sketch-active [class*="bar-fill"],
+body.sv-sketch-active [class*="progress"] {
+  background: #333 !important;
+  background-color: #333 !important;
+}
+
+/* 8. Respect reduced-motion: skip sketch entirely */
+@media (prefers-reduced-motion: reduce) {
+  body.sv-sketch-active,
+  body.sv-sketch-active * {
+    all: revert !important;
+  }
+}
+
+/* ── 24. COMIC PANEL WIPE TRANSITION ────────────────────────────
+   JS creates .sv-panel-wipe on scroll into a new section.
+   A solid black panel sweeps right-to-left across the viewport
+   in stepped frames — like turning a page in a comic book.
+   Red leading-edge line is the Spider-Verse signature accent.    */
+
+.sv-panel-wipe {
+  position: fixed;
+  inset: 0;
+  z-index: 9994;
+  pointer-events: none;
+  /* The panel itself */
+  background: #0D0D0D;
+  /* Red leading edge — visible as the panel sweeps across */
+  box-shadow: inset -5px 0 0 0 #E23636;
+  /* Start hidden: clipped 100% from the right */
+  clip-path: inset(0 100% 0 0);
+  animation: sv-panel-sweep 0.55s steps(7, end) forwards;
+}
+
+@keyframes sv-panel-sweep {
+  0%   { clip-path: inset(0 100% 0 0); }  /* off-screen right  */
+  36%  { clip-path: inset(0 0%   0 0); }  /* covers viewport   */
+  64%  { clip-path: inset(0 0%   0 0); }  /* hold — solid panel */
+  100% { clip-path: inset(0 0% 0 100%); } /* exits to the left  */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sv-panel-wipe { animation: none !important; display: none; }
 }
 
 
