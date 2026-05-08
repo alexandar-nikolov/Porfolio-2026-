@@ -1,0 +1,296 @@
+/* =============================================================
+   GSAP COMIC BOOK ANIMATION SYSTEM  —  gsap-comic.css
+   Spider-Verse / movie-aesthetic two-step SLAM → SETTLE
+   Supporting CSS for all GSAP-driven effects in gsap-comic.js
+   ============================================================= */
+
+/* ═══════════════════════════════════════════════════════════════
+   MEANWHILE PANEL — comic book chapter transition strips
+   ═══════════════════════════════════════════════════════════════ */
+.gsap-meanwhile-panel {
+  position: relative;
+  width: 100%;
+  background: #000;
+  border-top:    4px solid var(--hot-pink, #FF006E);
+  border-bottom: 4px solid var(--hot-pink, #FF006E);
+  padding: 16px clamp(24px, 5vw, 80px);
+  overflow: hidden;
+  z-index: 10;
+  will-change: transform;
+}
+
+/* Halftone texture overlay on the panel */
+.gsap-meanwhile-panel::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.07) 1.5px, transparent 1.5px);
+  background-size: 10px 10px;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+
+.gsap-meanwhile-inner {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.gsap-meanwhile-text {
+  font-family: 'Bangers', 'Black Ops One', sans-serif;
+  font-size: clamp(1rem, 2.4vw, 1.5rem);
+  color: var(--hot-pink, #FF006E);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  -webkit-text-stroke: 1px currentColor;
+}
+
+.gsap-meanwhile-dash {
+  flex: 1;
+  height: 3px;
+  background: repeating-linear-gradient(
+    90deg,
+    currentColor 0, currentColor 8px,
+    transparent   8px, transparent 16px
+  );
+  color: var(--hot-pink, #FF006E);
+  opacity: 0.35;
+  max-width: 200px;
+}
+
+/* Spider-Verse overrides */
+body.spiderverse .gsap-meanwhile-panel {
+  background: #0D0D0D;
+  border-color: #F7C948;
+}
+body.spiderverse .gsap-meanwhile-panel::before {
+  background-image: radial-gradient(circle, rgba(255,255,255,0.12) 1.5px, transparent 1.5px);
+  background-size: 8px 8px;
+}
+body.spiderverse .gsap-meanwhile-text {
+  color: #F7C948;
+  -webkit-text-stroke: 2px #0D0D0D;
+  paint-order: stroke fill;
+  text-shadow: 3px 3px 0 #0D0D0D;
+}
+body.spiderverse .gsap-meanwhile-dash {
+  color: #F7C948;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SPEECH BUBBLE NAV — springy tooltips on nav link hover
+   ═══════════════════════════════════════════════════════════════ */
+.gsap-speech-bubble {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  /* GSAP controls scale; CSS sets initial */
+  transform: translateX(-50%) scale(0);
+  transform-origin: top center;
+  background: #fff;
+  color: #000;
+  font-family: 'Bangers', 'Black Ops One', sans-serif;
+  font-size: 0.82rem;
+  letter-spacing: 0.12em;
+  padding: 4px 12px 6px;
+  border: 3px solid #000;
+  box-shadow: 3px 3px 0 #000;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 1100;
+  line-height: 1;
+}
+
+/* Upward-pointing tail at the top of the bubble */
+.gsap-bubble-tail {
+  position: absolute;
+  bottom: 100%; left: 50%;
+  transform: translateX(-50%);
+  width: 0; height: 0;
+  border-left:  8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 10px solid #000;
+}
+.gsap-bubble-tail-fill {
+  position: absolute;
+  bottom: calc(100% - 2px); left: 50%;
+  transform: translateX(-50%);
+  width: 0; height: 0;
+  border-left:  6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 8px solid #fff;
+}
+
+body.spiderverse .gsap-speech-bubble {
+  background: #F7C948;
+  border-color: #0D0D0D;
+  box-shadow: 3px 3px 0 #0D0D0D;
+  color: #0D0D0D;
+}
+body.spiderverse .gsap-bubble-tail {
+  border-bottom-color: #0D0D0D;
+  border-top-color: transparent;
+}
+body.spiderverse .gsap-bubble-tail-fill {
+  border-bottom-color: #F7C948;
+  border-top-color: transparent;
+}
+
+/* Nav li must be positioned for the absolute bubble */
+.topnav-links > li {
+  position: relative;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   IMPACT STARBURST — GSAP POW! elements
+   ═══════════════════════════════════════════════════════════════ */
+.gsap-starburst {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9958;
+  /* shape set inline via JS */
+}
+
+.gsap-impact-label {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9959;
+  font-family: 'Black Ops One', 'Bangers', sans-serif;
+  -webkit-text-stroke: 3px #000;
+  paint-order: stroke fill;
+  text-shadow: 4px 4px 0 #000, -2px -2px 0 #000;
+  white-space: nowrap;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   GLITCH RGB LAYERS — dimension shift on section enter
+   ═══════════════════════════════════════════════════════════════ */
+.gsap-glitch-r,
+.gsap-glitch-g,
+.gsap-glitch-b {
+  position: fixed;
+  inset: 0;
+  z-index: 9945;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  opacity: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   INK RING — letterpress burst per character (loader)
+   ═══════════════════════════════════════════════════════════════ */
+.lp-char {
+  display: inline-block;
+  position: relative;
+}
+
+.lp-ink-ring {
+  position: absolute;
+  inset: -6px;
+  border: 3px solid var(--hot-pink, #FF006E);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SPEED SCROLL LINES — velocity-triggered canvas
+   ═══════════════════════════════════════════════════════════════ */
+#gsap-speed-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9935;
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   COMIC BOOK PANEL BORDERS — CodeMyUI ink panel aesthetic
+   Thick black borders + halftone on Spider-Verse mode.
+   ═══════════════════════════════════════════════════════════════ */
+body.spiderverse .billboard .bb-outer-frame {
+  box-shadow:
+    6px 6px 0 #0D0D0D,
+    -2px -2px 0 #0D0D0D !important;
+}
+
+/* Filter strip: remove the white box in Spider-Verse mode; keep filter buttons styled */
+body.spiderverse .shibuya-command-strip {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+/* Filter status text: keep visible on dark background */
+body.spiderverse .filter-status-text {
+  color: rgba(255, 255, 255, 0.65) !important;
+}
+/* Restore brief outline only during sketch-flash pulse */
+body.sv-sketch-active .shibuya-command-strip {
+  outline: 3px solid var(--sv-yellow, #F7C948) !important;
+  outline-offset: 3px;
+}
+
+body.spiderverse .ft-item {
+  border: 3px solid #0D0D0D !important;
+  box-shadow: 5px 5px 0 #0D0D0D !important;
+}
+
+body.spiderverse .tcard {
+  border: 3px solid #0D0D0D !important;
+  box-shadow: 6px 6px 0 #0D0D0D, -2px -2px 0 #0D0D0D !important;
+}
+
+body.spiderverse .about-img-ring {
+  outline: 4px solid #0D0D0D;
+  box-shadow: 8px 8px 0 #0D0D0D !important;
+}
+
+/* (zigzag section divider removed — conflicts with mainpage.css halftone ::after) */
+
+/* ═══════════════════════════════════════════════════════════════
+   SECTION TITLE INK UNDERLINE — CodeMyUI animated ink sweep
+   ═══════════════════════════════════════════════════════════════ */
+.section-title {
+  position: relative;
+}
+
+.section-title .ink-underline {
+  display: block;
+  position: absolute;
+  bottom: -6px; left: 0;
+  height: 4px;
+  width: 0;
+  background: var(--hot-pink, #FF006E);
+  transform-origin: left center;
+  transition: width 0.6s cubic-bezier(0.86, 0, 0.07, 1) 0.3s;
+}
+
+.section-title.visible .ink-underline,
+.split-title.visible .ink-underline {
+  width: 100%;
+}
+
+body.spiderverse .section-title .ink-underline {
+  background: #F7C948;
+  height: 5px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STARBURST CSS SHAPE — 16-point star for impact moments
+   Clips are set inline, but the base style is here
+   ═══════════════════════════════════════════════════════════════ */
+.gsap-starburst-shape {
+  clip-path: polygon(
+    50% 0%,   55% 35%, 79% 9%,  65% 40%, 97% 34%,
+    72% 52%,  100% 65%, 70% 65%, 85% 95%, 58% 72%,
+    50% 100%, 42% 72%, 15% 95%, 30% 65%, 0% 65%,
+    28% 52%,  3% 34%,  35% 40%, 21% 9%,  45% 35%
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   NOTE: will-change is intentionally omitted from sections,
+   billboards, and ft-items. GSAP manages it automatically during
+   active animations. Static will-change on many elements creates
+   permanent GPU compositing layers and causes lag.
+   ═══════════════════════════════════════════════════════════════ */
