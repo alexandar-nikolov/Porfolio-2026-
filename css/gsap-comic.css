@@ -76,6 +76,20 @@ body.spiderverse .gsap-meanwhile-dash {
   color: #F7C948;
 }
 
+/* Lock meanwhile panel during sketch-flash — prevent blanket light-theme rules from
+   turning yellow text black on the dark panel background */
+body.sv-sketch-active .gsap-meanwhile-panel {
+  background: #0D0D0D !important;
+  border-color: #F7C948 !important;
+}
+body.sv-sketch-active .gsap-meanwhile-text {
+  color: #F7C948 !important;
+  text-shadow: 3px 3px 0 #0D0D0D !important;
+}
+body.sv-sketch-active .gsap-meanwhile-dash {
+  color: #F7C948 !important;
+}
+
 /* ═══════════════════════════════════════════════════════════════
    SPEECH BUBBLE NAV — springy tooltips on nav link hover
    ═══════════════════════════════════════════════════════════════ */
@@ -205,24 +219,53 @@ body.spiderverse .gsap-bubble-tail-fill {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   COMIC BOOK PANEL BORDERS — CodeMyUI ink panel aesthetic
-   Thick black borders + halftone on Spider-Verse mode.
+   COMIC BOOK PANEL BORDERS — extra ink depth on Spider-Verse
+   (box-shadow is intentionally left to spiderverse.css — it has
+    the correct 8px 8px 0 sv-black + hover 12px red stamp)
    ═══════════════════════════════════════════════════════════════ */
-body.spiderverse .billboard .bb-outer-frame {
-  box-shadow:
-    6px 6px 0 #0D0D0D,
-    -2px -2px 0 #0D0D0D !important;
+
+/* ── Dark (Spider-Verse) theme: red border, yellow on hover ── */
+body.spiderverse:not(.sv-sketch-active) .bb-outer-frame {
+  border-color: var(--sv-red, #E23030) !important;
+}
+body.spiderverse:not(.sv-sketch-active) .billboard:hover .bb-outer-frame {
+  border-color: var(--sv-yellow, #F7C948) !important;
+  box-shadow: 12px 12px 0 var(--sv-yellow, #F7C948) !important;
 }
 
+/* ── Light/sketch theme: black border (default), red on hover ── */
+body.sv-sketch-active .billboard:hover .bb-outer-frame {
+  border-color: var(--sv-red, #E23030) !important;
+  box-shadow: 12px 12px 0 var(--sv-red, #E23030) !important;
+}
 /* Filter strip: remove the white box in Spider-Verse mode; keep filter buttons styled */
 body.spiderverse .shibuya-command-strip {
   background: transparent !important;
   border-color: transparent !important;
   box-shadow: none !important;
 }
-/* Filter status text: keep visible on dark background */
-body.spiderverse .filter-status-text {
-  color: rgba(255, 255, 255, 0.65) !important;
+/* Filter status text: visible on dark background in normal Spider-Verse mode.
+   During sv-sketch-active the background is light — let spiderverse.css keep black. */
+body.spiderverse:not(.sv-sketch-active) .filter-status-text {
+  color: rgba(255, 255, 255, 0.75) !important;
+  font-family: 'Bangers', cursive !important;
+}
+
+/* "Pick a dimension" subline: spiderverse.css forces near-black; make it white on dark bg */
+body.spiderverse:not(.sv-sketch-active) .proj-subline {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+/* About-me text: spiderverse.css sets white — must flip to dark during sketch-flash (light bg) */
+body.sv-sketch-active .about-text p {
+  color: rgba(0, 0, 0, 0.75) !important;
+}
+body.sv-sketch-active .about-role {
+  color: var(--sv-red, #E23) !important;
+  text-shadow: none !important;
+}
+body.sv-sketch-active .about-stat-label {
+  color: rgba(0, 0, 0, 0.65) !important;
 }
 /* Restore brief outline only during sketch-flash pulse */
 body.sv-sketch-active .shibuya-command-strip {
@@ -230,10 +273,6 @@ body.sv-sketch-active .shibuya-command-strip {
   outline-offset: 3px;
 }
 
-body.spiderverse .ft-item {
-  border: 3px solid #0D0D0D !important;
-  box-shadow: 5px 5px 0 #0D0D0D !important;
-}
 
 body.spiderverse .tcard {
   border: 3px solid #0D0D0D !important;

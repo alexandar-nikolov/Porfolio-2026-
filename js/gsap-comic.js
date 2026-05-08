@@ -70,7 +70,6 @@
         y: 70, skewY: 5, scaleY: 1.12,
         duration: 0.18, ease: EASE_SLAM,
         transformOrigin: 'center bottom',
-        clearProps: 'all',
       })
       /* Step 2a — rebound compression */
       .to(hdr, {
@@ -81,6 +80,7 @@
       .to(hdr, {
         scaleY: 1, skewY: 0,
         duration: 0.25, ease: 'elastic.out(1.1, 0.4)',
+        clearProps: 'transform',
       });
     });
 
@@ -122,6 +122,8 @@
           const rotFrom  = fromLeft ? -6  : 6;
           const delay    = (i % 3) * 0.05;
 
+          const tiltDeg  = parseFloat(card.style.getPropertyValue('--bb-tilt') || '0');
+
           gsap.timeline()
             .from(card, {
               x: xFrom, y: 45, rotation: rotFrom,
@@ -129,12 +131,12 @@
               duration: 0.2, ease: EASE_SLAM, delay,
             })
             .to(card, {
-              x: fromLeft ? 8 : -8, rotation: fromLeft ? 1.5 : -1.5,
+              x: fromLeft ? 8 : -8, rotation: tiltDeg + (fromLeft ? 1.5 : -1.5),
               scale: 1.03,
               duration: 0.09, ease: 'power2.out',
             })
             .to(card, {
-              x: 0, rotation: 0, scale: 1,
+              x: 0, rotation: tiltDeg, scale: 1,
               duration: 0.2, ease: 'elastic.out(1.1, 0.35)',
             });
         });
@@ -499,9 +501,9 @@
       return el;
     }
 
-    const rLayer = makeLayer('rgba(255,0,80,0.32)',   'gsap-glitch-r');
-    const gLayer = makeLayer('rgba(0,255,100,0.18)',  'gsap-glitch-g');
-    const bLayer = makeLayer('rgba(0,100,255,0.32)',  'gsap-glitch-b');
+    const rLayer = makeLayer('rgba(255,0,80,0.18)',   'gsap-glitch-r');
+    const gLayer = makeLayer('rgba(0,255,100,0.10)',  'gsap-glitch-g');
+    const bLayer = makeLayer('rgba(0,100,255,0.18)',  'gsap-glitch-b');
 
     let lastId = null;
 
@@ -531,7 +533,8 @@
       }
       if (current && current !== lastId) {
         lastId = current;
-        fireGlitch();
+        /* Only flash in Spider-Verse theme */
+        if (document.body.classList.contains('spiderverse')) fireGlitch();
       }
     }, { passive: true });
   }
