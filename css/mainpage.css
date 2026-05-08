@@ -1624,10 +1624,10 @@ html {
   position: absolute; inset: 0; pointer-events: none;
   font-family: 'Space Mono', monospace; font-size: 0.4rem; letter-spacing: 0.25em;
 }
-.fbi-hud-tl { position: absolute; top: 10px; left: 10px; color: rgba(255,0,110,0.6); }
-.fbi-hud-tr { position: absolute; top: 10px; right: 10px; color: rgba(0,245,255,0.6); }
-.fbi-hud-bl { position: absolute; bottom: 10px; left: 10px; color: rgba(138,255,42,0.5); }
-.fbi-hud-br { position: absolute; bottom: 10px; right: 10px; color: rgba(255,190,11,0.6); }
+.fbi-hud-tl { position: absolute; top: 10px; left: 10px; color: #ff006e; text-shadow: 0 0 8px rgba(255,0,110,0.7); }
+.fbi-hud-tr { position: absolute; top: 10px; right: 10px; color: #00f5ff; text-shadow: 0 0 8px rgba(0,245,255,0.7); }
+.fbi-hud-bl { position: absolute; bottom: 10px; left: 10px; color: #8aff2a; text-shadow: 0 0 8px rgba(138,255,42,0.7); }
+.fbi-hud-br { position: absolute; bottom: 10px; right: 10px; color: #ffbe0b; text-shadow: 0 0 8px rgba(255,190,11,0.7); }
 .fbi-case-info {
   display: flex; flex-direction: column;
   padding: 24px; gap: 20px; overflow-y: auto;
@@ -1641,11 +1641,11 @@ html {
 }
 .fbi-case-desc {
   font-family: 'Space Mono', monospace; font-size: 0.7rem; line-height: 1.8;
-  color: rgba(255,255,255,0.55); margin-bottom: 12px;
+  color: rgba(255,255,255,0.85); margin-bottom: 12px;
 }
 .fbi-case-details {
   font-family: 'Space Mono', monospace; font-size: 0.62rem; line-height: 1.8;
-  color: rgba(255,255,255,0.35); margin-bottom: 16px;
+  color: rgba(255,255,255,0.6); margin-bottom: 16px;
 }
 .fbi-case-tech {
   display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px;
@@ -1662,7 +1662,7 @@ html {
 .fbi-case-tags span {
   font-family: 'Space Mono', monospace; font-size: 0.45rem; letter-spacing: 0.2em;
   padding: 3px 8px; text-transform: uppercase;
-  border: 1px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.35);
+  border: 1px solid rgba(255,255,255,0.45); color: rgba(255,255,255,0.7);
 }
 .fbi-case-links { display: flex; gap: 10px; flex-wrap: wrap; flex-shrink: 0; }
 .fbi-case-link, .fbi-case-gh {
@@ -1674,7 +1674,7 @@ html {
 }
 .fbi-case-link { background: var(--hot-pink); color: var(--black); }
 .fbi-case-link:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 var(--black); }
-.fbi-case-gh { background: transparent; color: var(--white); border-color: rgba(255,255,255,0.3); box-shadow: none; }
+.fbi-case-gh { background: transparent; color: var(--white); border-color: rgba(255,255,255,0.75); box-shadow: 2px 2px 0 rgba(255,255,255,0.2); }
 .fbi-case-gh:hover { background: rgba(255,255,255,0.1); border-color: var(--white); }
 .fbi-panel-scanlines {
   position: absolute; inset: 0; pointer-events: none; z-index: 10;

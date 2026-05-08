@@ -1,0 +1,953 @@
+/* =====================================================
+   COMIC BOOK READER — Spider-Verse Inspired
+   Into the Spider-Verse cinematic aesthetic:
+   • Bold black ink borders
+   • Halftone dot overlays
+   • High-contrast Spider-Verse palette
+   • Angled comic panel corners (clip-path)
+   • 3D CSS page flip with GSAP control
+   • FLIP zoom transition from billboard
+   ===================================================== */
+
+/* ── Portal (fullscreen overlay) ─────────────────────── */
+#comic-portal {
+  position: fixed;
+  inset: 0;
+  z-index: 10500;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+#comic-portal.cb-active {
+  display: flex;
+}
+
+.cb-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(4, 4, 4, 0.97);
+  z-index: 0;
+  cursor: default;
+}
+
+/* Speed-line radial burst on backdrop */
+.cb-backdrop::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-conic-gradient(
+    rgba(247,201,72,0.03) 0deg 10deg,
+    transparent 10deg 20deg
+  );
+  pointer-events: none;
+}
+
+/* ── Close button ─────────────────────────────────────── */
+.cb-close-btn {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  z-index: 10600;
+  width: 48px;
+  height: 48px;
+  background: #E23636;
+  border: 3px solid #0D0D0D;
+  box-shadow: 4px 4px 0 #0D0D0D;
+  font-family: 'Black Ops One', 'Bangers', sans-serif;
+  font-size: 1rem;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 0;
+  line-height: 1;
+  transition: transform 0.08s, box-shadow 0.08s;
+  -webkit-text-stroke: 0;
+}
+
+.cb-close-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #0D0D0D;
+  background: #F7C948;
+  color: #0D0D0D;
+}
+
+.cb-close-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 #0D0D0D;
+}
+
+/* ── Book wrapper (holds the book + side arrow buttons) ─── */
+.cb-book-wrap {
+  position: relative;
+  z-index: 10;
+  width: min(95vw, 1100px);
+  height: min(90vh, 750px);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Book (the two-page spread) ───────────────────────── */
+.cb-book {
+  position: relative;
+  width: 100%;
+  flex: 1;
+  min-height: 400px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  box-shadow:
+    0 40px 80px rgba(0,0,0,0.8),
+    0 0 0 4px #0D0D0D,
+    0 0 60px rgba(247,201,72,0.12);
+  border: 4px solid #0D0D0D;
+}
+
+/* Spine shadow in the center */
+.cb-book::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 32px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0,0,0,0.45) 30%,
+    rgba(0,0,0,0.75) 50%,
+    rgba(0,0,0,0.45) 70%,
+    transparent 100%
+  );
+  z-index: 200;
+  pointer-events: none;
+}
+
+/* ── Left and right sides ─────────────────────────────── */
+.cb-left-side,
+.cb-right-side {
+  position: relative;
+  height: 100%; /* ensure grid children fill the row */
+}
+
+/* Left side clips its content (image panels, back-cover, etc.) */
+.cb-left-side {
+  overflow: hidden;
+}
+
+/* Right side must NOT have overflow:hidden — it disables transform-style:preserve-3d
+   which breaks backface-visibility on the flipping pages */
+.cb-right-side {
+  overflow: visible;
+  perspective: 1800px;
+  transform-style: preserve-3d;
+}
+
+/* ═══════════════════════════════════════════════════════
+   LEFT PAGES (content changes with crossfade)
+   ═══════════════════════════════════════════════════════ */
+.cb-left-pg {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0s; /* GSAP handles timing */
+}
+
+.cb-left-pg.active { opacity: 1; }
+
+/* ── Left Page 0: Back-cover decoration ── */
+.cb-left-pg-0 {
+  background: #0D0D0D;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 40px 32px;
+  border-right: 4px solid #0D0D0D;
+}
+
+/* Back-cover halftone overlay */
+.cb-left-pg-0::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(247,201,72,0.12) 1px, transparent 1px);
+  background-size: 14px 14px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Back-cover speed lines decoration */
+.cb-left-pg-0::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-conic-gradient(
+    rgba(226,54,54,0.06) 0deg 8deg,
+    transparent 8deg 18deg
+  );
+  pointer-events: none;
+  z-index: -1;
+}
+
+.cb-backcover-logo {
+  position: relative;
+  z-index: 1;
+  font-family: 'Black Ops One', sans-serif;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  color: #F7C948;
+  letter-spacing: 0.05em;
+  -webkit-text-stroke: 2px #0D0D0D;
+  text-shadow: 5px 5px 0 #E23636;
+  text-align: center;
+  line-height: 1;
+}
+
+.cb-backcover-tagline {
+  position: relative;
+  z-index: 1;
+  font-family: 'Bangers', sans-serif;
+  font-size: clamp(0.65rem, 1.3vw, 0.9rem);
+  color: rgba(255,255,255,0.45);
+  letter-spacing: 0.25em;
+  text-align: center;
+}
+
+.cb-backcover-divider {
+  position: relative;
+  z-index: 1;
+  width: 60px;
+  height: 3px;
+  background: #E23636;
+  box-shadow: 0 0 8px rgba(226,54,54,0.5);
+}
+
+.cb-backcover-number {
+  position: relative;
+  z-index: 1;
+  font-family: 'Space Mono', monospace;
+  font-size: clamp(0.55rem, 1vw, 0.72rem);
+  color: rgba(255,255,255,0.25);
+  letter-spacing: 0.3em;
+  text-align: center;
+}
+
+/* ── Left Page 1: Image Panels ── */
+.cb-left-pg-1 {
+  background: #ede8df;
+  padding: 14px;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 3fr 2fr;
+  grid-template-areas:
+    "a a"
+    "b c";
+  gap: 7px;
+  border-right: 3px solid #0D0D0D;
+}
+
+/* Paper texture */
+.cb-left-pg-1::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");
+  background-size: 200px;
+  z-index: -1;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+
+.cb-panels-label {
+  position: absolute;
+  bottom: 6px;
+  left: 12px;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.58rem;
+  color: rgba(0,0,0,0.3);
+  letter-spacing: 0.25em;
+  z-index: 10;
+}
+
+/* Individual panels */
+.cb-panel {
+  position: relative;
+  overflow: hidden;
+  border: 3px solid #0D0D0D;
+  background: #111;
+  box-shadow: 4px 4px 0 rgba(0,0,0,0.35);
+}
+
+.cb-panel img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: contrast(1.12) saturate(1.35) brightness(0.95);
+}
+
+/* Spider-Verse halftone over panels */
+.cb-panel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(226,54,54,0.18) 1px, transparent 1px);
+  background-size: 7px 7px;
+  z-index: 3;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+
+/* Panel caption strip */
+.cb-panel-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(13,13,13,0.88);
+  color: #F7C948;
+  font-family: 'Bangers', sans-serif;
+  font-size: clamp(0.6rem, 1vw, 0.75rem);
+  letter-spacing: 0.18em;
+  padding: 3px 8px;
+  z-index: 4;
+  border-top: 2px solid #E23636;
+}
+
+/* Angled corner cuts — Spider-Verse style (acute corner on one side) */
+.cb-panel-a { /* Top full-width — cut bottom-right corner */
+  grid-area: a;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 28px), calc(100% - 28px) 100%, 0 100%);
+}
+.cb-panel-b { /* Bottom left — cut top-right corner */
+  grid-area: b;
+  clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);
+}
+.cb-panel-c { /* Bottom right — cut top-left corner */
+  grid-area: c;
+  clip-path: polygon(24px 0, 100% 0, 100% 100%, 0 100%, 0 24px);
+}
+
+/* ── Left Page 2: Thanks left (decorative) ── */
+.cb-left-pg-2 {
+  background: #0D0D0D;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 28px;
+  gap: 16px;
+  border-right: 4px solid #E23636;
+  overflow: hidden;
+}
+
+.cb-left-pg-2::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(247,201,72,0.10) 1px, transparent 1px);
+  background-size: 10px 10px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.cb-thanks-spider-icon {
+  font-size: clamp(3rem, 6vw, 5rem);
+  opacity: 0.25;
+  line-height: 1;
+}
+
+.cb-thanks-issue-done {
+  font-family: 'Black Ops One', sans-serif;
+  font-size: clamp(0.7rem, 1.5vw, 1rem);
+  color: #E23636;
+  letter-spacing: 0.3em;
+  text-align: center;
+  -webkit-text-stroke: 0.5px #E23636;
+}
+
+.cb-thanks-dividers {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 80%;
+}
+
+.cb-thanks-dividers span {
+  display: block;
+  height: 3px;
+  background: #E23636;
+  opacity: 0.4;
+}
+
+.cb-thanks-dividers span:nth-child(2) {
+  width: 75%;
+  background: #F7C948;
+}
+
+.cb-thanks-dividers span:nth-child(3) {
+  width: 50%;
+}
+
+/* ═══════════════════════════════════════════════════════
+   RIGHT PAGES (stacked, flip via rotateY)
+   ═══════════════════════════════════════════════════════ */
+.cb-right-pg {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform-origin: 0% 50%; /* Left edge = spine pivot */
+  /* NOTE: no transform-style: preserve-3d here — keep it only on parent */
+  will-change: transform;
+}
+
+.cb-right-pg[data-page="0"] { z-index: 30; }
+.cb-right-pg[data-page="1"] { z-index: 20; }
+.cb-right-pg[data-page="2"] { z-index: 10; }
+
+/* ── Right Page 0: Cover ── */
+.cb-rp-cover {
+  background: #F7C948;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-left: 4px solid #0D0D0D;
+  cursor: pointer;
+}
+
+/* Cover banner at top */
+.cb-cover-banner {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  background: #E23636;
+  color: #fff;
+  font-family: 'Black Ops One', 'Bangers', sans-serif;
+  font-size: clamp(0.6rem, 1.2vw, 0.85rem);
+  letter-spacing: 0.22em;
+  text-align: center;
+  padding: 6px 12px;
+  border-bottom: 3px solid #0D0D0D;
+  z-index: 10;
+  -webkit-text-stroke: 0.5px #0D0D0D;
+}
+
+/* Issue badge */
+.cb-cover-issue {
+  position: absolute;
+  top: 42px;
+  left: 14px;
+  background: #0D0D0D;
+  color: #F7C948;
+  font-family: 'Bangers', sans-serif;
+  font-size: clamp(0.62rem, 1.2vw, 0.82rem);
+  letter-spacing: 0.12em;
+  padding: 3px 10px;
+  border: 2px solid #F7C948;
+  z-index: 10;
+}
+
+/* Cover project image */
+.cb-cover-img {
+  width: 100%;
+  height: 68%;
+  object-fit: cover;
+  display: block;
+  margin-top: 36px; /* leave room for banner */
+  border-top: 3px solid #0D0D0D;
+  border-bottom: 4px solid #0D0D0D;
+  filter: contrast(1.2) saturate(1.5);
+}
+
+/* Cover title bar */
+.cb-cover-title {
+  background: #0D0D0D;
+  color: #F7C948;
+  font-family: 'Black Ops One', 'Bangers', sans-serif;
+  font-size: clamp(1.1rem, 2.5vw, 1.9rem);
+  letter-spacing: 0.04em;
+  text-align: center;
+  padding: 10px 14px;
+  border-top: 3px solid #E23636;
+  border-bottom: 3px solid #E23636;
+  -webkit-text-stroke: 1px #E23636;
+  text-shadow: 3px 3px 0 #E23636;
+  line-height: 1.1;
+  flex-shrink: 0;
+}
+
+/* Action word badge */
+.cb-cover-action {
+  position: absolute;
+  bottom: 48px;
+  right: 14px;
+  background: #E23636;
+  color: #fff;
+  font-family: 'Black Ops One', sans-serif;
+  font-size: clamp(0.75rem, 1.8vw, 1.1rem);
+  padding: 5px 14px;
+  border: 3px solid #0D0D0D;
+  box-shadow: 3px 3px 0 #0D0D0D;
+  transform: rotate(-6deg);
+  z-index: 10;
+}
+
+/* Click hint at bottom */
+.cb-cover-hint {
+  position: absolute;
+  bottom: 10px;
+  left: 0; right: 0;
+  text-align: center;
+  font-family: 'Bangers', sans-serif;
+  font-size: 0.85rem;
+  color: #fff;
+  letter-spacing: 0.2em;
+  z-index: 10;
+  text-shadow: 1px 1px 0 #0D0D0D, -1px -1px 0 #0D0D0D, 1px -1px 0 #0D0D0D, -1px 1px 0 #0D0D0D;
+  animation: cbHintPulse 2s ease-in-out infinite;
+}
+
+@keyframes cbHintPulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.9; }
+}
+
+/* Cover halftone */
+.cb-cover-halftone {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(0,0,0,0.08) 1px, transparent 1px);
+  background-size: 8px 8px;
+  pointer-events: none;
+  z-index: 5;
+  mix-blend-mode: multiply;
+}
+
+/* ── Right Page 1: Project Info ── */
+.cb-rp-info {
+  background: #faf6ef;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 22px 20px;
+  gap: 10px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-left: 3px solid #0D0D0D;
+}
+
+.cb-rp-info::-webkit-scrollbar { width: 3px; }
+.cb-rp-info::-webkit-scrollbar-track { background: rgba(0,0,0,0.08); }
+.cb-rp-info::-webkit-scrollbar-thumb { background: #E23636; }
+
+/* Paper texture on info page */
+.cb-rp-info::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  background-size: 200px;
+  pointer-events: none;
+  z-index: -1;
+  mix-blend-mode: multiply;
+}
+
+/* Halftone on info page */
+.cb-rp-info::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(226,54,54,0.07) 1px, transparent 1px);
+  background-size: 9px 9px;
+  pointer-events: none;
+  z-index: -1;
+  mix-blend-mode: multiply;
+}
+
+.cb-info-page-num {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.58rem;
+  color: rgba(0,0,0,0.3);
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 1;
+}
+
+.cb-info-issue-label {
+  display: inline-block;
+  background: #E23636;
+  color: #fff;
+  font-family: 'Bangers', sans-serif;
+  font-size: clamp(0.65rem, 1.2vw, 0.82rem);
+  letter-spacing: 0.2em;
+  padding: 3px 10px;
+  border: 2px solid #0D0D0D;
+  box-shadow: 2px 2px 0 #0D0D0D;
+  position: relative;
+  z-index: 1;
+  align-self: flex-start;
+}
+
+.cb-proj-title {
+  font-family: 'Black Ops One', 'Bangers', sans-serif;
+  font-size: clamp(1.1rem, 2.2vw, 1.7rem);
+  color: #0D0D0D;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  position: relative;
+  z-index: 1;
+  -webkit-text-stroke: 0.5px rgba(0,0,0,0.4);
+}
+
+.cb-proj-divider {
+  height: 3px;
+  background: repeating-linear-gradient(
+    90deg,
+    #E23636 0, #E23636 8px,
+    transparent 8px, transparent 16px
+  );
+  width: 55%;
+  position: relative;
+  z-index: 1;
+}
+
+.cb-proj-desc {
+  font-family: 'Space Mono', 'Courier New', monospace;
+  font-size: clamp(0.6rem, 1.1vw, 0.76rem);
+  color: #1a1a1a;
+  line-height: 1.65;
+  position: relative;
+  z-index: 1;
+}
+
+.cb-proj-details {
+  font-family: 'Space Mono', 'Courier New', monospace;
+  font-size: clamp(0.55rem, 1vw, 0.7rem);
+  color: rgba(0,0,0,0.55);
+  line-height: 1.55;
+  font-style: italic;
+  position: relative;
+  z-index: 1;
+}
+
+.cb-tech-label {
+  font-family: 'Bangers', sans-serif;
+  font-size: clamp(0.65rem, 1.1vw, 0.8rem);
+  color: #E23636;
+  letter-spacing: 0.22em;
+  position: relative;
+  z-index: 1;
+  margin-top: 2px;
+}
+
+.cb-tech-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  position: relative;
+  z-index: 1;
+}
+
+.cb-tech-tag {
+  background: #0D0D0D;
+  color: #F7C948;
+  font-family: 'Bangers', sans-serif;
+  font-size: clamp(0.6rem, 1vw, 0.72rem);
+  letter-spacing: 0.1em;
+  padding: 2px 8px;
+  border: 2px solid #0D0D0D;
+}
+
+/* Visit button */
+.cb-visit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #E23636;
+  color: #fff;
+  font-family: 'Black Ops One', 'Bangers', sans-serif;
+  font-size: clamp(0.65rem, 1.3vw, 0.85rem);
+  letter-spacing: 0.1em;
+  padding: 10px 20px;
+  border: 3px solid #0D0D0D;
+  box-shadow: 4px 4px 0 #0D0D0D;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.08s, box-shadow 0.08s, background 0.12s;
+  margin-top: auto;
+  align-self: flex-start;
+  position: relative;
+  z-index: 1;
+}
+
+.cb-visit-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #0D0D0D;
+  background: #F7C948;
+  color: #0D0D0D;
+}
+
+.cb-github-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  color: #0D0D0D;
+  font-family: 'Bangers', sans-serif;
+  font-size: clamp(0.6rem, 1.1vw, 0.78rem);
+  letter-spacing: 0.12em;
+  padding: 7px 14px;
+  border: 2px solid #0D0D0D;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.08s, background 0.12s;
+  position: relative;
+  z-index: 1;
+}
+
+.cb-github-btn:hover {
+  background: #0D0D0D;
+  color: #F7C948;
+  transform: translate(-1px, -1px);
+}
+
+.cb-info-btns {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* Next page hint */
+.cb-next-hint {
+  position: absolute;
+  bottom: 8px;
+  right: 14px;
+  font-family: 'Bangers', sans-serif;
+  font-size: 0.68rem;
+  color: rgba(0,0,0,0.3);
+  letter-spacing: 0.15em;
+  z-index: 5;
+  animation: cbHintPulse 2.5s ease-in-out infinite;
+  cursor: pointer;
+  pointer-events: all;
+}
+
+.cb-next-hint:hover {
+  color: #E23636;
+}
+
+/* ── Right Page 2: Thanks ── */
+.cb-rp-thanks {
+  background: #F7C948;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 40px 32px;
+  border-left: 4px solid #0D0D0D;
+  overflow: hidden;
+}
+
+/* Thanks halftone */
+.cb-rp-thanks::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(0,0,0,0.09) 1.5px, transparent 1.5px);
+  background-size: 10px 10px;
+  pointer-events: none;
+  z-index: -1;
+  mix-blend-mode: multiply;
+}
+
+.cb-thanks-exclaim {
+  position: relative;
+  z-index: 1;
+  font-family: 'Black Ops One', sans-serif;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  color: #E23636;
+  -webkit-text-stroke: 3px #0D0D0D;
+  text-shadow: 6px 6px 0 #0D0D0D;
+  transform: rotate(-4deg);
+  line-height: 1;
+}
+
+.cb-thanks-title {
+  position: relative;
+  z-index: 1;
+  font-family: 'Black Ops One', 'Bangers', sans-serif;
+  font-size: clamp(1.3rem, 3vw, 2.2rem);
+  color: #0D0D0D;
+  text-align: center;
+  letter-spacing: 0.04em;
+  line-height: 1.15;
+  -webkit-text-stroke: 1px rgba(0,0,0,0.3);
+}
+
+.cb-thanks-sub {
+  position: relative;
+  z-index: 1;
+  font-family: 'Space Mono', monospace;
+  font-size: clamp(0.6rem, 1vw, 0.75rem);
+  color: rgba(0,0,0,0.5);
+  letter-spacing: 0.3em;
+  text-align: center;
+}
+
+.cb-thanks-logo {
+  position: relative;
+  z-index: 1;
+  font-family: 'Black Ops One', sans-serif;
+  font-size: clamp(0.7rem, 1.5vw, 1rem);
+  color: #E23636;
+  letter-spacing: 0.35em;
+  border-top: 3px solid #0D0D0D;
+  padding-top: 12px;
+  width: 90%;
+  text-align: center;
+}
+
+.cb-back-btn {
+  position: relative;
+  z-index: 1;
+  background: #0D0D0D;
+  color: #F7C948;
+  font-family: 'Black Ops One', sans-serif;
+  font-size: clamp(0.62rem, 1.2vw, 0.8rem);
+  letter-spacing: 0.1em;
+  padding: 10px 20px;
+  border: 3px solid #0D0D0D;
+  box-shadow: 4px 4px 0 rgba(0,0,0,0.3);
+  cursor: pointer;
+  transition: transform 0.08s, box-shadow 0.08s;
+}
+
+.cb-back-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 rgba(0,0,0,0.4);
+  background: #E23636;
+  color: #fff;
+}
+
+/* ═══════════════════════════════════════════════════════
+   NAVIGATION ARROWS — overlaid on sides of the book
+   ═══════════════════════════════════════════════════════ */
+.cb-arrow-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  border: 3px solid #F7C948;
+  background: #0D0D0D;
+  color: #F7C948;
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 10700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s, transform 0.15s, box-shadow 0.15s;
+  box-shadow: 3px 3px 0 #F7C948, 0 0 22px rgba(247,201,72,0.25);
+  font-family: 'Bangers', sans-serif;
+}
+
+.cb-arrow-prev {
+  left: -29px;
+}
+
+.cb-arrow-next {
+  right: -29px;
+}
+
+.cb-arrow-btn:hover {
+  background: #F7C948;
+  color: #0D0D0D;
+  transform: translateY(-50%) scale(1.12);
+  box-shadow: 4px 4px 0 #E23636, 0 0 28px rgba(247,201,72,0.55);
+}
+
+.cb-arrow-btn:disabled {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Page flip shadow overlay (appears during flip, covers right half of book) */
+.cb-flip-shadow {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  bottom: 0;
+  background: linear-gradient(90deg, rgba(0,0,0,0.5) 0%, transparent 100%);
+  pointer-events: none;
+  opacity: 0;
+  z-index: 100;
+}
+
+/* ═══════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .cb-book-wrap {
+    width: 98vw;
+    max-height: 98vh;
+  }
+
+  .cb-book {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+    min-height: 300px;
+  }
+
+  .cb-book::after { display: none; }
+
+  .cb-left-side {
+    border-bottom: 3px solid #0D0D0D;
+  }
+
+  .cb-right-side {
+    perspective: 1200px;
+  }
+
+  .cb-right-pg {
+    transform-origin: 50% 0%; /* flip around top on mobile */
+  }
+
+  .cb-left-pg-1 {
+    grid-template-rows: 1fr 1fr;
+    padding: 10px;
+    gap: 5px;
+  }
+
+  .cb-panel-a, .cb-panel-b, .cb-panel-c {
+    clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%);
+  }
+
+  .cb-arrow-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 1.2rem;
+  }
+
+  .cb-arrow-prev { left: -22px; }
+  .cb-arrow-next { right: -22px; }
+
+  .cb-thanks-exclaim { font-size: 2rem; }
+  .cb-thanks-title   { font-size: 1.1rem; }
+}
+
+@media (max-width: 480px) {
+  .cb-left-pg-1 { grid-template-rows: 1fr; }
+  .cb-panel:nth-child(n+2) { display: none; }
+  .cb-proj-details { display: none; }
+}

@@ -73,22 +73,18 @@
 
   function doSketch() {
     if (!isSV()) return;
+    /* Skip while the comic book reader is open — those pages have their own colours */
+    if (document.getElementById('comic-portal')?.classList.contains('cb-active')) return;
+
     const body = document.body;
 
-    /* 3-pulse stutter before locking in */
-    const stutterMs = [0, 110, 220, 330];
-    stutterMs.forEach((t, i) => {
-      setTimeout(() => {
-        if (i % 2 === 0) body.classList.add(SKETCH_CLASS);
-        else             body.classList.remove(SKETCH_CLASS);
-      }, t);
-    });
+    /* 1-flicker stutter then lock in (less harsh than 3-pulse) */
+    body.classList.add(SKETCH_CLASS);
+    setTimeout(() => body.classList.remove(SKETCH_CLASS), 80);
+    setTimeout(() => body.classList.add(SKETCH_CLASS), 160);
 
-    /* Lock into sketch at 440ms, hold for 1.8s, then snap back */
-    setTimeout(() => {
-      body.classList.add(SKETCH_CLASS);
-      setTimeout(() => body.classList.remove(SKETCH_CLASS), 1800);
-    }, 440);
+    /* Hold for 1.4s, then let the CSS transition on body/sections ease it out */
+    setTimeout(() => body.classList.remove(SKETCH_CLASS), 160 + 1400);
   }
 
   function startSketchCycle() {

@@ -391,15 +391,19 @@ class ProjectsSection {
     });
   }
 
-  /* ── FBI Case File Overlay ────────────────────────────────────── */
+  /* ── Comic Book Overlay (replaces FBI case file) ─────────────── */
   _bindExpand() {
-    /* Click anywhere on a live screen to open the case file */
+    /* Click anywhere on a live screen to open the comic book */
     document.querySelectorAll('.billboard').forEach(el => {
       el.addEventListener('click', () => {
         if (!el.classList.contains('bb-live')) return;
         const i = parseInt(el.dataset.index, 10);
         const p = PROJECTS[i];
-        if (p) this._openCase(p, i);
+        if (p && window._ComicBook) {
+          window._ComicBook.open(p, i, el);
+        } else if (p) {
+          this._openCase(p, i); // fallback to FBI overlay
+        }
       });
     });
 

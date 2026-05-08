@@ -333,3 +333,21 @@ body.spiderverse .section-title .ink-underline {
    active animations. Static will-change on many elements creates
    permanent GPU compositing layers and causes lag.
    ═══════════════════════════════════════════════════════════════ */
+
+/* ═══════════════════════════════════════════════════════════════
+   BILLBOARD ACTION BADGE — Spider-Verse action word on slam
+   ═══════════════════════════════════════════════════════════════ */
+.bb-action-badge {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+  z-index: 50;
+  font-family: 'Black Ops One', 'Bangers', sans-serif;
+  font-size: clamp(0.6rem, 1.2vw, 0.85rem);
+  color: #F7C948;
+  -webkit-text-stroke: 1px #0D0D0D;
+  text-shadow: 2px 2px 0 #E23636;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  transform-origin: center bottom;
+}

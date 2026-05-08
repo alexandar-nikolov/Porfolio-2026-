@@ -188,9 +188,9 @@
       const col = FLASH_COLS[Math.floor(Math.random() * FLASH_COLS.length)];
       flashEl.style.transition = 'opacity 0s';
       flashEl.style.background = col;
-      flashEl.style.opacity    = '0.5';   /* was 1 */
+      flashEl.style.opacity    = '0.18';
       requestAnimationFrame(() => requestAnimationFrame(() => {
-        flashEl.style.transition = 'opacity 0.8s ease';   /* longer fade */
+        flashEl.style.transition = 'opacity 2.2s cubic-bezier(0.1, 0, 0.3, 1)';
         flashEl.style.opacity    = '0';
       }));
     }

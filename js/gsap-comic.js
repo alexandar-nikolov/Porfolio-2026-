@@ -107,41 +107,121 @@
   function initBillboardSlam() {
     if (!hasScrollTrigger) return;
 
-    /* ScrollTrigger.batch groups multiple triggers into one RAF calculation */
+    /* Action word labels for Spider-Verse energy */
+    const ACTION_LABELS = ['POW!','WHAM!','THWIP!','BOOM!','ZAP!','CRASH!','BIFF!','SMASH!'];
+
+    /* Ink-border flash: briefly show a thick colored border on slam */
+    function flashBorder(card, color) {
+      gsap.timeline()
+        .to(card, { outline: `4px solid ${color}`, outlineOffset: '2px', duration: 0 })
+        .to(card, { outline: '0px solid transparent', duration: 0.35, ease: 'power2.out', delay: 0.06 });
+    }
+
+    /* Inject a floating action word badge above each card */
+    function spawnActionWord(card, word, i) {
+      const existing = card.querySelector('.bb-action-badge');
+      if (existing) existing.remove();
+
+      const badge = document.createElement('div');
+      badge.className = 'bb-action-badge';
+      badge.textContent = word;
+      badge.style.cssText = `
+        position:absolute; top:-22px; left:${10 + (i % 4) * 6}px;
+        font-family:'Black Ops One',sans-serif;
+        font-size:clamp(0.6rem,1.2vw,0.85rem);
+        color:#F7C948; -webkit-text-stroke:1px #0D0D0D;
+        text-shadow:2px 2px 0 #E23636;
+        letter-spacing:0.05em;
+        pointer-events:none; user-select:none;
+        z-index:50; opacity:0;
+        transform-origin:center bottom;
+      `;
+      card.style.position = 'relative';
+      card.style.overflow = 'visible';
+      card.appendChild(badge);
+
+      gsap.timeline({ delay: 0.15 })
+        .to(badge, { opacity: 1, y: -8, scale: 1.15, rotation: -6, duration: 0.2, ease: 'back.out(3)' })
+        .to(badge, { rotation: 4, y: -12, duration: 0.12, ease: 'power1.inOut' })
+        .to(badge, { opacity: 0, y: -28, scale: 0.8, duration: 0.4, ease: 'power2.in', delay: 0.6 });
+    }
+
+    const BORDER_COLORS = ['#E23636','#F7C948','#00f5ff','#8aff2a'];
+
+    /* Speed-line burst: create a radial SVG overlay on the card that flashes */
+    function spawnSpeedBurst(card, color) {
+      const burst = document.createElement('div');
+      burst.style.cssText = `
+        position:absolute; inset:0; pointer-events:none; z-index:60;
+        background: repeating-conic-gradient(
+          ${color}22 0deg 6deg,
+          transparent 6deg 12deg
+        );
+        opacity:0; border-radius:0; mix-blend-mode:overlay;
+      `;
+      card.appendChild(burst);
+      gsap.timeline()
+        .to(burst, { opacity: 0.35, scale: 1.15, duration: 0.08, ease: 'power4.out' })
+        .to(burst, { opacity: 0, scale: 1.4, duration: 0.28, ease: 'power2.out' })
+        .call(() => burst.remove());
+    }
+
     ScrollTrigger.batch('.billboard:not([data-gsap-done])', {
-      start: 'top 90%',
+      start: 'top bottom', /* fire before element enters, catches cards visible on load */
       once: true,
       onEnter: (batch) => {
         const allCards = Array.from(document.querySelectorAll('.billboard'));
         batch.forEach((card) => {
           if (card.dataset.gsapDone) return;
           card.dataset.gsapDone = '1';
-          const i = allCards.indexOf(card);
-          const fromLeft = i % 2 === 0;
-          const xFrom    = fromLeft ? -80 : 80;
-          const rotFrom  = fromLeft ? -6  : 6;
-          const delay    = (i % 3) * 0.05;
+          const i         = allCards.indexOf(card);
+          const fromLeft  = i % 2 === 0;
+          const xFrom     = fromLeft ? -140 : 140;
+          const yFrom     = (i % 3 === 0) ? 80 : 50;
+          const rotFrom   = fromLeft ? -14  : 14;
+          const delay     = (i % 4) * 0.08;
+          const tiltDeg   = parseFloat(card.style.getPropertyValue('--bb-tilt') || '0');
+          const borderClr = BORDER_COLORS[i % BORDER_COLORS.length];
+          const word      = ACTION_LABELS[i % ACTION_LABELS.length];
 
-          const tiltDeg  = parseFloat(card.style.getPropertyValue('--bb-tilt') || '0');
-
-          gsap.timeline()
+          gsap.timeline({ delay })
+            /* Hard throw from off-screen — NO opacity so card is always visible */
             .from(card, {
-              x: xFrom, y: 45, rotation: rotFrom,
-              scale: 0.88,
-              duration: 0.2, ease: EASE_SLAM, delay,
+              x: xFrom, y: yFrom, rotation: rotFrom,
+              scale: 0.65,
+              skewX: fromLeft ? 8 : -8,
+              duration: 0.25, ease: EASE_SLAM,
             })
+            /* Overshoot past rest position */
             .to(card, {
-              x: fromLeft ? 8 : -8, rotation: tiltDeg + (fromLeft ? 1.5 : -1.5),
-              scale: 1.03,
-              duration: 0.09, ease: 'power2.out',
+              x: fromLeft ? 16 : -16,
+              rotation: tiltDeg + (fromLeft ? 3.5 : -3.5),
+              scale: 1.08,
+              skewX: 0,
+              duration: 0.1, ease: 'power2.out',
             })
+            /* Elastic settle to final position */
             .to(card, {
               x: 0, rotation: tiltDeg, scale: 1,
-              duration: 0.2, ease: 'elastic.out(1.1, 0.35)',
+              duration: 0.4, ease: 'elastic.out(1.3, 0.28)',
+            })
+            /* Impact: speed burst + border flash + action word */
+            .call(() => {
+              flashBorder(card, borderClr);
+              spawnActionWord(card, word, i);
+              spawnSpeedBurst(card, borderClr);
             });
         });
       },
     });
+
+    /* Safety net: after 2 s, force-reveal any billboard the batch missed */
+    setTimeout(() => {
+      document.querySelectorAll('.billboard:not([data-gsap-done])').forEach(card => {
+        card.dataset.gsapDone = '1';
+        gsap.set(card, { clearProps: 'x,y,rotation,scale' });
+      });
+    }, 2000);
   }
 
   /* ═══════════════════════════════════════════════════════════
@@ -323,7 +403,7 @@
         ctx.restore();
       }
 
-      alpha *= 0.85;
+      alpha *= 0.93;
       rafId = requestAnimationFrame(draw);
     }
 
@@ -334,7 +414,7 @@
 
       /* Higher threshold so casual scrolling doesn't trigger lines */
       if (vel > 55) {
-        alpha = Math.min(0.9, alpha + vel / 300);
+        alpha = Math.min(0.35, alpha + vel / 500);
         if (!rafId) rafId = requestAnimationFrame(draw);
       }
     }, { passive: true });

@@ -1207,12 +1207,24 @@ html.spiderverse {
 /* ── 23. DIMENSION BLEED — comic sketch flash ─────── */
 /*
    JS adds/removes body.sv-sketch-active on a 14s cycle.
-   Rapid pre-flash stutter, then holds for ~1.8s.
-   Everything snaps to white paper + black ink instantly
-   (no CSS transitions — the JS stutter creates the effect).
+   1-2 quick pre-flash flickers then holds for ~1.5s.
+   CSS transitions on body/sections give a smooth fade-in and fade-out.
 */
 
-/* 1. Hide cyberpunk decoration layers so white body shows through */
+/* 0. Smooth transitions on base elements so sketch enters and exits gracefully */
+body.spiderverse,
+body.spiderverse .section-hero,
+body.spiderverse .section-about,
+body.spiderverse .section-projects,
+body.spiderverse .section-skills,
+body.spiderverse .section-testimonials,
+body.spiderverse .site-footer,
+body.spiderverse .topnav,
+body.spiderverse .topnav-inner {
+  transition: background-color 0.4s ease, color 0.35s ease;
+}
+
+/* 1. Hide cyberpunk decoration layers so parchment body shows through */
 body.sv-sketch-active .bg,
 body.sv-sketch-active .grid-bg,
 body.sv-sketch-active .glyph-layer,
@@ -1221,7 +1233,7 @@ body.sv-sketch-active .ambient-orbs {
   opacity: 0 !important;
 }
 
-/* 2. White paper — body, sections, nav */
+/* 2. Warm parchment paper — body, sections, nav */
 body.sv-sketch-active,
 body.sv-sketch-active .section-hero,
 body.sv-sketch-active .section-about,
@@ -1231,20 +1243,20 @@ body.sv-sketch-active .section-testimonials,
 body.sv-sketch-active .site-footer,
 body.sv-sketch-active .topnav,
 body.sv-sketch-active .topnav-inner {
-  background: #F8F8F2 !important;
-  background-color: #F8F8F2 !important;
+  background: #DDD8CC !important;
+  background-color: #DDD8CC !important;
   background-image: none !important;
 }
 
-/* 3. Cards and panels — white with black comic border */
+/* 3. Cards and panels — light parchment with black comic border */
 body.sv-sketch-active .proj-card,
 body.sv-sketch-active .rec-card,
 body.sv-sketch-active .tcard,
 body.sv-sketch-active .skill-category,
 body.sv-sketch-active .about-stat-item,
 body.sv-sketch-active .hero-tag {
-  background: #FFFFFF !important;
-  background-color: #FFFFFF !important;
+  background: #EAE6DA !important;
+  background-color: #EAE6DA !important;
   background-image: none !important;
   border-color: #0D0D0D !important;
 }
@@ -1286,6 +1298,130 @@ body.sv-sketch-active [class*="progress"] {
   body.sv-sketch-active * {
     all: revert !important;
   }
+}
+
+/* 9. Protect the comic book reader — higher specificity beats the blanket * rule.
+      Dark-background pages (left-pg-0, left-pg-2, close btn etc.) need their
+      original colours preserved, otherwise text becomes black-on-black. */
+body.sv-sketch-active #comic-portal {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+/* Restore text colours on all comic elements (higher specificity than .sv-sketch-active *) */
+body.sv-sketch-active #comic-portal .cb-backdrop {
+  background: rgba(5,5,10,0.88) !important;
+}
+body.sv-sketch-active #comic-portal .cb-close-btn {
+  color: #fff !important;
+  background: rgba(226,54,54,0.85) !important;
+}
+/* Left pages with dark backgrounds */
+body.sv-sketch-active #comic-portal .cb-left-pg-0,
+body.sv-sketch-active #comic-portal .cb-left-pg-2 {
+  background: #0D0D0D !important;
+  background-color: #0D0D0D !important;
+}
+body.sv-sketch-active #comic-portal .cb-left-pg-0 *,
+body.sv-sketch-active #comic-portal .cb-left-pg-2 * {
+  color: #F7C948 !important;
+  text-shadow: none !important;
+  -webkit-text-fill-color: #F7C948 !important;
+}
+/* Left page 1: panels page — keep off-white background */
+body.sv-sketch-active #comic-portal .cb-left-pg-1 {
+  background: #EDE8DF !important;
+  background-color: #EDE8DF !important;
+}
+/* Right page 0: cover — yellow bg */
+body.sv-sketch-active #comic-portal .cb-rp-cover {
+  background: #F7C948 !important;
+  background-color: #F7C948 !important;
+}
+body.sv-sketch-active #comic-portal .cb-cover-banner {
+  background: #E23636 !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+body.sv-sketch-active #comic-portal .cb-cover-title {
+  background: #0D0D0D !important;
+  color: #F7C948 !important;
+  -webkit-text-fill-color: #F7C948 !important;
+}
+body.sv-sketch-active #comic-portal .cb-cover-issue {
+  background: #0D0D0D !important;
+  color: #F7C948 !important;
+  -webkit-text-fill-color: #F7C948 !important;
+}
+body.sv-sketch-active #comic-portal .cb-cover-action {
+  background: #E23636 !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+body.sv-sketch-active #comic-portal .cb-cover-hint {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+/* Right page 1: info — keep its own background */
+body.sv-sketch-active #comic-portal .cb-rp-info {
+  background: #FAF6EF !important;
+  background-color: #FAF6EF !important;
+}
+body.sv-sketch-active #comic-portal .cb-rp-info * {
+  color: #1a1a1a !important;
+  -webkit-text-fill-color: #1a1a1a !important;
+}
+body.sv-sketch-active #comic-portal .cb-proj-title {
+  color: #0D0D0D !important;
+  -webkit-text-fill-color: #0D0D0D !important;
+}
+body.sv-sketch-active #comic-portal .cb-info-issue-label,
+body.sv-sketch-active #comic-portal .cb-info-page-num {
+  color: #E23636 !important;
+  -webkit-text-fill-color: #E23636 !important;
+}
+body.sv-sketch-active #comic-portal .cb-visit-btn {
+  background: #E23636 !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+body.sv-sketch-active #comic-portal .cb-github-btn {
+  background: #0D0D0D !important;
+  color: #F7C948 !important;
+  -webkit-text-fill-color: #F7C948 !important;
+}
+/* Right page 2: thanks — yellow bg */
+body.sv-sketch-active #comic-portal .cb-rp-thanks {
+  background: #F7C948 !important;
+  background-color: #F7C948 !important;
+}
+body.sv-sketch-active #comic-portal .cb-thanks-exclaim {
+  color: #E23636 !important;
+  -webkit-text-fill-color: #E23636 !important;
+}
+body.sv-sketch-active #comic-portal .cb-thanks-title,
+body.sv-sketch-active #comic-portal .cb-thanks-sub,
+body.sv-sketch-active #comic-portal .cb-thanks-logo {
+  color: #0D0D0D !important;
+  -webkit-text-fill-color: #0D0D0D !important;
+}
+body.sv-sketch-active #comic-portal .cb-back-btn {
+  background: #0D0D0D !important;
+  color: #F7C948 !important;
+  -webkit-text-fill-color: #F7C948 !important;
+}
+/* Navigation arrows */
+body.sv-sketch-active #comic-portal .cb-arrow-btn {
+  background: #0D0D0D !important;
+  color: #F7C948 !important;
+  border-color: #F7C948 !important;
+  -webkit-text-fill-color: #F7C948 !important;
+}
+/* Panel captions and labels */
+body.sv-sketch-active #comic-portal .cb-panel-caption {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
 }
 
 /* ── 24. COMIC PANEL WIPE TRANSITION ────────────────────────────
