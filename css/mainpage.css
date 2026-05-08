@@ -1968,6 +1968,122 @@ html {
   letter-spacing: 0.12em;
 }
 
+/* ── Recommendation Card Flip ─────────────────────────────────── */
+.rec-card {
+  perspective: 1200px;
+  cursor: pointer;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+}
+.rec-flip-inner {
+  position: relative;
+  width: 100%; height: 100%;
+  min-height: 520px;
+  transform-style: preserve-3d;
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.rec-card.flipped .rec-flip-inner {
+  transform: rotateY(180deg);
+}
+.rec-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(24px, 3.5vw, 40px) clamp(20px, 3vw, 36px) clamp(20px, 3vw, 32px);
+  border: 1px solid rgba(255,255,255,0.07);
+  background: rgba(255,255,255,0.018);
+  clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+}
+.rec-front {
+  /* front face inherits existing card look */
+}
+.rec-back {
+  transform: rotateY(180deg);
+  background: rgba(8, 0, 18, 0.97);
+  border: 3px solid var(--back-accent, var(--hot-pink));
+  box-shadow: inset 0 0 60px rgba(0,0,0,0.6), 6px 6px 0 #000;
+  clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10px;
+}
+.rec-back-header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 24px;
+  border-bottom: 2px solid var(--back-accent, var(--hot-pink));
+  padding-bottom: 12px;
+  width: 100%;
+}
+.rec-back-num {
+  font-family: 'Black Ops One', sans-serif;
+  font-size: 3rem;
+  color: var(--back-accent, var(--hot-pink));
+  line-height: 1;
+  opacity: 0.9;
+}
+.rec-back-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+}
+.rec-back-name {
+  font-family: 'Black Ops One', sans-serif;
+  font-size: clamp(1.4rem, 2.8vw, 2rem);
+  color: #fff;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.rec-back-role {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  color: var(--back-accent, var(--hot-pink));
+  text-transform: uppercase;
+  line-height: 1.5;
+}
+.rec-back-org {
+  font-family: 'Russo One', sans-serif;
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.55);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 4px;
+}
+.rec-back-date {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.52rem;
+  color: rgba(255,255,255,0.28);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.rec-back-logo {
+  margin: 12px 0;
+  opacity: 0.85;
+}
+.rec-flip-hint {
+  margin-top: auto;
+  padding-top: 14px;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.52rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.22);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.3s;
+}
+.rec-card:hover .rec-flip-hint { color: rgba(255,255,255,0.55); }
+
 /* ── Recommendation Cards ─────────────────────────────────────── */
 .rec-grid {
   grid-template-columns: repeat(2, 1fr);
@@ -2814,6 +2930,7 @@ body::before {
   .section-header::before { display: none !important; }
   .section-header { padding-left: 0 !important; }
   body::before { background-size: 20px 20px, 20px 20px !important; }
+  .rec-flip-inner { min-height: 600px; }
 }
 @media (max-width: 600px) {
   .bb-outer-frame { box-shadow: 5px 5px 0 #000, 0 0 0 2px #000 !important; }
@@ -2824,3 +2941,118 @@ body::before {
     box-shadow: none !important;
   }
 }
+
+/* ════════════════════════════════════════════════════════════════
+   SPIDER-VERSE ENHANCEMENTS — Sony/Marvel visual language
+   ════════════════════════════════════════════════════════════════ */
+
+/* ── Ink-brush SVG underline on section titles ───────────────── */
+/*
+ * A hand-drawn rough brush-stroke rendered as an inline SVG data URI.
+ * The path wobbles slightly to mimic real ink on paper.
+ */
+.section-title::after {
+  content: '';
+  display: block;
+  width: min(90%, 480px);
+  height: 10px;
+  margin-top: 14px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 480 10' preserveAspectRatio='none'%3E%3Cpath d='M2,7 C18,2 40,9 72,5 C104,1 130,8 168,4 C206,0 234,8 272,6 C310,4 336,8 370,5 C404,2 430,8 460,5 L478,6' stroke='%23FF006E' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round' fill='none' opacity='0.82'/%3E%3Cpath d='M6,8 C30,5 58,7 90,4 C122,1 150,7 186,5 C222,3 248,7 286,5 C324,3 350,7 388,5 C426,3 446,6 474,5' stroke='%2300F5FF' stroke-width='1.2' stroke-linecap='round' fill='none' opacity='0.35'/%3E%3C/svg%3E") no-repeat left center;
+  background-size: 100% 100%;
+}
+
+/* ── Comic-panel angled border on About photo ────────────────── */
+/*
+ * Replaces the spinning circle rings with a skewed quadrilateral
+ * frame — thick black ink border with hot-pink accent corner.
+ */
+.about-img-ring {
+  border-radius: 0 !important;
+  border: none !important;
+  width: 280px !important;
+  height: 300px !important;
+  position: relative !important;
+  clip-path: none !important;
+  background: transparent !important;
+}
+/* Kill the rotating ring pseudo-elements */
+.about-img-ring::before,
+.about-img-ring::after {
+  display: none !important;
+  animation: none !important;
+}
+/* Ink border layer — slightly larger than image, angled */
+.about-img-ring {
+  --panel-clip: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 22px 100%, 0 calc(100% - 22px));
+}
+.about-img-ring::before {
+  display: block !important;
+  animation: none !important;
+  content: '' !important;
+  position: absolute !important;
+  inset: -5px !important;
+  background: var(--hot-pink) !important;
+  clip-path: polygon(0 0, calc(100% - 26px) 0, 100% 26px, 100% 100%, 26px 100%, 0 calc(100% - 26px)) !important;
+  border-radius: 0 !important;
+  border: none !important;
+  box-shadow: 6px 6px 0 #000 !important;
+  z-index: 0 !important;
+}
+/* Black ink outline on top of pink */
+.about-img-ring::after {
+  display: block !important;
+  animation: none !important;
+  content: '' !important;
+  position: absolute !important;
+  inset: -5px !important;
+  background: transparent !important;
+  border: 3px solid #000 !important;
+  clip-path: polygon(0 0, calc(100% - 26px) 0, 100% 26px, 100% 100%, 26px 100%, 0 calc(100% - 26px)) !important;
+  border-radius: 0 !important;
+  z-index: 2 !important;
+  box-shadow: none !important;
+}
+/* Image itself gets the angled clip */
+.about-img-ring img {
+  width: 280px !important;
+  height: 300px !important;
+  border-radius: 0 !important;
+  clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 22px 100%, 0 calc(100% - 22px)) !important;
+  position: relative !important;
+  z-index: 1 !important;
+  object-fit: cover !important;
+}
+/* Registration corner mark — top-right accent */
+.about-img { position: relative; }
+.about-img::after {
+  content: '◆';
+  position: absolute;
+  top: -4px; right: -4px;
+  font-size: 0.9rem;
+  color: var(--electric-yellow);
+  text-shadow: 0 0 8px rgba(255,190,11,0.8);
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* ── Per-section chapter colour accents ──────────────────────── */
+/*
+ * Each section's header number and title stroke gets its own
+ * dimension colour — mirroring the film's per-universe palettes.
+ */
+.section-about .section-number          { color: #6A00FF !important; }
+.section-about .section-title           { -webkit-text-stroke-color: rgba(255,255,255,0.78) !important; }
+.section-about .section-title span      { color: #6A00FF !important; -webkit-text-stroke-color: #6A00FF !important; }
+.section-about .section-title::after    { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 480 10' preserveAspectRatio='none'%3E%3Cpath d='M2,7 C18,2 40,9 72,5 C104,1 130,8 168,4 C206,0 234,8 272,6 C310,4 336,8 370,5 C404,2 430,8 460,5 L478,6' stroke='%236A00FF' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round' fill='none' opacity='0.82'/%3E%3Cpath d='M6,8 C30,5 58,7 90,4 C122,1 150,7 186,5 C222,3 248,7 286,5 C324,3 350,7 388,5 C426,3 446,6 474,5' stroke='%23FFBE0B' stroke-width='1.2' stroke-linecap='round' fill='none' opacity='0.4'/%3E%3C/svg%3E") !important; }
+
+.section-projects .section-number       { color: #FF006E !important; }
+.section-projects .section-title span   { color: #FF006E !important; -webkit-text-stroke-color: #FF006E !important; }
+/* projects uses default pink underline */
+
+.section-skills .section-number         { color: #8AFF2A !important; }
+.section-skills .section-title span     { color: #8AFF2A !important; -webkit-text-stroke-color: #8AFF2A !important; }
+.section-skills .section-title::after   { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 480 10' preserveAspectRatio='none'%3E%3Cpath d='M2,7 C18,2 40,9 72,5 C104,1 130,8 168,4 C206,0 234,8 272,6 C310,4 336,8 370,5 C404,2 430,8 460,5 L478,6' stroke='%238AFF2A' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round' fill='none' opacity='0.82'/%3E%3Cpath d='M6,8 C30,5 58,7 90,4 C122,1 150,7 186,5 C222,3 248,7 286,5 C324,3 350,7 388,5 C426,3 446,6 474,5' stroke='%2300F5FF' stroke-width='1.2' stroke-linecap='round' fill='none' opacity='0.35'/%3E%3C/svg%3E") !important; }
+
+.section-testimonials .section-number   { color: #FFBE0B !important; }
+.section-testimonials .section-title span { color: #FFBE0B !important; -webkit-text-stroke-color: #FFBE0B !important; }
+.section-testimonials .section-title::after { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 480 10' preserveAspectRatio='none'%3E%3Cpath d='M2,7 C18,2 40,9 72,5 C104,1 130,8 168,4 C206,0 234,8 272,6 C310,4 336,8 370,5 C404,2 430,8 460,5 L478,6' stroke='%23FFBE0B' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round' fill='none' opacity='0.82'/%3E%3Cpath d='M6,8 C30,5 58,7 90,4 C122,1 150,7 186,5 C222,3 248,7 286,5 C324,3 350,7 388,5 C426,3 446,6 474,5' stroke='%23FF006E' stroke-width='1.2' stroke-linecap='round' fill='none' opacity='0.35'/%3E%3C/svg%3E") !important; }

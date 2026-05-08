@@ -9,14 +9,26 @@
 
   
   <link
-    href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Bebas+Neue&family=Anton&family=Permanent+Marker&family=Space+Mono:wght@700&family=Righteous&family=Russo+One&family=Josefin+Sans:wght@700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Bebas+Neue&family=Anton&family=Bangers&family=Permanent+Marker&family=Space+Mono:wght@700&family=Righteous&family=Russo+One&family=Josefin+Sans:wght@700&display=swap"
     rel="stylesheet"
   />
 
   
   <link rel="stylesheet" href="css/styles.css?v=4" />
+  <link rel="stylesheet" href="css/spiderverse.css" />
 </head>
 <body>
+
+  <!-- Spider-Verse: action words (hidden in cyberpunk mode) -->
+  <div class="sv-action-words" aria-hidden="true">
+    <span class="sv-aw">POW!</span>
+    <span class="sv-aw">THWIP!</span>
+    <span class="sv-aw">ZAP!</span>
+    <span class="sv-aw">BAM!</span>
+    <span class="sv-aw">WHAM!</span>
+  </div>
+  <!-- Spider-Verse: speed lines (hidden in cyberpunk mode) -->
+  <div class="sv-speed-lines" aria-hidden="true"></div>
 
   
   <div class="cursor-glow" id="cursorGlow"></div>
@@ -231,5 +243,6 @@
   <!-- Scripts -->
   <script src="js/shader.js"></script>
   <script src="js/main.js?v=6"></script>
+  <script src="js/theme-toggle.js"></script>
 </body>
 </html>

@@ -93,10 +93,20 @@ function initClipReveal() {
   document.querySelectorAll('.reveal-clip').forEach(el => obs.observe(el));
 }
 
+/* ── 5. Recommendation card flip ─────────────────────────────── */
+function initRecFlip() {
+  document.querySelectorAll('.rec-card').forEach(card => {
+    card.addEventListener('click', () => {
+      card.classList.toggle('flipped');
+    });
+  });
+}
+
 /* ── Boot ────────────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
   initCountUp();
   initMagnetic();
   initWordReveal();
   initClipReveal();
+  initRecFlip();
 });

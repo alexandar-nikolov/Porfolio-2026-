@@ -6,11 +6,23 @@
   <title>Aleksandar Nikolov — Portfolio</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="shortcut icon" href="favicon.svg" />
-  <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Bebas+Neue&family=Anton&family=Permanent+Marker&family=Space+Mono:wght@700&family=Righteous&family=Russo+One&family=Josefin+Sans:wght@700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Bebas+Neue&family=Anton&family=Bangers&family=Permanent+Marker&family=Space+Mono:wght@700&family=Righteous&family=Russo+One&family=Josefin+Sans:wght@700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <link rel="stylesheet" href="css/mainpage.css" />
+  <link rel="stylesheet" href="css/spiderverse.css" />
 </head>
 <body>
+
+  <!-- Spider-Verse: action words (hidden in cyberpunk mode) -->
+  <div class="sv-action-words" aria-hidden="true">
+    <span class="sv-aw">POW!</span>
+    <span class="sv-aw">THWIP!</span>
+    <span class="sv-aw">ZAP!</span>
+    <span class="sv-aw">BAM!</span>
+    <span class="sv-aw">WHAM!</span>
+  </div>
+  <!-- Spider-Verse: speed lines (hidden in cyberpunk mode) -->
+  <div class="sv-speed-lines" aria-hidden="true"></div>
 
   <!-- ══ LOADING SCREEN ════════════════════════════════════════ -->
   <div id="entry-loader">
@@ -869,58 +881,102 @@
 
         <!-- ── Fontys / Jan Salge ─────────────────────────────── -->
         <div class="tcard rec-card reveal-scale" style="--delay:0ms">
-          <div class="tcard-accent-line"></div>
-          <div class="tcard-quote-mark">"</div>
+          <div class="rec-flip-inner">
 
-          <p class="tcard-body">Aleksandar was an active participant in ICT &amp; Media Semester 3, specializing in web development and React. He particularly distinguished himself through research methods at a high level. Always self-reflective, aware of his strengths and weaknesses, and an excellent team player with extensive experience in multidisciplinary international environments.</p>
+            <!-- FRONT -->
+            <div class="rec-face rec-front">
+              <div class="tcard-accent-line"></div>
+              <div class="tcard-quote-mark">"</div>
 
-          <ul class="rec-highlights">
-            <li><span class="rec-tag">React &amp; Web Dev</span></li>
-            <li><span class="rec-tag">Research Excellence</span></li>
-            <li><span class="rec-tag">Self-Reflective</span></li>
-            <li><span class="rec-tag">International Teams</span></li>
-          </ul>
+              <p class="tcard-body">Aleksandar was an active participant in ICT &amp; Media Semester 3, specializing in web development and React. He particularly distinguished himself through research methods at a high level. Always self-reflective, aware of his strengths and weaknesses, and an excellent team player with extensive experience in multidisciplinary international environments.</p>
 
-          <div class="tcard-attr rec-attr">
-            <img src="images/fontyslogo.jpg" alt="Fontys logo" class="rec-company-logo" />
-            <div class="tcard-info">
-              <span class="tcard-name">Jan Salge</span>
-              <span class="tcard-role">Study Course Coordinator S3 Media+ICT &mdash; Fontys</span>
-              <span class="tcard-role rec-date">Eindhoven, December 2024</span>
+              <ul class="rec-highlights">
+                <li><span class="rec-tag">React &amp; Web Dev</span></li>
+                <li><span class="rec-tag">Research Excellence</span></li>
+                <li><span class="rec-tag">Self-Reflective</span></li>
+                <li><span class="rec-tag">International Teams</span></li>
+              </ul>
+
+              <div class="tcard-attr rec-attr">
+                <img src="images/fontyslogo.jpg" alt="Fontys logo" class="rec-company-logo" />
+                <div class="tcard-info">
+                  <span class="tcard-name">Jan Salge</span>
+                  <span class="tcard-role">Study Course Coordinator S3 Media+ICT &mdash; Fontys</span>
+                  <span class="tcard-role rec-date">Eindhoven, December 2024</span>
+                </div>
+              </div>
+
+              <div class="rec-flip-hint"><i class="fa-solid fa-rotate"></i> CASE FILE</div>
             </div>
-          </div>
 
-          <a href="recommendations/Recommendation Letter-1.pdf" target="_blank" rel="noopener" class="rec-view-btn">
-            <i class="fa-solid fa-file-lines"></i> VIEW FULL RECOMMENDATION
-          </a>
+            <!-- BACK -->
+            <div class="rec-face rec-back" style="--back-accent:#FF006E">
+              <div class="rec-back-header">
+                <span class="rec-back-num">01</span>
+                <span class="rec-back-label">CASE FILE</span>
+              </div>
+              <div class="rec-back-name">Jan Salge</div>
+              <div class="rec-back-role">Study Course Coordinator<br>S3 Media &amp; ICT</div>
+              <div class="rec-back-org">Fontys &mdash; Eindhoven</div>
+              <div class="rec-back-date">December 2024</div>
+              <img src="images/fontyslogo.jpg" alt="Fontys logo" class="rec-company-logo rec-back-logo" />
+              <a href="recommendations/Recommendation Letter-1.pdf" target="_blank" rel="noopener" class="rec-view-btn">
+                <i class="fa-solid fa-file-lines"></i> VIEW FULL RECOMMENDATION
+              </a>
+              <div class="rec-flip-hint"><i class="fa-solid fa-rotate"></i> BACK</div>
+            </div>
+
+          </div>
         </div>
 
         <!-- ── iO campus Sofia / Elena Dobreva ───────────────── -->
         <div class="tcard rec-card reveal-scale" style="--delay:160ms">
-          <div class="tcard-accent-line"></div>
-          <div class="tcard-quote-mark">"</div>
+          <div class="rec-flip-inner">
 
-          <p class="tcard-body">Alexander worked at iO campus Sofia for six months as a frontend developer on our internal HR tool redesign. His curious mindset, innovative ideas, and keen eye for design proved invaluable. He demonstrated exceptional technical competence, reliability in meeting deadlines, and excellent collaborative skills — going beyond assigned tasks in every project phase.</p>
+            <!-- FRONT -->
+            <div class="rec-face rec-front">
+              <div class="tcard-accent-line"></div>
+              <div class="tcard-quote-mark">"</div>
 
-          <ul class="rec-highlights">
-            <li><span class="rec-tag">Frontend Dev</span></li>
-            <li><span class="rec-tag">Eye for Design</span></li>
-            <li><span class="rec-tag">Innovative Thinker</span></li>
-            <li><span class="rec-tag">Team Collaboration</span></li>
-          </ul>
+              <p class="tcard-body">Alexander worked at iO campus Sofia for six months as a frontend developer on our internal HR tool redesign. His curious mindset, innovative ideas, and keen eye for design proved invaluable. He demonstrated exceptional technical competence, reliability in meeting deadlines, and excellent collaborative skills — going beyond assigned tasks in every project phase.</p>
 
-          <div class="tcard-attr rec-attr">
-            <img src="images/iologo.png" alt="iO logo" class="rec-company-logo" />
-            <div class="tcard-info">
-              <span class="tcard-name">Elena Dobreva</span>
-              <span class="tcard-role">HR Responsible &mdash; iO Bulgaria</span>
-              <span class="tcard-role rec-date">Sofia, August 2025</span>
+              <ul class="rec-highlights">
+                <li><span class="rec-tag">Frontend Dev</span></li>
+                <li><span class="rec-tag">Eye for Design</span></li>
+                <li><span class="rec-tag">Innovative Thinker</span></li>
+                <li><span class="rec-tag">Team Collaboration</span></li>
+              </ul>
+
+              <div class="tcard-attr rec-attr">
+                <img src="images/iologo.png" alt="iO logo" class="rec-company-logo" />
+                <div class="tcard-info">
+                  <span class="tcard-name">Elena Dobreva</span>
+                  <span class="tcard-role">HR Responsible &mdash; iO Bulgaria</span>
+                  <span class="tcard-role rec-date">Sofia, August 2025</span>
+                </div>
+              </div>
+
+              <div class="rec-flip-hint"><i class="fa-solid fa-rotate"></i> CASE FILE</div>
             </div>
-          </div>
 
-          <a href="recommendations/iO_letter of recommendation_Alexander Nikolov-3.pdf" target="_blank" rel="noopener" class="rec-view-btn">
-            <i class="fa-solid fa-file-lines"></i> VIEW FULL RECOMMENDATION
-          </a>
+            <!-- BACK -->
+            <div class="rec-face rec-back" style="--back-accent:#00F5FF">
+              <div class="rec-back-header">
+                <span class="rec-back-num">02</span>
+                <span class="rec-back-label">CASE FILE</span>
+              </div>
+              <div class="rec-back-name">Elena Dobreva</div>
+              <div class="rec-back-role">HR Responsible</div>
+              <div class="rec-back-org">iO Bulgaria &mdash; Sofia</div>
+              <div class="rec-back-date">August 2025</div>
+              <img src="images/iologo.png" alt="iO logo" class="rec-company-logo rec-back-logo" />
+              <a href="recommendations/iO_letter of recommendation_Alexander Nikolov-3.pdf" target="_blank" rel="noopener" class="rec-view-btn">
+                <i class="fa-solid fa-file-lines"></i> VIEW FULL RECOMMENDATION
+              </a>
+              <div class="rec-flip-hint"><i class="fa-solid fa-rotate"></i> BACK</div>
+            </div>
+
+          </div>
         </div>
 
       </div>
@@ -967,5 +1023,6 @@
   <script src="js/enhance.js"></script>
   <script src="js/postfx.js"></script>
   <script src="js/spiderverse.js"></script>
+  <script src="js/theme-toggle.js"></script>
 </body>
 </html>
