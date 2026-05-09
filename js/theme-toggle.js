@@ -23,6 +23,9 @@
 
   function doSketch() {
     if (document.getElementById('comic-portal')?.classList.contains('cb-active')) return;
+    /* Skip periodic flash when a persistent visual theme is active */
+    if (document.body.classList.contains('sv-theme-sketch') ||
+        document.body.classList.contains('sv-theme-noir')) return;
     const body = document.body;
     body.classList.add(SKETCH_CLASS);
     setTimeout(() => body.classList.remove(SKETCH_CLASS), 80);
@@ -87,7 +90,7 @@
     attachWordBursts();
     injectComicBlanks();
     syncSubline();
-    startSketchCycle();
+    /* Sketch ambient flash removed — theme switcher handles sketch mode */
 
     const observer = new MutationObserver(() => {
       attachWordBursts();

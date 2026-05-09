@@ -53,16 +53,45 @@ body.spiderverse::before {
   mix-blend-mode: multiply !important;
 }
 
-/* Cursor glow → warm red Spidey aura */
+/* Spider-Sense targeting reticle — replaces the Nothing Phone circle.
+   A scope ring with 4 crosshair ticks (N/S/E/W) via background gradients.
+   mix-blend-mode: normal so it stays readable on all three sub-themes. */
 body.spiderverse .cursor-glow {
-  background: radial-gradient(circle, rgba(226,54,54,0.13) 0%, transparent 70%) !important;
+  background: radial-gradient(circle, rgba(226,54,54,0.10) 0%, transparent 70%) !important;
 }
 body.spiderverse .cursor-outer {
-  border-color: var(--sv-red) !important;
+  width: 28px !important;
+  height: 28px !important;
+  border: 2px solid var(--sv-red) !important;
+  border-radius: 50% !important;
+  mix-blend-mode: normal !important;
+  background-image:
+    linear-gradient(var(--sv-red), var(--sv-red)),
+    linear-gradient(var(--sv-red), var(--sv-red)),
+    linear-gradient(var(--sv-red), var(--sv-red)),
+    linear-gradient(var(--sv-red), var(--sv-red)) !important;
+  background-size:     1.5px 7px, 1.5px 7px, 7px 1.5px, 7px 1.5px !important;
+  background-position: top center, bottom center, left center, right center !important;
+  background-repeat:   no-repeat !important;
+  background-color:    transparent !important;
+}
+body.spiderverse .cursor-dot {
+  background: var(--sv-red) !important;
+  mix-blend-mode: normal !important;
 }
 body.spiderverse .cursor-outer.hover {
+  width: 48px !important;
+  height: 48px !important;
   border-color: var(--sv-yellow) !important;
-  background: rgba(226,54,54,0.10) !important;
+  background-image:
+    linear-gradient(var(--sv-yellow), var(--sv-yellow)),
+    linear-gradient(var(--sv-yellow), var(--sv-yellow)),
+    linear-gradient(var(--sv-yellow), var(--sv-yellow)),
+    linear-gradient(var(--sv-yellow), var(--sv-yellow)) !important;
+  background-size:     1.5px 12px, 1.5px 12px, 12px 1.5px, 12px 1.5px !important;
+  background-position: top center, bottom center, left center, right center !important;
+  background-repeat:   no-repeat !important;
+  background-color:    rgba(226,54,54,0.07) !important;
 }
 
 /* Kill all neon glows on marquee words */
@@ -1279,6 +1308,21 @@ body.sv-sketch-active .name-line {
   -webkit-text-fill-color: #0D0D0D !important;
 }
 
+/* 5b. Permanent sketch theme — swap display headings to Permanent Marker
+        for a "quickly sketched-in" hand-drawn ink feel.
+        .name-line (hero name with animations) stays in Bangers intentionally. */
+body.sv-theme-sketch .section-title,
+body.sv-theme-sketch h2:not(.hero-name h2),
+body.sv-theme-sketch h3,
+body.sv-theme-sketch .ft-title,
+body.sv-theme-sketch .about-name,
+body.sv-theme-sketch .about-role {
+  font-family: 'Permanent Marker', cursive !important;
+  letter-spacing: 0.01em !important;
+  font-weight: 400 !important;
+  text-transform: none !important;
+}
+
 /* 6. Images → B&W pencil sketch */
 body.sv-sketch-active img {
   filter: grayscale(1) contrast(1.2) brightness(1.05) !important;
@@ -1424,66 +1468,28 @@ body.sv-sketch-active #comic-portal .cb-panel-caption {
   -webkit-text-fill-color: #fff !important;
 }
 
-/* ── 24. SPIDER-VERSE CINEMATIC EFFECTS ─────────────────────────
-   Replaces the heavy black panel wipe with lightweight animated
-   effects inspired by "Into / Across the Spider-Verse":
-   1. CMYK print-plate mis-registration glitch
-   2. Dimension portal ripple rings on click
-   3. Spider-web corner crack
-   4. Spider-sense stutter on section header reveal
-   5. Ink-splat section reveal (lightweight replacement)            */
+/* ── 24. SPIDER-VERSE VISUAL THEME SYSTEM ───────────────────────
+   Three switchable themes managed by sv-glitch-effects.js.
+   body class controls which is active:
+   • (none)           → COLOR  — default full Spider-Verse
+   • sv-theme-sketch  → SKETCH — warm parchment B&W pencil look
+   • sv-theme-noir    → NOIR   — Spider-Noir dark high-contrast
+   The theme button lives in .sv-theme-btn (fixed, bottom-right).  */
 
-/* 1. CMYK mis-registration — enhanced text-shadow burst */
+/* ── CMYK glitch: text-shadow burst (no GPU overlay needed) ───── */
 body.sv-cmyk-active .name-line,
 body.sv-cmyk-active .section-title,
 body.sv-cmyk-active .hero-name,
 body.sv-cmyk-active .ft-title,
 body.sv-cmyk-active .about-role {
   text-shadow:
-    -8px  0   rgba(226,54,54,0.95),
-     8px  0   rgba(26,58,143,0.95),
-     0    0   0 #0D0D0D !important;
+    -8px 0 rgba(226,54,54,0.95),
+     8px 0 rgba(26,58,143,0.95),
+     0   0 0 #0D0D0D !important;
   transition: text-shadow 0s step-start !important;
 }
 
-/* CMYK colour-wash overlay (mix-blend: color shifts hue without
-   destroying existing animations on child elements)               */
-.sv-cmyk-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 9988;
-  pointer-events: none;
-  mix-blend-mode: color;
-  animation: sv-cmyk-wash 0.52s steps(4, end) forwards;
-}
-@keyframes sv-cmyk-wash {
-  0%   { background: #E23636; opacity: 0.09; }
-  25%  { background: #1A3A8F; opacity: 0.12; }
-  50%  { background: #F7C948; opacity: 0.08; }
-  75%  { background: #E23636; opacity: 0.06; }
-  100% { background: #E23636; opacity: 0;    }
-}
-
-/* 2. Dimension portal ripple rings */
-.sv-portal-ring {
-  position: fixed;
-  width: 12px;
-  height: 12px;
-  margin-left: -6px;
-  margin-top: -6px;
-  border-radius: 50%;
-  border: 3px solid #E23636;
-  pointer-events: none;
-  z-index: 9984;
-  animation: sv-ring-expand 0.72s cubic-bezier(0.15, 0, 0.85, 1) forwards;
-}
-@keyframes sv-ring-expand {
-  0%   { transform: scale(1);  opacity: 1;  border-width: 3px; }
-  60%  { opacity: 0.7;                      border-width: 2px; }
-  100% { transform: scale(24); opacity: 0;  border-width: 1px; }
-}
-
-/* 3. Spider-web corner crack */
+/* ── Spider-web corner crack ─────────────────────────────────── */
 .sv-web-crack {
   position: fixed;
   width: 200px;
@@ -1496,39 +1502,545 @@ body.sv-cmyk-active .about-role {
 .sv-web-crack--on   { opacity: 1; }
 .sv-web-crack--fade { opacity: 0; transition: opacity 0.22s ease-out; }
 
-/* 4. Spider-sense stutter — applied to section-header wrapper
-   Uses only translateX so it does not conflict with child
-   reveal animations that use translateY / opacity.                 */
-.sv-spider-sense {
-  animation: sv-sense 0.48s steps(5, end) !important;
-}
-@keyframes sv-sense {
-  0%   { transform: translateX(0)    skewX(0deg);  }
-  20%  { transform: translateX(-5px) skewX(-3deg); }
-  40%  { transform: translateX(5px)  skewX(2deg);  }
-  60%  { transform: translateX(-3px) skewX(-2deg); }
-  80%  { transform: translateX(2px)  skewX(1deg);  }
-  100% { transform: translateX(0)    skewX(0deg);  }
-}
-
-/* 5. Ink-splat section reveal — small red circle from viewport edge */
-.sv-ink-splat {
+/* ── Theme switcher button ──────────────────────────────────── */
+.sv-theme-btn {
   position: fixed;
-  inset: 0;
-  z-index: 9983;
-  pointer-events: none;
-  background: #E23636;
-  /* clip-path animated by JS via inline style */
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  gap: 0.45em;
+  padding: 0.45em 1em 0.35em;
+  background: #F7C948;
+  color: #0D0D0D;
+  border: 3px solid #0D0D0D;
+  border-radius: 0;
+  font-family: 'Bangers', 'Anton', cursive;
+  font-size: 1rem;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 4px 4px 0 #0D0D0D;
+  transition: transform 0.05s step-start, box-shadow 0.05s step-start;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.sv-theme-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #0D0D0D;
+}
+.sv-theme-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 #0D0D0D;
+}
+.sv-theme-btn .sv-theme-icon { font-style: normal; font-size: 0.9em; }
+
+/* SKETCH variant */
+body.sv-theme-sketch .sv-theme-btn {
+  background: #EAE6DA;
+  color: #0D0D0D;
+  border-color: #0D0D0D;
+  box-shadow: 4px 4px 0 #0D0D0D;
+}
+/* NOIR variant */
+body.sv-theme-noir .sv-theme-btn {
+  background: #151515;
+  color: #E8E4DC;
+  border-color: #8B0000;
+  box-shadow: 4px 4px 0 #8B0000;
+}
+body.sv-theme-noir .sv-theme-btn:hover {
+  box-shadow: 6px 6px 0 #8B0000;
 }
 
-/* Respect user motion preference */
+/* ── NOIR THEME — Spider-Noir: dark, B&W + deep red ─────────── */
+
+/* 0. Suppress decoration layers */
+body.sv-theme-noir .bg,
+body.sv-theme-noir .grid-bg,
+body.sv-theme-noir .glyph-layer,
+body.sv-theme-noir .scanline,
+body.sv-theme-noir .ambient-orbs {
+  opacity: 0 !important;
+}
+
+/* 1. Page + section backgrounds */
+body.sv-theme-noir,
+body.sv-theme-noir .section-hero,
+body.sv-theme-noir .section-about,
+body.sv-theme-noir .section-projects,
+body.sv-theme-noir .section-skills,
+body.sv-theme-noir .section-testimonials,
+body.sv-theme-noir .site-footer,
+body.sv-theme-noir .topnav,
+body.sv-theme-noir .topnav-inner {
+  background: #0C0C0C !important;
+  background-color: #0C0C0C !important;
+  background-image: none !important;
+}
+
+/* 2. Cards & panels */
+body.sv-theme-noir .proj-card,
+body.sv-theme-noir .rec-card,
+body.sv-theme-noir .tcard,
+body.sv-theme-noir .skill-category,
+body.sv-theme-noir .about-stat-item,
+body.sv-theme-noir .hero-tag {
+  background: #111 !important;
+  background-color: #111 !important;
+  background-image: none !important;
+  border-color: #2A2A2A !important;
+}
+
+/* 3. Universal text → off-white */
+body.sv-theme-noir * {
+  color: #E8E4DC !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+}
+
+/* 4. Headings → white ink, no stroke */
+body.sv-theme-noir h1,
+body.sv-theme-noir h2,
+body.sv-theme-noir h3,
+body.sv-theme-noir .cw1,
+body.sv-theme-noir .name-line {
+  color: #FFFFFF !important;
+  -webkit-text-stroke: 0 !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+}
+
+/* 5. Accent elements → deep crimson */
+body.sv-theme-noir .section-number,
+body.sv-theme-noir .cw2,
+body.sv-theme-noir .hero-tag {
+  color: #8B0000 !important;
+  -webkit-text-fill-color: #8B0000 !important;
+}
+
+/* 6. Images → high-contrast grayscale */
+body.sv-theme-noir img {
+  filter: grayscale(1) contrast(1.5) brightness(0.75) !important;
+}
+
+/* 7. Skill bars → charcoal */
+body.sv-theme-noir .skill-bar-fill,
+body.sv-theme-noir [class*="bar-fill"],
+body.sv-theme-noir [class*="progress"] {
+  background: #555 !important;
+  background-color: #555 !important;
+}
+
+/* 8. Comic book reader — preserve its own colours */
+body.sv-theme-noir #comic-portal {
+  background: transparent !important;
+  background-image: none !important;
+}
+body.sv-theme-noir #comic-portal .cb-backdrop {
+  background: rgba(5,5,10,0.92) !important;
+}
+body.sv-theme-noir #comic-portal .cb-close-btn {
+  color: #fff !important;
+  background: rgba(139,0,0,0.85) !important;
+}
+body.sv-theme-noir #comic-portal .cb-left-pg-0,
+body.sv-theme-noir #comic-portal .cb-left-pg-2 {
+  background: #0D0D0D !important;
+}
+body.sv-theme-noir #comic-portal .cb-left-pg-0 *,
+body.sv-theme-noir #comic-portal .cb-left-pg-2 * {
+  color: #E8E4DC !important;
+  -webkit-text-fill-color: #E8E4DC !important;
+}
+body.sv-theme-noir #comic-portal .cb-left-pg-1 {
+  background: #161616 !important;
+}
+body.sv-theme-noir #comic-portal .cb-rp-cover {
+  background: #1A0000 !important;
+}
+body.sv-theme-noir #comic-portal .cb-cover-banner {
+  background: #8B0000 !important;
+  color: #E8E4DC !important;
+  -webkit-text-fill-color: #E8E4DC !important;
+}
+body.sv-theme-noir #comic-portal .cb-cover-title,
+body.sv-theme-noir #comic-portal .cb-cover-issue {
+  background: #0D0D0D !important;
+  color: #E8E4DC !important;
+  -webkit-text-fill-color: #E8E4DC !important;
+}
+body.sv-theme-noir #comic-portal .cb-cover-action {
+  background: #8B0000 !important;
+  color: #E8E4DC !important;
+  -webkit-text-fill-color: #E8E4DC !important;
+}
+body.sv-theme-noir #comic-portal .cb-rp-info {
+  background: #111 !important;
+}
+body.sv-theme-noir #comic-portal .cb-rp-info * {
+  color: #E8E4DC !important;
+  -webkit-text-fill-color: #E8E4DC !important;
+}
+body.sv-theme-noir #comic-portal .cb-info-issue-label,
+body.sv-theme-noir #comic-portal .cb-info-page-num {
+  color: #8B0000 !important;
+  -webkit-text-fill-color: #8B0000 !important;
+}
+body.sv-theme-noir #comic-portal .cb-visit-btn {
+  background: #8B0000 !important;
+  color: #E8E4DC !important;
+  -webkit-text-fill-color: #E8E4DC !important;
+}
+body.sv-theme-noir #comic-portal .cb-github-btn {
+  background: #1A1A1A !important;
+  color: #E8E4DC !important;
+  -webkit-text-fill-color: #E8E4DC !important;
+}
+body.sv-theme-noir #comic-portal .cb-rp-thanks {
+  background: #1A0000 !important;
+}
+body.sv-theme-noir #comic-portal .cb-thanks-exclaim {
+  color: #8B0000 !important;
+  -webkit-text-fill-color: #8B0000 !important;
+}
+body.sv-theme-noir #comic-portal .cb-thanks-title,
+body.sv-theme-noir #comic-portal .cb-thanks-sub,
+body.sv-theme-noir #comic-portal .cb-thanks-logo {
+  color: #E8E4DC !important;
+  -webkit-text-fill-color: #E8E4DC !important;
+}
+body.sv-theme-noir #comic-portal .cb-back-btn,
+body.sv-theme-noir #comic-portal .cb-arrow-btn {
+  background: #1A1A1A !important;
+  color: #E8E4DC !important;
+  border-color: #8B0000 !important;
+  -webkit-text-fill-color: #E8E4DC !important;
+}
+body.sv-theme-noir #comic-portal .cb-panel-caption {
+  color: #E8E4DC !important;
+  -webkit-text-fill-color: #E8E4DC !important;
+}
+
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .sv-cmyk-overlay,
-  .sv-portal-ring,
-  .sv-ink-splat      { display: none !important; }
-  .sv-web-crack      { display: none !important; }
-  .sv-spider-sense   { animation: none !important; }
+  .sv-web-crack { display: none !important; }
+  .sv-theme-btn { transition: none !important; }
+}
+
+/* ── 25. HERO NAME ANIMATIONS ─────────────────────────────────── */
+
+/* Spider-Sense vibration: fires at 90–95% of every 8 s cycle (~every 8 s,
+   lasting ~0.4 s). steps(1,end) gives the discrete comic-book snap feel. */
+@keyframes sv-spider-sense {
+  0%,   90%  { transform: translate(0,    0); }
+  90.5%      { transform: translate(-4px,  1px); }
+  91%        { transform: translate( 3px, -2px); }
+  91.5%      { transform: translate(-2px,  3px); }
+  92%        { transform: translate( 5px, -1px); }
+  92.5%      { transform: translate(-3px,  2px); }
+  93%        { transform: translate( 2px, -4px); }
+  93.5%      { transform: translate(-5px,  1px); }
+  94%        { transform: translate( 3px, -2px); }
+  94.5%      { transform: translate(-1px,  3px); }
+  95%, 100%  { transform: translate(0,    0); }
+}
+
+/* CMYK GLITCH ANIMATION ─────────────────────────────────────── */
+
+@keyframes sv-name-glitch {
+  0%,87%   { text-shadow: -3px 0 rgba(226,54,54,.75), 3px 0 rgba(26,58,143,.75), 5px 5px 0 var(--sv-blue); }
+  88%      { text-shadow: -22px 0 rgba(226,54,54,1),  18px 0 rgba(26,58,143,1); }
+  89%      { text-shadow: -3px 0 rgba(226,54,54,.75), 3px 0 rgba(26,58,143,.75), 5px 5px 0 var(--sv-blue); }
+  90%      { text-shadow:  22px 0 rgba(226,54,54,1), -18px 0 rgba(26,58,143,1); }
+  91%      { text-shadow: -3px 0 rgba(226,54,54,.75), 3px 0 rgba(26,58,143,.75), 5px 5px 0 var(--sv-blue); }
+  92%      { text-shadow: -28px -2px rgba(226,54,54,1), 22px 2px rgba(26,58,143,1), 0 0 0 #0D0D0D; }
+  93%,100% { text-shadow: -3px 0 rgba(226,54,54,.75), 3px 0 rgba(26,58,143,.75), 5px 5px 0 var(--sv-blue); }
+}
+
+@keyframes sv-name-glitch-1 {
+  0%,87%   { text-shadow: 4px 4px 0 var(--sv-red); }
+  88%      { text-shadow: -18px 0 rgba(226,54,54,1), 14px 0 rgba(26,58,143,.9), 4px 4px 0 var(--sv-blue); }
+  89%      { text-shadow: 4px 4px 0 var(--sv-red); }
+  90%      { text-shadow:  18px 0 rgba(226,54,54,1), -14px 0 rgba(26,58,143,.9), 4px 4px 0 var(--sv-blue); }
+  91%      { text-shadow: 4px 4px 0 var(--sv-red); }
+  92%      { text-shadow: -22px -2px rgba(226,54,54,1), 18px 2px rgba(26,58,143,.9); }
+  93%,100% { text-shadow: 4px 4px 0 var(--sv-red); }
+}
+
+/* Chain reveal-up + CMYK glitch + Spider-Sense vibration on each name line.
+   sv-spider-sense (last in list) owns `transform` after it starts — since
+   reveal-up finishes before the 2 s delay, the slide-in is unaffected. */
+body.spiderverse .hero-name .name-line:not(.stroke) {
+  animation:
+    reveal-up     0.9s       cubic-bezier(0.16,1,0.3,1) forwards,
+    sv-name-glitch-1 9s 2s   steps(1,end) infinite,
+    sv-spider-sense  8s 2s   steps(1,end) infinite !important;
+}
+body.spiderverse .hero-name .name-line.stroke {
+  animation:
+    reveal-up     0.9s 0.62s cubic-bezier(0.16,1,0.3,1) both,
+    sv-name-glitch   9s 2.5s steps(1,end) infinite,
+    sv-spider-sense  8s 2.5s steps(1,end) infinite !important;
+}
+
+/* Disable glitch in sketch/noir — keep only reveal-up */
+body.sv-sketch-active .hero-name .name-line:not(.stroke),
+body.sv-theme-noir    .hero-name .name-line:not(.stroke) {
+  animation: reveal-up 0.9s cubic-bezier(0.16,1,0.3,1) forwards !important;
+}
+body.sv-sketch-active .hero-name .name-line.stroke,
+body.sv-theme-noir    .hero-name .name-line.stroke {
+  animation: reveal-up 0.9s 0.62s cubic-bezier(0.16,1,0.3,1) both !important;
+}
+
+/* ── 26. SKILLS SECTION-BG-WORD — prevent overlap with ft-items ── */
+
+body.spiderverse .section-skills .section-bg-word {
+  display: none !important;
+}
+
+/* ── 27. SKETCH THEME — VISIBILITY FIXES ──────────────────────── */
+/* body.spiderverse rules have specificity 0-2-1 which beats the blanket
+   body.sv-sketch-active * (0-1-1) rule. These later same-specificity rules
+   correct elements that would vanish on the parchment background.         */
+
+/* White / near-white text that becomes invisible on parchment */
+body.sv-sketch-active .hero-role,
+body.sv-sketch-active .about-role,
+body.sv-sketch-active .section-title {
+  color: #0D0D0D !important;
+  -webkit-text-fill-color: #0D0D0D !important;
+}
+body.sv-sketch-active .about-text p,
+body.sv-sketch-active .about-stat-label {
+  color: #0D0D0D !important;
+}
+
+/* ft-title has transparent fill + white -webkit-text-stroke → swap to black stroke */
+body.sv-sketch-active .ft-title {
+  -webkit-text-stroke: 2px #0D0D0D !important;
+}
+
+/* ── 28. NOIR THEME — VISIBILITY FIXES ────────────────────────── */
+
+/* Nav links: body.spiderverse sets color:#0D0D0D (0-2-1) which beats
+   the universal body.sv-theme-noir * rule → dark text on dark bg. */
+body.sv-theme-noir .tnav-link,
+body.sv-theme-noir .topnav-logo span,
+body.sv-theme-noir .topnav-nav a {
+  color: #E8E4DC !important;
+  -webkit-text-fill-color: #E8E4DC !important;
+}
+body.sv-theme-noir .tnav-link:hover,
+body.sv-theme-noir .tnav-link.active {
+  color: #8B0000 !important;
+  -webkit-text-fill-color: #8B0000 !important;
+}
+
+/* Social icons: body.spiderverse sets them to var(--sv-black) (0-2-1)
+   which beats the universal noir * rule → black icons on dark nav. */
+body.sv-theme-noir .topnav-socials a i {
+  color: #E8E4DC !important;
+  -webkit-text-fill-color: #E8E4DC !important;
+}
+body.sv-theme-noir .topnav-socials a:hover i {
+  color: #8B0000 !important;
+  -webkit-text-fill-color: #8B0000 !important;
+}
+
+/* name-line.stroke: preserve the hollow outlined look in noir palette */
+body.sv-theme-noir .name-line.stroke {
+  -webkit-text-fill-color: transparent !important;
+  -webkit-text-stroke: 3px #E8E4DC !important;
+  text-shadow:
+    -2px 0 rgba(139,0,0,0.8),
+     2px 0 rgba(90,90,90,0.6),
+     3px 3px 0 rgba(120,120,120,0.5) !important;
+}
+
+/* skill-tags: yellow-on-dark is too garish → deep crimson bg instead */
+body.sv-theme-noir .skill-tags span {
+  background: #1A0000 !important;
+  background-color: #1A0000 !important;
+  color: #E8E4DC !important;
+  -webkit-text-fill-color: #E8E4DC !important;
+  border-color: #8B0000 !important;
+  box-shadow: 2px 2px 0 #8B0000 !important;
+}
+
+/* ── 29. SPIDER CHARACTER ──────────────────────────────────────── */
+
+#sv-spider {
+  position: fixed;
+  top: 0;
+  right: 18%;
+  z-index: 8900;
+  pointer-events: none;
+  width: 60px;
+  display: none !important;
+  flex-direction: column;
+  align-items: center;
+}
+#sv-spider-thread {
+  width: 2px;
+  background: linear-gradient(to bottom, #0D0D0D 60%, rgba(13,13,13,0.3));
+  height: 0;
+  flex-shrink: 0;
+}
+#sv-spider-sway {
+  animation: sv-spider-sway 3.5s ease-in-out infinite;
+  transform-origin: center top;
+  flex-shrink: 0;
+  will-change: transform;
+}
+@keyframes sv-spider-sway {
+  0%, 100% { transform: rotate(-5deg); }
+  50%       { transform: rotate(5deg);  }
+}
+
+/* NOIR: lighter thread + red eyes on dark background */
+body.sv-theme-noir #sv-spider-thread {
+  background: linear-gradient(to bottom, #888 60%, rgba(136,136,136,0.2));
+}
+body.sv-theme-noir .spider-eye  { fill: #FF2222 !important; }
+body.sv-theme-noir .spider-body,
+body.sv-theme-noir .spider-head { fill: #1A1A1A !important; stroke: #555 !important; }
+body.sv-theme-noir .spider-leg  { stroke: #555 !important; }
+
+/* SKETCH: slightly lighter thread for parchment contrast */
+body.sv-theme-sketch #sv-spider-thread {
+  background: linear-gradient(to bottom, #2B2B2B 60%, rgba(43,43,43,0.25));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #sv-spider { display: none !important; }
 }
 
 
+/* ── 30. THEME-SPECIFIC NAV + COMMAND STRIP OVERRIDES ──────────── */
 
+/* FIX: .topnav.scrolled has specificity 0-3-1 and beats the sketch/noir
+   theme rules (0-2-1), leaving a white nav bar when the page is scrolled.
+   These rules match the same specificity but appear later → they win. */
+body.sv-theme-sketch .topnav.scrolled,
+body.sv-theme-sketch .topnav-inner {
+  background:    #DDD8CC !important;
+  background-color: #DDD8CC !important;
+  border-color:  #0D0D0D !important;
+  box-shadow:    0 4px 0 #0D0D0D !important;
+}
+body.sv-theme-noir .topnav.scrolled,
+body.sv-theme-noir .topnav-inner {
+  background:    #0C0C0C !important;
+  background-color: #0C0C0C !important;
+  border-color:  #2A2A2A !important;
+  box-shadow:    0 4px 0 #2A2A2A !important;
+}
+
+/* FIX: In NOIR mode the universal `* { color: #E8E4DC }` rule turns text
+   inside the command strip to near-white while the strip's background
+   stays white (spiderverse .filter-btn rule wins on bg → unreadable).
+   Override the command strip and every child to dark-theme colours. */
+body.sv-theme-noir .shibuya-command-strip {
+  background:    #0C0C0C !important;
+  background-color: #0C0C0C !important;
+  border-color:  #8B0000 !important;
+  box-shadow:    4px 4px 0 #8B0000 !important;
+}
+body.sv-theme-noir .filter-btn {
+  background:    #1A1A1A !important;
+  background-color: #1A1A1A !important;
+  color:         #E8E4DC !important;
+  border-color:  #3A3A3A !important;
+  box-shadow:    3px 3px 0 #3A3A3A !important;
+}
+body.sv-theme-noir .filter-btn:hover {
+  box-shadow:    5px 5px 0 #8B0000 !important;
+}
+body.sv-theme-noir .filter-btn.active {
+  background:    #8B0000 !important;
+  background-color: #8B0000 !important;
+  color:         #E8E4DC !important;
+  box-shadow:    4px 4px 0 #8B0000 !important;
+}
+body.sv-theme-noir .shib-brand-name,
+body.sv-theme-noir .filter-status-text,
+body.sv-theme-noir .proj-subline {
+  color:         #E8E4DC !important;
+}
+body.sv-theme-noir .sig-bar {
+  background:    #8B0000 !important;
+  background-color: #8B0000 !important;
+}
+
+/* FIX: Same issue in SKETCH — command strip stays white from the
+   spiderverse rule while SKETCH text colours may shift. */
+body.sv-theme-sketch .shibuya-command-strip {
+  background:    #DDD8CC !important;
+  background-color: #DDD8CC !important;
+  border-color:  #0D0D0D !important;
+  box-shadow:    4px 4px 0 #0D0D0D !important;
+}
+body.sv-theme-sketch .filter-btn {
+  background:    #EAE6DA !important;
+  background-color: #EAE6DA !important;
+  color:         #0D0D0D !important;
+  border-color:  #0D0D0D !important;
+}
+body.sv-theme-sketch .filter-btn.active {
+  background:    #0D0D0D !important;
+  background-color: #0D0D0D !important;
+  color:         #EAE6DA !important;
+}
+body.sv-theme-sketch .shib-brand-name,
+body.sv-theme-sketch .filter-status-text,
+body.sv-theme-sketch .proj-subline {
+  color:         #0D0D0D !important;
+}
+body.sv-theme-sketch .sig-bar {
+  background:    #0D0D0D !important;
+  background-color: #0D0D0D !important;
+}
+
+/* CURSOR: theme-specific reticle colours */
+body.sv-theme-sketch .cursor-outer {
+  border-color: #2B2B2B !important;
+  background-image:
+    linear-gradient(#2B2B2B, #2B2B2B),
+    linear-gradient(#2B2B2B, #2B2B2B),
+    linear-gradient(#2B2B2B, #2B2B2B),
+    linear-gradient(#2B2B2B, #2B2B2B) !important;
+}
+body.sv-theme-sketch .cursor-outer.hover {
+  border-color: #0D0D0D !important;
+  background-image:
+    linear-gradient(#0D0D0D, #0D0D0D),
+    linear-gradient(#0D0D0D, #0D0D0D),
+    linear-gradient(#0D0D0D, #0D0D0D),
+    linear-gradient(#0D0D0D, #0D0D0D) !important;
+  background-color: rgba(0,0,0,0.05) !important;
+}
+body.sv-theme-sketch .cursor-dot {
+  background: #2B2B2B !important;
+}
+body.sv-theme-noir .cursor-outer {
+  border-color: #E8E4DC !important;
+  background-image:
+    linear-gradient(#E8E4DC, #E8E4DC),
+    linear-gradient(#E8E4DC, #E8E4DC),
+    linear-gradient(#E8E4DC, #E8E4DC),
+    linear-gradient(#E8E4DC, #E8E4DC) !important;
+}
+body.sv-theme-noir .cursor-outer.hover {
+  border-color: #8B0000 !important;
+  background-image:
+    linear-gradient(#8B0000, #8B0000),
+    linear-gradient(#8B0000, #8B0000),
+    linear-gradient(#8B0000, #8B0000),
+    linear-gradient(#8B0000, #8B0000) !important;
+  background-color: rgba(139,0,0,0.12) !important;
+}
+body.sv-theme-noir .cursor-dot {
+  background: #E8E4DC !important;
+}
