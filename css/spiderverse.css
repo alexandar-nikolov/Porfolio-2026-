@@ -1424,35 +1424,110 @@ body.sv-sketch-active #comic-portal .cb-panel-caption {
   -webkit-text-fill-color: #fff !important;
 }
 
-/* ── 24. COMIC PANEL WIPE TRANSITION ────────────────────────────
-   JS creates .sv-panel-wipe on scroll into a new section.
-   A solid black panel sweeps right-to-left across the viewport
-   in stepped frames — like turning a page in a comic book.
-   Red leading-edge line is the Spider-Verse signature accent.    */
+/* ── 24. SPIDER-VERSE CINEMATIC EFFECTS ─────────────────────────
+   Replaces the heavy black panel wipe with lightweight animated
+   effects inspired by "Into / Across the Spider-Verse":
+   1. CMYK print-plate mis-registration glitch
+   2. Dimension portal ripple rings on click
+   3. Spider-web corner crack
+   4. Spider-sense stutter on section header reveal
+   5. Ink-splat section reveal (lightweight replacement)            */
 
-.sv-panel-wipe {
+/* 1. CMYK mis-registration — enhanced text-shadow burst */
+body.sv-cmyk-active .name-line,
+body.sv-cmyk-active .section-title,
+body.sv-cmyk-active .hero-name,
+body.sv-cmyk-active .ft-title,
+body.sv-cmyk-active .about-role {
+  text-shadow:
+    -8px  0   rgba(226,54,54,0.95),
+     8px  0   rgba(26,58,143,0.95),
+     0    0   0 #0D0D0D !important;
+  transition: text-shadow 0s step-start !important;
+}
+
+/* CMYK colour-wash overlay (mix-blend: color shifts hue without
+   destroying existing animations on child elements)               */
+.sv-cmyk-overlay {
   position: fixed;
   inset: 0;
-  z-index: 9994;
+  z-index: 9988;
   pointer-events: none;
-  /* The panel itself */
-  background: #0D0D0D;
-  /* Red leading edge — visible as the panel sweeps across */
-  box-shadow: inset -5px 0 0 0 #E23636;
-  /* Start hidden: clipped 100% from the right */
-  clip-path: inset(0 100% 0 0);
-  animation: sv-panel-sweep 0.55s steps(7, end) forwards;
+  mix-blend-mode: color;
+  animation: sv-cmyk-wash 0.52s steps(4, end) forwards;
+}
+@keyframes sv-cmyk-wash {
+  0%   { background: #E23636; opacity: 0.09; }
+  25%  { background: #1A3A8F; opacity: 0.12; }
+  50%  { background: #F7C948; opacity: 0.08; }
+  75%  { background: #E23636; opacity: 0.06; }
+  100% { background: #E23636; opacity: 0;    }
 }
 
-@keyframes sv-panel-sweep {
-  0%   { clip-path: inset(0 100% 0 0); }  /* off-screen right  */
-  36%  { clip-path: inset(0 0%   0 0); }  /* covers viewport   */
-  64%  { clip-path: inset(0 0%   0 0); }  /* hold — solid panel */
-  100% { clip-path: inset(0 0% 0 100%); } /* exits to the left  */
+/* 2. Dimension portal ripple rings */
+.sv-portal-ring {
+  position: fixed;
+  width: 12px;
+  height: 12px;
+  margin-left: -6px;
+  margin-top: -6px;
+  border-radius: 50%;
+  border: 3px solid #E23636;
+  pointer-events: none;
+  z-index: 9984;
+  animation: sv-ring-expand 0.72s cubic-bezier(0.15, 0, 0.85, 1) forwards;
+}
+@keyframes sv-ring-expand {
+  0%   { transform: scale(1);  opacity: 1;  border-width: 3px; }
+  60%  { opacity: 0.7;                      border-width: 2px; }
+  100% { transform: scale(24); opacity: 0;  border-width: 1px; }
 }
 
+/* 3. Spider-web corner crack */
+.sv-web-crack {
+  position: fixed;
+  width: 200px;
+  height: 200px;
+  z-index: 9981;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0s step-start;
+}
+.sv-web-crack--on   { opacity: 1; }
+.sv-web-crack--fade { opacity: 0; transition: opacity 0.22s ease-out; }
+
+/* 4. Spider-sense stutter — applied to section-header wrapper
+   Uses only translateX so it does not conflict with child
+   reveal animations that use translateY / opacity.                 */
+.sv-spider-sense {
+  animation: sv-sense 0.48s steps(5, end) !important;
+}
+@keyframes sv-sense {
+  0%   { transform: translateX(0)    skewX(0deg);  }
+  20%  { transform: translateX(-5px) skewX(-3deg); }
+  40%  { transform: translateX(5px)  skewX(2deg);  }
+  60%  { transform: translateX(-3px) skewX(-2deg); }
+  80%  { transform: translateX(2px)  skewX(1deg);  }
+  100% { transform: translateX(0)    skewX(0deg);  }
+}
+
+/* 5. Ink-splat section reveal — small red circle from viewport edge */
+.sv-ink-splat {
+  position: fixed;
+  inset: 0;
+  z-index: 9983;
+  pointer-events: none;
+  background: #E23636;
+  /* clip-path animated by JS via inline style */
+}
+
+/* Respect user motion preference */
 @media (prefers-reduced-motion: reduce) {
-  .sv-panel-wipe { animation: none !important; display: none; }
+  .sv-cmyk-overlay,
+  .sv-portal-ring,
+  .sv-ink-splat      { display: none !important; }
+  .sv-web-crack      { display: none !important; }
+  .sv-spider-sense   { animation: none !important; }
 }
 
 
